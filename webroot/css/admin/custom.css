@@ -1,0 +1,9 @@
+.style-nav-child {
+    background-color: #9c27b0;
+}
+/* validate style */
+label.error {
+    font-style: italic;
+    color: red;
+    padding-top: 10px;
+}
