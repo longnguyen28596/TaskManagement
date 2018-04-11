@@ -45,7 +45,6 @@ class AppController extends Controller
     public $companiesModel;
     public $teamsModel;
     public $projectsModel;
-    public $prioritiesModel;
     public $positionModel;
     public function initialize()
     {
@@ -58,7 +57,6 @@ class AppController extends Controller
         $this->teamsModel = $this->loadModel('Teams');
         $this->companiesModel = $this->loadModel('Companies');
         $this->projectsModel = $this->loadModel('Projects');
-        $this->prioritiesModel = $this->loadModel('Priorities');
         $this->positionModel = $this->loadModel('Positions');
         if ($this->request->here != '/Users/login' && !$this->request->session()->read('current_user')) {
             return($this->redirect('/Users/login'));

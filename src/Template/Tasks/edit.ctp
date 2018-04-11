@@ -32,9 +32,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label class="control-label">Tình trạng</label>
                                         <select name="status" class="form-control">
-                                            <option <?php if ($task->status == 1) echo "selected"; ?> value='1'>Đã hoàn thành</option>
-                                            <option <?php if ($task->status == 0) echo "selected"; ?> value='0'>Chưa hoàn thành</option>
+                                            <option <?php if ($task->status == 'Chưa làm') echo "selected"; ?> value='Chưa làm'>Chưa làm</option>
+                                            <option <?php if ($task->status == 'Đang làm') echo "selected"; ?> value='Đang làm'>Đang làm</option>
+                                            <option <?php if ($task->status == 'Kiểm tra') echo "selected"; ?> value='Kiểm tra'>Kiểm tra</option>
+                                            <option <?php if ($task->status == 'Đã xong') echo "selected"; ?> value='Đã xong'>Đã xong</option>
                                         </select>
                                     </div>
                                 </div>
@@ -43,12 +46,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Mức độ ưu tiên task</label>
-                                        <select name="priority_id" class="form-control">
-                                            <?php foreach($priorities as $priority) {
-                                                $selected = $task->priority_id == $priority->id ? "selected" : "";
-                                            ?>
-                                                <option <?= $selected ?> value=<?= $priority->id ?>><?= $priority->note?></option>
-                                            <?php } ?>
+                                        <select name="priority" class="form-control">
+                                            <option <?php if($task->priority == "Thấp") echo 'selected'; ?> value="Thấp">Thấp</option>
+                                            <option <?php if($task->priority == "Trung bình") echo 'selected'; ?> value="Trung bình">Trung bình</option>
+                                            <option <?php if($task->priority == "Cao") echo 'selected'; ?>value="Cao">Cao</option>
                                         </select>
                                     </div>
                                 </div>

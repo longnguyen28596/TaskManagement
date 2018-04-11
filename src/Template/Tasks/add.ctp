@@ -41,10 +41,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Mức độ ưu tiên task</label>
-                                        <select name="priority_id" class="form-control">
-                                            <?php foreach($priorities as $priority) { ?>
-                                                <option value=<?= $priority->id ?>><?= $priority->note?></option>
-                                            <?php } ?>
+                                        <select name="priority" class="form-control">
+                                            <option value="Thấp">Thấp</option>
+                                            <option value="Trung bình">Trung bình</option>
+                                            <option value="Cao">Cao</option>
                                         </select>
                                     </div>
                                 </div>
