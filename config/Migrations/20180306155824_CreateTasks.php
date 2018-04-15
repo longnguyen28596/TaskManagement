@@ -37,13 +37,15 @@ class CreateTasks extends AbstractMigration
             'default' => null,
             'null' => true,
         ]);
-        $table->addColumn('status', 'boolean', [
-            'default' => 0,
-            'null' => false,
-        ]);
         $table->addColumn('deadline', 'datetime', [
             'default' => null,
             'null' => true,
+        ]);
+        $table->addColumn('priority', 'string', [
+            'default' => 'Trung bình',
+        ]);
+        $table->addColumn('status', 'string', [
+            'default' => 'Chưa làm',
         ]);
         $table->addColumn('create_at', 'datetime', [
             'default' => 'CURRENT_TIMESTAMP',
@@ -51,6 +53,10 @@ class CreateTasks extends AbstractMigration
         ]);
         $table->addColumn('modified', 'datetime', [
             'default' => null,
+            'null' => true,
+        ]);
+        $table->addColumn('delete', 'boolean', [
+            'default' => '0',
             'null' => true,
         ]);
         $table->create();

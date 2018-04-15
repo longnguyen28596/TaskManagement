@@ -14,7 +14,6 @@ class TasksTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_action',
         ]);
-        $this->belongsTo('Priorities');
     }
 
     public function getListTaskOfProjectId($project_id) {

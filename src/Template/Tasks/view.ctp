@@ -51,7 +51,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="border-top: 1px solid #ddd;">Độ ưu tiên</td>
-                                                    <td style="border-top: 1px solid #ddd;"><?= $task->Priorities['note'] ?></td>
+                                                    <td style="border-top: 1px solid #ddd;"><?= $task->priority ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Deadline</td>
@@ -71,7 +71,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Tình trạng công việc</td>
-                                                    <td><?php $status = $task->status == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành<p>"; echo $status ?></td>
+                                                    <td><?php $status = $task->status == 'Hoàn thành' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> ".$task->status."<p>"; echo $status ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>

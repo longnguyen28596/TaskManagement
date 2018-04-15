@@ -22,13 +22,12 @@ class TasksController extends AppController
 
     public function add($id)
     {
-        $priorities = $this->prioritiesModel->find('all');
         $user_projects = $this->userProjectsModel->getUserProjectByProjectId($id);
         if ($this->request->is('post')) {
             $data['title'] = $_POST['title'];
             $data['description'] = $_POST['description'];
             $data['deadline'] = $_POST['deadline'];
-            $data['priority_id'] = $_POST['priority_id'];
+            $data['priority'] = $_POST['priority'];
             $data['user_action'] = $_POST['user_action'];
             $data['user_request'] = $this->current_user['id'];
             $data['project_id'] = $id;
@@ -37,18 +36,17 @@ class TasksController extends AppController
                 echo "<script>alert('Thêm mới thành công.')</script>";
             }
         }
-        $this->set(compact(['priorities', 'user_projects', 'id']));
+        $this->set(compact(['user_projects', 'id']));
     }
 
     public function view($id) {
-        $task = $this->Tasks->find()->where(['Tasks.id' => $id])->contain('priorities')->first();
+        $task = $this->Tasks->find()->where(['Tasks.id' => $id])->first();
         $user_request = $this->usersModel->get($task->user_request);
         $user_action = $this->usersModel->get($task->user_action);
         $this->set(compact(['task', 'user_request', 'user_action']));
     }
 
     public function edit($id) {
-        $priorities = $this->prioritiesModel->find('all');
         $task = $this->Tasks->get($id);
         $user_projects = $this->userProjectsModel->getUserProjectByProjectId($task->project_id);
         if ($this->request->is('post')) {
@@ -64,6 +62,6 @@ class TasksController extends AppController
                 echo "<script>alert('Sửa mới thành công.')</script>";
             }
         }
-        $this->set(compact(['priorities', 'user_projects', 'id','task']));
+        $this->set(compact(['user_projects', 'id','task']));
     }
 }
