@@ -1,6 +1,7 @@
 <?php
     $checked_sex = $user->sex == 1 ? 'checked' : '';
 ?>
+<?= $this->Html->script('admin/jquery.uploadPreview.min.js') ?>
 
 <h2 style="text-align:center" class="title">Cập nhập thông tin cá nhân cho người dùng mới.</h2>
 <div class="content">
@@ -12,19 +13,26 @@
                         <h4 class="title">Cập nhập thông tin cá nhân.</h4>
                     </div>
                     <div class="card-content">
-                        <form method="post" action="/Users/edit/<?= $user->id ?>" id="formUpdateProfile">
+                        <form method="post" enctype="multipart/form-data" action="/Users/edit/<?= $user->id ?>" id="formUpdateProfile">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <div class="avatar" style="top: 25px; background-image: url(<?= $user->avatar ?>);">
+                                        <input type="file" name="avatar" accept="image/gif, image/jpeg, image/png">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Họ và tên</label>
                                         <input type="text" value="<?= $user->name ?>" placeholder="Nhập họ và tên" name="name" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Email</label>
                                         <input type="text" value="<?= $user->email ?>" placeholder="Nhập email" name="email" class="form-control">
                                     </div>
+                                </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -37,7 +45,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Ngày tháng năm sinh</label>
-                                        <input type="text" value="<?= date_format($user->birthday,"Y/m/d") ?>" placeholder="Ngày tháng năm sinh" id="datetimepicker" name="birthday" class="form-control">
+                                        <input type="text" value="<?= $this->Application->fullDate($user->birthday) ?>" placeholder="Ngày tháng năm sinh" id="datetimepicker" name="birthday" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -124,6 +132,20 @@
     })
     jQuery('#datetimepicker').datetimepicker({
         timepicker:false,
-        format:'Y/m/d'
+        format:'d/m/Y'
     });
+</script>
+
+<script type="text/javascript">
+
+$('.avatar').uploadPreview({
+    top: '20px',
+    width: '200px',
+    height: '200px',
+    backgroundSize: 'cover',
+    fontSize: '16px',
+    borderRadius: '200px',
+    border: '3px solid #dedede',
+    lang: 'en', //language
+});
 </script>

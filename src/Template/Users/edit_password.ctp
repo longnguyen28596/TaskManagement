@@ -4,10 +4,10 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Cập nhập lại mật khẩu(nếu muốn).</h4>
+                        <h4 class="title">Cập nhập lại mật khẩu.</h4>
                     </div>
                     <div class="card-content">
-                        <form method="post" action="/users/editPassword/<?= $this->current_user['id'] ?>" id="formChangePassword">
+                        <form method="post" action="/users/editPassword/<?= $_SESSION['current_user']['id'] ?>" id="formChangePassword">
                             <div class="row">
                                 <div class="col-md-2">
                                 </div>

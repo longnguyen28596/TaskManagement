@@ -29,7 +29,7 @@ $status = $project->sex == 1 ? 'Dự án kết thúc' : 'Chưa hoàn thành';
                                     </tr>
                                     <tr>
                                         <td style="color:  black;font-weight: bolder;">Ngày tạo dự án:</td>
-                                        <td><?= $project->create_at ?></td>
+                                        <td> <?=$this->Application->fullDateTime($project->create_at)?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -86,7 +86,7 @@ $status = $project->sex == 1 ? 'Dự án kết thúc' : 'Chưa hoàn thành';
                                         <td><?= $user->id?></td>
                                         <td><a href="/Users/view/<?= $user->id ?>"><?= $user->name ?></a></td>
                                         <td><?= $user->username?></td>
-                                        <td><?= $user->create_at?></td>
+                                        <td><?=$this->Application->fullDateTime($user->create_at)?></td>
                                         <td><?= $user->out_at?></td>
                                     </tr>
                                 <?php } ?>

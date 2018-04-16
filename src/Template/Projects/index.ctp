@@ -18,11 +18,11 @@
                             </thead>
                             <tbody>
                                 <?php foreach($projects as $project) { ?>
-                                    <tr>
+                                    <tr class='jumb-link-row-table' data-href='/Projects/view/<?= $project->id ?>'>
                                         <td><?= $project->id?></td>
                                         <td><?= $project->name?></td>
                                         <td><?= $project->company['company_name']?></td>
-                                        <td><?= $project->create_at?></td>
+                                        <td><?= strftime('%d/%m/%Y',strtotime($project->create_at)) ?></td>
                                         <td>
                                             <a href="/projects/view/<?= $project->id ?>" title="click vào để xem chi tiết về dự án">Xem</a> | <a href="/projects/edit/<?= $project->id ?>" title="click vào để thay đổi dự án">Thay đổi</a> | <a href="/projects/view?project_id=<?= $project->id ?>" onclick="return confirm('Bạn có chắc muốn xoá dự án này?')" title="Xoá dự án" > Xoá</a>
                                         </td>

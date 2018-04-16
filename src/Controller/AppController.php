@@ -17,6 +17,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Network\Session\DatabaseSession;
+use App\View\Helper\ApplicationHelper;
 
 /**
  * Application Controller
@@ -46,10 +47,12 @@ class AppController extends Controller
     public $teamsModel;
     public $projectsModel;
     public $positionModel;
+    public $ImagesModel;
+    public $AppHelper;
     public function initialize()
     {
         parent::initialize();
-
+        $this->AppHelper = new ApplicationHelper(new \Cake\View\View());
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->usersModel = $this->loadModel('Users');
@@ -58,6 +61,7 @@ class AppController extends Controller
         $this->companiesModel = $this->loadModel('Companies');
         $this->projectsModel = $this->loadModel('Projects');
         $this->positionModel = $this->loadModel('Positions');
+        $this->ImagesModel = $this->loadModel('Images');
         if ($this->request->here != '/Users/login' && !$this->request->session()->read('current_user')) {
             return($this->redirect('/Users/login'));
         }

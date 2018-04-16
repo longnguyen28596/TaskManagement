@@ -12,4 +12,11 @@ class User extends Entity
             return sha1($value);
         }
     }
+
+    protected function _setBirthday($value)
+    {
+        if (strlen($value)) {
+            return date('Y-m-d H:i', strtotime(strtr($value, '/', '-')));
+        }
+    }
 }

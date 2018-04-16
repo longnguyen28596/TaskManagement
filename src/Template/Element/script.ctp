@@ -17,3 +17,4 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <?= $this->Html->script('admin/demo.js') ?>
 <?= $this->Html->script('admin/custom.js') ?>
+<?= $this->Html->script('custom/js-application.js') ?>
