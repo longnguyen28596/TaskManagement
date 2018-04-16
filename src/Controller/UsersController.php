@@ -9,7 +9,7 @@ use Cake\I18n\Time;
 class UsersController extends AppController
 {
     public $paginate = [
-        'limit' => 10
+        'limit' => 20
     ];
 
     public function index() {
@@ -51,8 +51,16 @@ class UsersController extends AppController
         $user = $this->Users->get($id);
         if ($this->request->is('post')) {
             $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                echo "<script>alert('Cập nhập thông tin thành công')</script>";
+            $user = $this->Users->save($user);
+            if ($user) {
+                if (isset($_FILES['avatar'])){
+                    $type = pathinfo($_FILES['avatar']['tmp_name'], PATHINFO_EXTENSION);
+                    $data = file_get_contents($_FILES['avatar']['tmp_name']);
+                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                    // move_uploaded_file($_FILES['avatar']['tmp_name'], WWW_ROOT."/img/avatar/".$_FILES['avatar']['name']);
+                    $user->avatar = $base64;
+                    $this->Users->save($user);
+                }
                 $this->session->write('current_user', $this->Users->writeSession($id));
                 if ($this->current_user['last_login'])
                     return($this->redirect('/Users/edit/'.$user['id']));
@@ -125,6 +133,7 @@ class UsersController extends AppController
     public function logout() {
         $user = $this->Users->get($this->current_user['id']);
         $user->last_login = Time::now();
+        $this->Users->save($user);
         session_destroy();
 
         return($this->redirect('/Users/login'));

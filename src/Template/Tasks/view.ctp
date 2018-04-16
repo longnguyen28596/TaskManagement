@@ -12,9 +12,9 @@
                             <div class="col-md-2">
                                 <div class="card-profile">
                                     <br>
-                                    <div class="card-avatar" style="max-width: 45px;max-height: 45px;">
+                                    <div class="card-avatar" style="max-width: 60px;max-height: 60px;">
                                         <a href="#pablo">
-                                            <img class="img" src="/webroot/img/avatar/<?= $user_request->avatar ?>" />
+                                            <img class="img" src="<?= $user_request->avatar ?>" />
                                         </a>
                                     </div>
                                 </div>
@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-md-4">
                                 <p>Người tạo: <?= $user_request->name ?></p>
-                                <p>Ngày tạo: <?= $task->create_at ?></p>
+                                <p>Ngày tạo: <?= $this->Application->fullDateTime($task->create_at) ?></p>
                             </div>
                         </div>
                         <div>
@@ -39,6 +39,9 @@
                         <div>
                             <h4 style="color: black;font-weight: 400;">File đính kèm</h4>
                             <div style="border: 0.05rem solid #8e24aa; margin-bottom: 10px"></div>
+                            <?php foreach($task->images as $image){ ?>
+                                <a class="show_image_hover" data-url_image='<?= "/webroot/img/admin/tasks/$task->id/".$image->file_name.'.'.$image->file_extension ?>' href="<?= "/webroot/img/admin/tasks/$task->id/".$image->file_name.'.'.$image->file_extension ?>" download><?= $image->default_name ?></a><br>
+                            <?php }?>
                         </div>
                         <div>
                             <h4 style="color: black;font-weight: 400;">Thông tin khác</h4>
@@ -55,7 +58,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Deadline</td>
-                                                    <td><?= $task->deadline ?></td>
+                                                    <td><?= $this->Application->fullDateTime($task->deadline) ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -85,3 +88,17 @@
         </div>
     </div>
 </div>
+<div>
+<div id="preview" style="background-color: #d6d5e0; width: 350px; height: 250px; display: none; position: fixed; top: 30%; left: 40%;"></div>
+    
+<script>
+        $('.show_image_hover').hover(function() {
+        $('.preview_image').remove()
+        $('#preview').append( '<img class="preview_image" style="width:100%; height: 100%"  src="'+$(this).data('url_image')+'">')
+
+        $('#preview').css('display', 'block')
+    },function(){
+        $('#preview').css('display', 'none')
+    })
+    
+</script>

@@ -5,7 +5,8 @@
 /logs/*
 /tmp/*
 /vendor/*
-
+/webroot/img/admin/tasks/*
+/config/Migrations/schema-dump-default.lock
 # OS generated files #
 ######################
 .DS_Store

@@ -7,3 +7,16 @@ label.error {
     color: red;
     padding-top: 10px;
 }
+/*for file_name_upload*/
+.file_name_upload {
+    text-align: center;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.preview-image {
+    background-color: #e5e5e5;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}

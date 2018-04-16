@@ -1,12 +1,15 @@
 <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
+<?= $this->Flash->render() ?>
 <h2 style="text-align:center" class="title">Thêm mới nhiệm vụ cho project</h2>
 <div class="content">
+    <div id="message">
+    </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-content">
-                        <form method="post" action="/Tasks/add/<?= $id ?>" id="formTaskAdd">
+                        <form method="post" action="/Tasks/add/<?= $id ?>" id="formTaskAdd" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -24,12 +27,20 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">File đính kèm(click tại đây)</label>
-                                        <input type="file" placeholder="File đính kèm có thể là ảnh, text,.." name="name" class="form-control">
-                                    </div>
+                                <div id="area-preview">
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                        <div class="">
+                                            <label class="control-label">File đính kèm(click tại đây)</label>
+                                            <div class="area-upload-img">
+                                                <input class="files" type="file" name="files[]" onchange="changeimg(this);" multiple="multiple" placeholder="file đính kèm có thể là ảnh, text,..">
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Deadline</label>
@@ -61,6 +72,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary pull-right">Tạo mới</button>
+                            <input type="hidden" name="list-image-do-not-upload" id="list-image-do-not-upload" value="">
                             <div class="clearfix"></div>
                         </form>
                     </div>
@@ -70,6 +82,26 @@
     </div>
 </div>
 <script type="text/javascript">
+    function changeimg(a) {
+        for (var i=0, len = a.files.length; i < len; i++) {
+            (function (j, self) {
+                var reader = new FileReader()
+                reader.onload = function (e) {
+                    if (self.files[j].type === 'image/jpeg' || self.files[j].type === 'image/png' || self.files[j].type === 'image/gif')
+                        $('#area-preview ').append('<div title="'+self.files[j].name+'" class="col-md-2 preview-image"><button onclick="deleteFileUpload(this);" style="font-size:30px;position: relative;top: -9px;color:red" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button> <img style="width: 80px;position: relative;left: 16px;" src="' + e.target.result + '"> <p class="file_name_upload">' + self.files[j].name + '</p></div>')
+                    else
+                        $('#area-preview ').append('<div title="'+self.files[j].name+'" class="col-md-2 preview-image"><button onclick="deleteFileUpload(this);" style="font-size:30px;position: relative;top: -9px;color:red" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button> <i style="font-size: 73px;position: relative;left: 30px;" class="material-icons">description</i><p class="file_name_upload">' + self.files[j].name + '</p></div>')
+                }            
+                reader.readAsDataURL(self.files[j])
+            })(i, a);
+        }
+    };
+    function deleteFileUpload(a) {
+        $(a).parent().remove()
+        b = $('#list-image-do-not-upload').val();
+        b += $(a).parent().find(('.file_name_upload')).text()+ "|";
+        $('#list-image-do-not-upload').val(b);
+    }
     $(document).ready(function(){
         var valcaator = $("#formTaskAdd").validate({
             rules: {
@@ -87,6 +119,6 @@
         });
     })
     jQuery('#datetimepicker').datetimepicker({
-        format:'Y/m/d'
+        format:'Y/m/d H:i'
     });
 </script>

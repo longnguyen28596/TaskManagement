@@ -16,15 +16,16 @@ $sex = $user->sex == 1 ? 'Nam' : 'Nữ';
                                 <div class="col-md-4">
                                     <div class="card-profile">
                                         <div class="card-avatar">
-                                            <a href="#pablo">
-                                                <img class="img" src="/webroot/img/avatar/<?= $user->avatar ?>" />
+                                            <a href="#">
+                                                <img class="img" src="<?= $user->avatar ?>" />
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <h4 class="title">Thông tin đăng nhập</h3>
-                                    Đăng xuất gần nhất lúc: <?= $user->user['last_login'] ?>
+                                    Tên tài khoản: <?= $user->username?><br>
+                                    Đăng xuất gần nhất lúc: <?= $this->Application->FullDateTime($user->last_login) ?>
                                 </div>
                             </div>
                             <table class="table">
@@ -36,7 +37,7 @@ $sex = $user->sex == 1 ? 'Nam' : 'Nữ';
                                     </tr>
                                     <tr>
                                         <td>Ngày tháng năm sinh:</td>
-                                        <td><?= $user->birthday ?></td>
+                                        <td><?=$this->Application->fullDate($user->birthday)?></td>
                                     </tr>
                                     <tr>
                                         <td>Email:</td>

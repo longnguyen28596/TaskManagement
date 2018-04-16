@@ -9,7 +9,7 @@ use Cake\I18n\Time;
 class UserProjectsController extends AppController
 {
     public $paginate = [
-        'limit' => 10
+        'limit' => 20
     ];
 }
 ?>

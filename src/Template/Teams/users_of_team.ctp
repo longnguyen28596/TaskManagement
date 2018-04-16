@@ -19,9 +19,9 @@
                                 <?php foreach($users as $user) {
                                     $isLeader = $team->leader == $user->id ? "(trưởng nhóm)" : ""
                                 ?>
-                                    <tr>
+                                    <tr class='jumb-link-row-table' data-href='/Users/view/<?= $user->id ?>' title="Click vào để xem chi tiết nhân viên này.">
                                         <td><?= $user->id?></td>
-                                        <td><a title="Click vào để xem chi tiết nhân viên này." href="/Users/view<?=  $user->id?>"><?= $user->name.' '.$isLeader?></a></td>
+                                        <td><?= $user->name.' '.$isLeader?></td>
                                         <td><?= $user->username?></td>
                                         <td><?= $user->position->name?></td>
                                     </tr>
