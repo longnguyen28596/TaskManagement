@@ -84,6 +84,11 @@
                                                     <span class="sidebar-normal"> Thêm mới nhiệm vụ</span>
                                                 </a>
                                             </li>
+                                            <li>
+                                                <a href="/UserProjects/index/<?= $project['id'] ?>">
+                                                    <span class="sidebar-normal"> Thêm nhân viên vào dự án</span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </li>

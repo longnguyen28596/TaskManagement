@@ -81,6 +81,14 @@ class UsersTable extends Table
         return $this->find()->where(['Users.status' => '1', 'Users.position_id' => $id])->contain(['Positions']);
     }
 
+    public function getListUserByTeam($team_id, $contain) {
+        if ($contain != '') {
+            return $this->find('all')->where(['Users.status' => '1', 'Users.team_id' => $team_id])->contain($contain);
+        } else {
+            return $this->find('all')->where(['Users.status' => '1', 'Users.team_id' => $team_id]);
+        }
+    }
+
     public function getAll() {
         return $this->find('all')->where(['Users.status' => '1'])->contain(['Positions']);
     }
