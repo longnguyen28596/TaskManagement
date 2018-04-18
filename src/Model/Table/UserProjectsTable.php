@@ -17,10 +17,11 @@ class UserProjectsTable extends Table
 
     // lấy tất cả user tham gia dự án(đã từng( có thể cả nghỉ việc rồi), hoặc đang tham gia cũng hiển thị)
     public function getAllUserProjectByProjectId($project_id) {
-        return $this->find('all')->where(['project_id' => $project_id])->contain(['Users', 
-        'Projects' => function($q) use ($project_id){
-            return $q->where(['Projects.id' => $project_id]);
-        }]);
+        return $this->find('all')->where(['project_id' => $project_id])->contain(['Users', 'Projects']);
+        // return $this->find('all')->where(['project_id' => $project_id])->contain(['Users', 
+        // 'Projects' => function($q) use ($project_id){
+        //     return $q->where(['Projects.id' => $project_id]);
+        // }]);
     }
 
     public function getUserProjectByProjectId($project_id) {
@@ -28,5 +29,14 @@ class UserProjectsTable extends Table
         'Projects' => function($q) use ($project_id){
             return $q->where(['Projects.id' => $project_id]);
         }]);
+    }
+
+    public function addNew($user_id, $project_id) {
+        $data = [
+            'user_id' => $user_id,
+            'project_id' => $project_id,
+        ]; 
+        $data = $this->newEntity($data);
+        $this->save($data);
     }
 }

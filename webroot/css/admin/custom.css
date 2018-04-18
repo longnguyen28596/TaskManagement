@@ -19,4 +19,9 @@ label.error {
     background-color: #e5e5e5;
     margin-right: 10px;
     margin-bottom: 10px;
+    height: 123px;
+}
+
+.text-center {
+    text-align: center;
 }

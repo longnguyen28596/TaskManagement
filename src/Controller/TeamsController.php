@@ -27,7 +27,7 @@ class TeamsController extends AppController
 
     public function usersOfTeam($team_id) {
         $team = $this->Teams->get($team_id);
-        $users = $this->usersModel->find('all')->where(['Users.status' => '1', 'team_id' => $team_id])->contain(['Positions']);
+        $userProjects = $this->userProjectsModel->getAllUserProjectByProjectId($id);
         $this->set(compact('team', 'users'));
     }
 }
