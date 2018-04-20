@@ -34,6 +34,28 @@ class UsersController extends AppController
         }
     }
 
+    public function resetPassword(){
+        if ($this->request->is('post')) {
+            $user = $this->Users->find()->where(['email' => $_POST['email']])->first();
+            if ($user) {
+                $token = bin2hex(random_bytes(78));
+                if ($this->Emails->addNew($user->id, $token, 'reset password')) {
+                    return($this->redirect('/Users/login'));
+                }
+            }
+        }
+        if (isset($_GET['token'])) {
+            $email = $this->emailsModel->find()->where(['variable' => $_GET['token']])->first();
+            if ($email) {
+                $user = $this->Users->get($email->user_id);
+                $user->password = '12345678';
+                if ($this->Users->save($user)) {
+                    echo "<script>alert('Password của bạn đã được rest về giá trị mặc định.')</script>";
+                }
+            }
+        }
+    }
+
     public function add() {
         $positions = $this->positionModel->getAll();
         $teams = $this->teamsModel->getAll();

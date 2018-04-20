@@ -65,7 +65,7 @@
                                         <select name="user_action" class="form-control">
                                             <option value="">Lựa chọn người thực hiện</option>
                                             <?php foreach($user_projects as $user_project) { ?>
-                                                <option value=<?= $user_project->id ?>><?= $user_project->user->name . ' ( ' . $user_project->user->username . ' )'?></option>
+                                                <option value=<?= $user_project->user->id ?>><?= $user_project->user->name . ' ( ' . $user_project->user->username . ' )'?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
