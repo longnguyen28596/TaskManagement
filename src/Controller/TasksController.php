@@ -32,7 +32,10 @@ class TasksController extends AppController
             $data['user_request'] = $this->current_user['id'];
             $data['project_id'] = $id;
             $data = $this->Tasks->newEntity($data);
-            if ($this->Tasks->save($data)) {
+            $task = $this->Tasks->save($data);
+            if ($task) {
+                $email = $this->Emails->addNew($task->user_action, $task->id , 'new task');
+                $email->sended_at = Time::now();
                 $this->Flash->Success('Thêm mới nhiệm vụ thành công.');
                 if (count($_FILES['files']['name']) >= 1) {
                     $array_image_do_not_upload = explode("|", $_POST['list-image-do-not-upload']);
@@ -80,9 +83,10 @@ class TasksController extends AppController
             $data['user_action'] = $_POST['user_action'];
             $data['deadline'] =  $_POST['deadline'];
             $data['user_request'] = $this->current_user['id'];
-            $data['project_id'] = $id;
             $task = $this->Tasks->patchEntity($task, $data);
             if ($this->Tasks->save($task)) {
+                $email = $this->Emails->addNew($task->user_action, $task->id , 'edit task');
+                $email->sended_at = Time::now();
                 echo "<script>alert('Sửa mới thành công.')</script>";
                 if (count($_FILES['files']['name']) >= 1) {
                     $array_image_do_not_upload = explode("|", $_POST['list-image-do-not-upload']);

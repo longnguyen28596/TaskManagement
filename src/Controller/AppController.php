@@ -49,6 +49,7 @@ class AppController extends Controller
     public $positionModel;
     public $ImagesModel;
     public $AppHelper;
+    public $emailsModel;
     public function initialize()
     {
         parent::initialize();
@@ -62,7 +63,9 @@ class AppController extends Controller
         $this->projectsModel = $this->loadModel('Projects');
         $this->positionModel = $this->loadModel('Positions');
         $this->ImagesModel = $this->loadModel('Images');
-        if ($this->request->here != '/Users/login' && !$this->request->session()->read('current_user')) {
+        $this->emailsModel = $this->loadModel('Emails');
+        $this->loadModel('Emails');
+        if ($this->request->here != '/Users/login' && $this->request->here != '/Users/resetPassword'  && !$this->request->session()->read('current_user')) {
             return($this->redirect('/Users/login'));
         }
         if ($this->request->here == '/Users/login' && $this->request->session()->read('current_user')) {
