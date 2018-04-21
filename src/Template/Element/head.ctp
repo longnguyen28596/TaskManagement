@@ -19,3 +19,4 @@
 <?= $this->Html->script('validations/jquery.validate.js') ?>
 <?= $this->Html->script('jquery.datetimepicker.full.min.js') ?>
 <?= $this->Html->css('jquery.datetimepicker.min.css') ?>
+<?= $this->Html->css('fontawesome/web-fonts-with-css/css/fontawesome-all.min.css') ?>

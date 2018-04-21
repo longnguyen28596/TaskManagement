@@ -53,31 +53,35 @@ class AppController extends Controller
     public function initialize()
     {
         parent::initialize();
-        $this->AppHelper = new ApplicationHelper(new \Cake\View\View());
+        $this->session = $this->request->session();
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-        $this->usersModel = $this->loadModel('Users');
-        $this->userProjectsModel = $this->loadModel('UserProjects');
-        $this->teamsModel = $this->loadModel('Teams');
-        $this->companiesModel = $this->loadModel('Companies');
-        $this->projectsModel = $this->loadModel('Projects');
-        $this->positionModel = $this->loadModel('Positions');
-        $this->ImagesModel = $this->loadModel('Images');
-        $this->emailsModel = $this->loadModel('Emails');
+        $this->loadModel('Users');
+        $this->loadModel('UserProjects');
+        $this->loadModel('Teams');
+        $this->loadModel('Companies');
+        $this->loadModel('Projects');
+        $this->loadModel('Positions');
+        $this->loadModel('Images');
         $this->loadModel('Emails');
+        $this->AppHelper = new ApplicationHelper(new \Cake\View\View());        
         if ($this->request->here != '/Users/login' && $this->request->here != '/Users/resetPassword'  && !$this->request->session()->read('current_user')) {
             return($this->redirect('/Users/login'));
         }
         if ($this->request->here == '/Users/login' && $this->request->session()->read('current_user')) {
             return($this->redirect('/'));
         }
-        $this->session = $this->request->session();
-        if ($this->session->read('current_user') != NULL) {
+        if ($this->session->check('current_user')) {
             $this->current_user = $this->session->read('current_user');
         }
+
     }
 
     public function beforeFilter(Event $event)
     {
+        if ($this->request->session()->check('current_user')) {
+            $listProjectManager = $this->Projects->getListProjectsManager($this->current_user['id'])->toArray();
+            $this->set(compact('listProjectManager'));
+        }
     }
 }

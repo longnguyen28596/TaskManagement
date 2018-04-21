@@ -22,15 +22,17 @@ class TasksController extends AppController
 
     public function add($id)
     {
-        $user_projects = $this->userProjectsModel->getUserProjectByProjectId($id);
+        $user_projects = $this->UserProjects->getUserProjectByProjectId($id);
         if ($this->request->is('post')) {
-            $data['title'] = $_POST['title'];
-            $data['description'] = $_POST['description'];
-            $data['deadline'] = $_POST['deadline'];
-            $data['priority'] = $_POST['priority'];
-            $data['user_action'] = $_POST['user_action'];
-            $data['user_request'] = $this->current_user['id'];
-            $data['project_id'] = $id;
+            $data = [
+                'title' => $_POST['title'],
+                'description' => $_POST['description'],
+                'deadline' => $_POST['deadline'],
+                'priority' => $_POST['priority'],
+                'user_action' => $_POST['user_action'],
+                'user_request' => $this->current_user['id'],
+                'project_id' => $id,
+            ];
             $data = $this->Tasks->newEntity($data);
             $task = $this->Tasks->save($data);
             if ($task) {
@@ -56,7 +58,7 @@ class TasksController extends AppController
                                 'file_extension' => $file_extension
                             ];
                             move_uploaded_file($_FILES['files']['tmp_name'][$i], $url_upload.$file_name.'.'.$file_extension);
-                            $this->ImagesModel->addNew($image);
+                            $this->Images->addNew($image);
                         }
                     }
                 }
@@ -67,22 +69,30 @@ class TasksController extends AppController
 
     public function view($id) {
         $task = $this->Tasks->find()->where(['Tasks.id' => $id])->contain('Images')->first();
-        $user_request = $this->usersModel->get($task->user_request);
-        $user_action = $this->usersModel->get($task->user_action);
+        $user_request = $this->Users->get($task->user_request);
+        $user_action = $this->Users->get($task->user_action);
         $this->set(compact(['task', 'user_request', 'user_action']));
     }
 
     public function edit($id) {
         $task = $this->Tasks->find()->where(['Tasks.id' => $id])->contain('Images')->first();
-        $user_projects = $this->userProjectsModel->getUserProjectByProjectId($task->project_id);
+        $user_projects = $this->UserProjects->getUserProjectByProjectId($task->project_id);
         if ($this->request->is('post')) {
-            $data['title'] = $_POST['title'];
-            $data['description'] = $_POST['description'];
             $data['status'] = $_POST['status'];
             $data['priority'] = $_POST['priority'];
             $data['user_action'] = $_POST['user_action'];
             $data['deadline'] =  $_POST['deadline'];
             $data['user_request'] = $this->current_user['id'];
+            $data = [
+                'title' => $_POST['title'],
+                'description' => $_POST['description'],
+                'status' => $_POST['status'],
+                'deadline' => $_POST['deadline'],
+                'priority' => $_POST['priority'],
+                'user_action' => $_POST['user_action'],
+                'user_request' => $this->current_user['id'],
+                'project_id' => $id,
+            ];
             $task = $this->Tasks->patchEntity($task, $data);
             if ($this->Tasks->save($task)) {
                 $email = $this->Emails->addNew($task->user_action, $task->id , 'edit task');
@@ -107,7 +117,7 @@ class TasksController extends AppController
                                 'file_extension' => $file_extension
                             ];
                             move_uploaded_file($_FILES['files']['tmp_name'][$i], $url_upload.$file_name.'.'.$file_extension);
-                            $this->ImagesModel->addNew($image);
+                            $this->Images->addNew($image);
                         }
                     }
                 }

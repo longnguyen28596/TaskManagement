@@ -13,7 +13,7 @@ class TeamsController extends AppController
     }
 
     public function add() {
-        $users = $this->usersModel->find('all')->contain(['UserProfiles','Positions']);
+        $users = $this->Users->find('all')->contain(['UserProfiles','Positions']);
         if ($this->request->is('post')) {
             $team = $this->Teams->newEntity($this->request->getData());
             if ($this->Teams->save($team)) {
@@ -27,7 +27,7 @@ class TeamsController extends AppController
 
     public function usersOfTeam($team_id) {
         $team = $this->Teams->get($team_id);
-        $userProjects = $this->userProjectsModel->getAllUserProjectByProjectId($id);
+        $userProjects = $this->UserProjects->getAllUserProjectByProjectId($id);
         $this->set(compact('team', 'users'));
     }
 }
