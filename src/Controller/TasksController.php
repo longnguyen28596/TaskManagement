@@ -20,6 +20,7 @@ class TasksController extends AppController
         $this->set('total_record', $total_record);
     }
 
+    // $id = project_id
     public function add($id)
     {
         $user_projects = $this->UserProjects->getUserProjectByProjectId($id);
@@ -34,17 +35,15 @@ class TasksController extends AppController
                 'project_id' => $id,
             ];
             $data = $this->Tasks->newEntity($data);
-            $task = $this->Tasks->save($data);
-            if ($task) {
-                $email = $this->Emails->addNew($task->user_action, $task->id , 'new task');
-                $email->sended_at = Time::now();
+            if ($this->Tasks->save($data)) {
+                $task = $this->Tasks->save($data);
                 $this->Flash->Success('Thêm mới nhiệm vụ thành công.');
                 if (count($_FILES['files']['name']) >= 1) {
                     $array_image_do_not_upload = explode("|", $_POST['list-image-do-not-upload']);
                     for($i=0; $i< count($_FILES['files']['name']); $i++) {
                         $image=array();
                         if (!in_array($_FILES['files']['name'][$i], $array_image_do_not_upload)) {
-                            $url_upload = WWW_ROOT.'/img/admin/tasks/'.$id.'/';
+                            $url_upload = WWW_ROOT.'/img/admin/tasks/'.$task->id.'/';
                             $file_name = rand();
                             $file_extension = $this->App->get_file_extension($_FILES['files']['name'][$i]);
                             if (!file_exists($url_upload)) {
@@ -53,12 +52,13 @@ class TasksController extends AppController
                             $image = [
                                 'file_name' => $file_name,
                                 'default_name' => $_FILES['files']['name'][$i],
-                                'task_id' => $id,
+                                'task_id' => $task->id,
                                 'size' => $_FILES['files']['size'][$i],
                                 'file_extension' => $file_extension
                             ];
-                            move_uploaded_file($_FILES['files']['tmp_name'][$i], $url_upload.$file_name.'.'.$file_extension);
-                            $this->Images->addNew($image);
+                            if (move_uploaded_file($_FILES['files']['tmp_name'][$i], $url_upload.$file_name.'.'.$file_extension)) {
+                                $this->Images->addNew($image);
+                            }
                         }
                     }
                 }
@@ -67,22 +67,22 @@ class TasksController extends AppController
         $this->set(compact(['user_projects', 'id']));
     }
 
+
     public function view($id) {
         $task = $this->Tasks->find()->where(['Tasks.id' => $id])->contain('Images')->first();
-        $user_request = $this->Users->get($task->user_request);
-        $user_action = $this->Users->get($task->user_action);
-        $this->set(compact(['task', 'user_request', 'user_action']));
+        if ($task) {
+            $user_request = $this->Users->get($task->user_request);
+            $user_action = $this->Users->get($task->user_action);
+            $comments = $this->Comments->getCommentByTaskID($id);
+            $comment_childs = $this->Comments->getCommentByTaskID($id);
+            $this->set(compact(['task', 'user_request', 'user_action', 'comments', 'comment_childs']));
+        }
     }
 
     public function edit($id) {
         $task = $this->Tasks->find()->where(['Tasks.id' => $id])->contain('Images')->first();
         $user_projects = $this->UserProjects->getUserProjectByProjectId($task->project_id);
         if ($this->request->is('post')) {
-            $data['status'] = $_POST['status'];
-            $data['priority'] = $_POST['priority'];
-            $data['user_action'] = $_POST['user_action'];
-            $data['deadline'] =  $_POST['deadline'];
-            $data['user_request'] = $this->current_user['id'];
             $data = [
                 'title' => $_POST['title'],
                 'description' => $_POST['description'],
@@ -91,7 +91,7 @@ class TasksController extends AppController
                 'priority' => $_POST['priority'],
                 'user_action' => $_POST['user_action'],
                 'user_request' => $this->current_user['id'],
-                'project_id' => $id,
+                'project_id' => $task->project_id,
             ];
             $task = $this->Tasks->patchEntity($task, $data);
             if ($this->Tasks->save($task)) {
@@ -103,7 +103,7 @@ class TasksController extends AppController
                     for($i=0; $i< count($_FILES['files']['name']); $i++) {
                         $image=array();
                         if (!in_array($_FILES['files']['name'][$i], $array_image_do_not_upload)) {
-                            $url_upload = WWW_ROOT.'/img/admin/tasks/'.$id.'/';
+                            $url_upload = WWW_ROOT.'/img/admin/tasks/'.$task->id.'/';
                             $file_name = rand();
                             $file_extension = $this->App->get_file_extension($_FILES['files']['name'][$i]);
                             if (!file_exists($url_upload)) {
@@ -112,7 +112,7 @@ class TasksController extends AppController
                             $image = [
                                 'file_name' => $file_name,
                                 'default_name' => $_FILES['files']['name'][$i],
-                                'task_id' => $id,
+                                'task_id' => $task->id,
                                 'size' => $_FILES['files']['size'][$i],
                                 'file_extension' => $file_extension
                             ];

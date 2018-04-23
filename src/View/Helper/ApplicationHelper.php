@@ -16,11 +16,12 @@ class ApplicationHelper extends Helper
     }
 
     public function fullDateTime($datetime) {
-        return strftime('%d/%m/%Y %H:%M',strtotime($datetime));
+        return strftime('%H:%M %d/%m/%Y',strtotime($datetime));
     }
 
     public function fullDate($datetime) {
         return strftime('%d/%m/%Y',strtotime($datetime));
     }
+
 }
 ?>

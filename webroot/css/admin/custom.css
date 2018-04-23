@@ -38,3 +38,19 @@ label.error {
 .p-circle-icon:hover {
     background-color: #ab47bc;
 }
+
+.border-botom-gray {
+    border: 0.05rem solid #a9afbb; margin-bottom: 10px;
+}
+
+.border-botom-purple {
+    border: 0.05rem solid #8e24aa; margin-bottom: 10px
+}
+
+.c-text-comment {
+    font-size: 15px;font-weight: 300;
+}
+
+.c-text-style-datetime {
+    color: silver; font-size: 13px; font-style: italic;
+}
