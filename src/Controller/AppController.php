@@ -41,15 +41,7 @@ class AppController extends Controller
      */
     public $session;
     public $current_user;
-    public $usersModel; 
-    public $userProjectsModel;
-    public $companiesModel;
-    public $teamsModel;
-    public $projectsModel;
-    public $positionModel;
-    public $ImagesModel;
     public $AppHelper;
-    public $emailsModel;
     public function initialize()
     {
         parent::initialize();
@@ -64,6 +56,7 @@ class AppController extends Controller
         $this->loadModel('Positions');
         $this->loadModel('Images');
         $this->loadModel('Emails');
+        $this->loadModel('Comments');
         $this->AppHelper = new ApplicationHelper(new \Cake\View\View());        
         if ($this->request->here != '/Users/login' && $this->request->here != '/Users/resetPassword'  && !$this->request->session()->read('current_user')) {
             return($this->redirect('/Users/login'));

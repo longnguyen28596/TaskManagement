@@ -39,7 +39,8 @@ class UsersTable extends Table
         $this->belongsTo('Teams');
         $this->hasMany('UserProjects');
         $this->hasMany('Tasks');
-        $this->hasMany('Emails');        
+        $this->hasMany('Emails');
+        $this->hasMany('Comments');
     }
 
     public function findAuth(\Cake\ORM\Query $query, array $options)
