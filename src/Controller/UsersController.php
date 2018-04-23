@@ -22,9 +22,7 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->checklogin($_POST['username'], $_POST['password']);
             if ($user) {
-                $listProjectManager = $this->projectsModel->getListProjectsManager($user['id'])->toArray();
-                $this->session->write('current_user', $this->usersModel->writeSession($user['id']));
-                $this->session->write('listProjectManager', $listProjectManager);
+                $this->session->write('current_user', $this->Users->writeSession($user['id']));
                 if ($user->last_login) {
                     return($this->redirect('/'));
                 } else {
@@ -45,7 +43,7 @@ class UsersController extends AppController
             }
         }
         if (isset($_GET['token'])) {
-            $email = $this->emailsModel->find()->where(['variable' => $_GET['token']])->first();
+            $email = $this->Emails->find()->where(['variable' => $_GET['token']])->first();
             if ($email) {
                 $user = $this->Users->get($email->user_id);
                 $user->password = '12345678';
@@ -57,8 +55,8 @@ class UsersController extends AppController
     }
 
     public function add() {
-        $positions = $this->positionModel->getAll();
-        $teams = $this->teamsModel->getAll();
+        $positions = $this->Positions->getAll();
+        $teams = $this->Teams->getAll();
         if ($this->request->is('post')) {
             $user = $this->Users->newEntity($this->request->getData());
             if($this->Users->save($user)) {
@@ -132,7 +130,7 @@ class UsersController extends AppController
     }
 
     public function editPassword($id) {
-        $current_user = $this->request->session()->read('current_user');
+        $current_user = $this->current_user;
         $id = $current_user->id;
         if (isset($_GET['ajax_current_password']) && $_GET['ajax_current_password']) {
             if (sha1($_GET['ajax_current_password']) == $current_user['password']) {

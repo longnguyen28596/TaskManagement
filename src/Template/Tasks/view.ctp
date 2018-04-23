@@ -29,7 +29,14 @@
                         <div>
                             <h4 style="color: black;font-weight: 400;">Tên nhiệm vụ</h4>
                             <div style="border: 0.05rem solid #8e24aa; margin-bottom: 10px"></div>
-                            <?= $task->title?>
+                            <div class="row">
+                                <div class='col-md-9'>
+                                    <input style='border:none' type="text" readonly id="title_task" value="<?= $task->title?>">
+                                </div>
+                                <div class='col-md-3'>
+                                    <i style='font-size:20px' class="far fa-copy fa-10px p-circle-icon js-btn-copy"></i>
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <h4 style="color: black;font-weight: 400;">Chi tiết nhiệm vụ</h4>
@@ -92,13 +99,20 @@
 <div id="preview" style="background-color: #d6d5e0; width: 350px; height: 250px; display: none; position: fixed; top: 30%; left: 40%;"></div>
     
 <script>
-        $('.show_image_hover').hover(function() {
+    $('.show_image_hover').hover(function() {
         $('.preview_image').remove()
         $('#preview').append( '<img class="preview_image" style="width:100%; height: 100%"  src="'+$(this).data('url_image')+'">')
-
         $('#preview').css('display', 'block')
     },function(){
         $('#preview').css('display', 'none')
     })
-    
+
+        $('.js-btn-copy').click(function(){
+            var copyText = document.getElementById("title_task");
+            /* Select the text field */
+            copyText.select();
+            /* Copy the text inside the text field */
+            document.execCommand("Copy");
+        })
+
 </script>

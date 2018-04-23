@@ -1,8 +1,3 @@
-<?php
-    if ($this->request->session()->read('listProjectManager') != NULL) {
-        $listProjectManager = $this->request->session()->read('listProjectManager');
-    }
-?>
 <div class="sidebar" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
     <div class="logo">
         <a href="http://www.creative-tim.com" class="simple-text">

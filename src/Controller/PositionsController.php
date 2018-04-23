@@ -55,7 +55,7 @@ class PositionsController extends AppController
     }
 
     public function listUsersByPosition($id) {
-        $users = $this->usersModel->getListUsersByPosition($id);
+        $users = $this->Users->getListUsersByPosition($id);
         $this->set('users',$this->paginate($users));
     }
 }

@@ -19,20 +19,20 @@ class ProjectsController extends AppController
 
     public function view($id) {
         $project = $this->Projects->getView($id);
-        $userProjects = $this->userProjectsModel->getAllUserProjectByProjectId($id);
+        $userProjects = $this->UserProjects->getAllUserProjectByProjectId($id);
         $this->set(compact('userProjects', 'project'));
     }
 
     public function add() {
-        $teams = $this->teamsModel->find('all')->where(['status' => '1']);
-        $companies = $this->companiesModel->getAll();
+        $teams = $this->Teams->find('all')->where(['status' => '1']);
+        $companies = $this->Companies->getAll();
         if ($this->request->is('post')) {
             $project = $this->Projects->newEntity($this->request->getData());
             if ($this->Projects->save($project)) {
                 // cập nhập lại session quản lý dự án
                 if ($this->session->read('listProjectManager') != NULL) {
                     $this->session->delete('listProjectManager');
-                    $listProjectManager = $this->projectsModel->getListProjectsManager($this->current_user['id'])->toArray();
+                    $listProjectManager = $this->Projects->getListProjectsManager($this->current_user['id'])->toArray();
                     $this->session->write('listProjectManager', $listProjectManager);
                 }
                 echo "<script>alert('Thêm mới thành công.')</script>";
@@ -42,8 +42,8 @@ class ProjectsController extends AppController
     }
 
     public function edit($id) {
-        $teams = $this->teamsModel->find('all')->where(['status' => '1']);
-        $companies = $this->companiesModel->getAll();
+        $teams = $this->Teams->find('all')->where(['status' => '1']);
+        $companies = $this->Companies->getAll();
         $project = $this->Projects->find()->where(['id' => $id])->first();
         if ($this->request->is('post')) {
             $project = $this->Projects->patchEntity($project, $this->request->getData());

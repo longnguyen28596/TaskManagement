@@ -16,8 +16,8 @@ class UserProjectsController extends AppController
     {
         $project = $this->Projects->get($project_id);
         $team = $this->Teams->get($project->team_id);
-        $userProjects = $this->userProjectsModel->getUserProjectByProjectId($project_id);
-        $userTeams = $this->usersModel->getListUserByTeam($project->team_id, ['Positions']);
+        $userProjects = $this->UserProjects->getUserProjectByProjectId($project_id);
+        $userTeams = $this->Users->getListUserByTeam($project->team_id, ['Positions']);
         $this->set(compact('project', 'userProjects', 'team','userTeams'));
     }
 

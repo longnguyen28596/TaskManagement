@@ -81,9 +81,9 @@ $status = $project->sex == 1 ? 'Dự án kết thúc' : 'Chưa hoàn thành';
                                 <?php foreach($userProjects as $userProject) {
                                     $user =$userProject->user;
                                     ?>
-                                    <tr>
+                                    <tr class='jumb-link-row-table' title='Click vào để xem chi tiết nhân viên'>
                                         <td><?= $user->id?></td>
-                                        <td><a href="/Users/view/<?= $user->id ?>"><?= $user->name ?></a></td>
+                                        <td><?= $user->name ?></td>
                                         <td><?= $user->username?></td>
                                         <td><?=$this->Application->fullDateTime($user->create_at)?></td>
                                         <td><?= $user->out_at?></td>
