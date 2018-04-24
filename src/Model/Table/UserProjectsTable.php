@@ -39,4 +39,11 @@ class UserProjectsTable extends Table
         $data = $this->newEntity($data);
         $this->save($data);
     }
+
+    public function getProjectByUser($user_id) {
+        return $this->find('all')->select('UserProjects.id')->where(['UserProjects.user_id' => $user_id])->contain(['Projects' => function($q){
+            return $q->select(['id', 'name'])
+                    ->where(['Projects.status' => '0']);
+        }]);
+    }
 }

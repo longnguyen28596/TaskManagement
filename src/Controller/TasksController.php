@@ -20,6 +20,13 @@ class TasksController extends AppController
         $this->set('total_record', $total_record);
     }
 
+    public function listTaskByMyProject($projects_id) {
+        $tasks = $this->Tasks->getListTaskByMyTasks($projects_id, $this->current_user['id']);
+        $total_record =  $this->Tasks->getListTaskByMyTasks($projects_id, $this->current_user['id'])->count();
+        $this->set('tasks', $this->paginate($tasks));
+        $this->set('total_record', $total_record);
+    }
+
     // $id = project_id
     public function add($id)
     {
@@ -66,7 +73,6 @@ class TasksController extends AppController
         }
         $this->set(compact(['user_projects', 'id']));
     }
-
 
     public function view($id) {
         $task = $this->Tasks->find()->where(['Tasks.id' => $id])->contain('Images')->first();
