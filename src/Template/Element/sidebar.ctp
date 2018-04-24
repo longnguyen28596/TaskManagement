@@ -29,6 +29,25 @@
                 </div>
             </li>
             <li>
+                <a data-toggle="collapse" href="#myProjects">
+                    <i class="material-icons">grid_on</i>
+                    <p> My Task
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse" id="myProjects" >
+                    <ul class="nav">
+                        <?php foreach ($myProjects as $myProject) { ?>
+                            <li onclick="handle_click_child(this)">
+                                <a href="/tasks/listTaskByMyProject/<?= $myProject->project->id ?>">
+                                    <span class="sidebar-normal"> <?= $myProject->project->name ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>                            
+                    </ul>
+                </div>
+            </li>
+            <li>
                 <a data-toggle="collapse" href="#tablePositions">
                     <i class="material-icons">grid_on</i>
                     <p> Quản lý chức vụ

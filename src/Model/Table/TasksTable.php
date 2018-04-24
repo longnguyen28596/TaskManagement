@@ -21,4 +21,8 @@ class TasksTable extends Table
     public function getListTaskOfProjectId($project_id) {
         return $this->find('all')->where(['project_id' => $project_id])->contain('Users');
     }
+
+    public function getListTaskByMyTasks($project_id, $user_action) {
+        return $this->find('all')->where(['project_id' => $project_id, 'user_action' => $user_action])->contain('Users');
+    }
 }

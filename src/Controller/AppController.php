@@ -74,7 +74,8 @@ class AppController extends Controller
     {
         if ($this->request->session()->check('current_user')) {
             $listProjectManager = $this->Projects->getListProjectsManager($this->current_user['id'])->toArray();
-            $this->set(compact('listProjectManager'));
+            $myProjects = $this->UserProjects->getProjectByUser($this->current_user['id']);
+            $this->set(compact(['listProjectManager', 'myProjects']));
         }
     }
 }
