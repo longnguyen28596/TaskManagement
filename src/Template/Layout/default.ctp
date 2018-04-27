@@ -26,6 +26,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <div class="main-panel">
             <?= $this->element('menu') ?>
             <div class="content">
+                <div class="message"><?= $this->Flash->render() ?></div>
                 <?= $this->fetch('content') ?>
             </div>
             <?= $this->element('footer') ?>

@@ -19,6 +19,7 @@ class CommentsController extends AppController
             ];
             $comment = $this->Comments->newEntity($comment);
             if ($this->Comments->save($comment)) {
+                $this->Flash->success("Bạn đã thêm bình luận mới.");
                 $comment = $this->Comments->save($comment);
                 $this->redirect('/Tasks/view/'.$comment->task_id.'/#'.$comment->id);
             }
@@ -47,6 +48,7 @@ class CommentsController extends AppController
             if ($this->Comments->save($comment)) {
                 $comment = $this->Comments->save($comment);
                 $this->redirect('/Tasks/view/'.$comment->task_id.'/#'.$comment->id);
+                $this->Flash->success("Tạo mới team thành công.");            
             }
         }
     }

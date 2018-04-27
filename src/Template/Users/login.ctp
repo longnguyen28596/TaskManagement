@@ -40,7 +40,7 @@
 						Đăng nhập
 					</span>
 				</div>
-
+				<div class="message"><?= $this->Flash->render() ?></div>
 				<form class="login100-form validate-form" method="POST">
 					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
 						<span class="label-input100">Username</span>

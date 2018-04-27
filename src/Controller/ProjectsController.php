@@ -33,7 +33,7 @@ class ProjectsController extends AppController
                 foreach ($team_ids as $team_id) {
                     $this->ProjectTeams->addNew($project->id, $team_id);
                 }
-                echo "<script>alert('Thêm mới thành công.')</script>";
+                $this->Flash->success("Thêm mới thành công.");
             }
         }
         $this->set(compact('teams', 'companies'));
@@ -58,11 +58,10 @@ class ProjectsController extends AppController
                 $this->ProjectTeams->addNew($project->id, $team_project);
             }
             if ($this->Projects->save($project)) {
-                echo "<script>alert('Sửa thành công.')</script>";
+                $this->Flash->success("Cập nhập thành công.");
             }
         }
         $this->set(compact('teams', 'companies', 'project', 'projectTeams'));
-
     }
 }
 ?>
