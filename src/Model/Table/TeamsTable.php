@@ -13,6 +13,7 @@ class TeamsTable extends Table
         parent::initialize($config);
         $this->hasMany('Users');
         $this->hasMany('Projects');
+        $this->hasMany('ProjectTeams');
     }
 
     public function validationDefault(Validator $validator)
