@@ -13,7 +13,7 @@ class TeamsController extends AppController
     }
 
     public function add() {
-        $users = $this->Users->find('all')->contain(['UserProfiles','Positions']);
+        $users = $this->Users->find('all')->contain(['Positions']);
         if ($this->request->is('post')) {
             $team = $this->Teams->newEntity($this->request->getData());
             if ($this->Teams->save($team)) {
@@ -22,12 +22,14 @@ class TeamsController extends AppController
                 $this->Flash->success("Tạo mới team thất bại.");
             }
         }
+        
         $this->set(compact('users'));
     }
 
     public function usersOfTeam($team_id) {
         $team = $this->Teams->get($team_id);
-        $userProjects = $this->UserProjects->getAllUserProjectByProjectId($id);
+        // $userProjects = $this->UserProjects->getAllUserProjectByProjectId($id);
+        $users = $this->Users->getListUserByTeam($team->id, $contain=['Positions']);
         $this->set(compact('team', 'users'));
     }
 }

@@ -1,5 +1,4 @@
 <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-
 <h2 style="text-align:center" class="title">Cập nhập nhiệm vụ</h2>
 <div class="content">
     <div class="container-fluid">
