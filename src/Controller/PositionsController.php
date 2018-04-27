@@ -24,10 +24,10 @@ class PositionsController extends AppController
             if ($check_name == 0) {
                 $user = $this->Positions->newEntity($this->request->getData());
                 if ($this->Positions->save($user)) {
-                    return($this->redirect('/Positions/add'));
+                    return($this->redirect('/Positions/index'));
                 }
             } else {
-                echo "<script>alert('Tên chức vụ này đã có')</script>";
+                $this->Flash->error("Tên chức vụ này đã có.");
             }
         }
     }
@@ -37,7 +37,7 @@ class PositionsController extends AppController
         if ($this->request->is('post')) {
             $position->name = $_POST['name'];
             if ($this->Positions->save($position)) {
-                echo "<script>alert('Cập nhập thành công')<script>";
+                $this->Flash->success("Cập nhập thành công.");
                 return($this->redirect('/Positions/edit/'.$id));
             }
         }
@@ -48,7 +48,7 @@ class PositionsController extends AppController
         $position = $this->Positions->find()->where(['id' => $id, 'status' => '1'])->first();
         $position->status = '0';
         if ($this->Positions->save($position)) {
-            echo "<script>alert('Xoá thành công')<script>";
+            $this->Flash->success("Xoá thành công.");
         }
         return($this->redirect('/Positions/index/'));
         $this->set('position',$position);

@@ -7,3 +7,10 @@ jQuery(document).ready(function($) {
         });
     }
 });
+// xử lý hiển thị thông báo
+if ($('.message').length > 0 ) {
+    $('.message').children().fadeOut(5000)
+    $('.message').click(function(){
+        $(this).fadeOut(3000)
+    })
+}

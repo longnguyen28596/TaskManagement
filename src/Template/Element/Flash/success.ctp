@@ -9,10 +9,3 @@ if (!isset($params['escape']) || $params['escape'] !== false) {
     </button>
     <?= $message ?>
 </div>
-<script>
-    if ($('.message').length > 0 ) {
-        $('.message').click(function(){
-            this.classList.add('hidden')
-        })
-    }
-</script>

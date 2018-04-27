@@ -15,34 +15,16 @@ class UserProjectsController extends AppController
     public function index($project_id)
     {
         $project = $this->Projects->get($project_id);
-        // $teams = $this->Teams->find()->contain(['ProjectTeams' => function($q) use($project_id){
-        //     return $q->where(['ProjectTeams.project_id' => $project_id]);
-        // }])->toArray();
         $teams = $this->Teams->find()->innerJoinWith('ProjectTeams', function($q) use($project_id){
             return $q->where(['ProjectTeams.project_id' => $project_id]);
         })->toArray();
-            //     return $this->find()->where(['Projects.status' => '0'])->innerJoinWith('Teams', function($q) use($user_id){
-    //         return $q->where(['Teams.leader' => $user_id]);
-    //     });
         $team_id = $teams[0]->id;
-        // if ($this->request->is('post')) {
-        //     $team_id = $_POST['team_id'];
-        //     $team = $this->Teams->get($project->team_id);
-        // }
         $userProjects = $this->UserProjects->getUserProjectByProjectId($project_id);
         $userTeams = $this->Users->getListUserByTeam($team_id, ['Positions']);
         $this->set(compact('teams', 'userProjects', 'userTeams', 'project'));
-        // $team = $this->Teams->get($project->team_id);
-        // $userProjects = $this->UserProjects->getUserProjectByProjectId($project_id);
-        // $userTeams = $this->Users->getListUserByTeam($project->team_id, ['Positions']);
-        // $this->set(compact('project', 'userProjects', 'team','userTeams'));
     }
 
     public function ajaxGetUserProjectByTeam($project_id) {
-        // $teams = $this->Teams->find()->contain(['ProjectTeams' => function($q) use($project_id){
-        //     return $q->where(['ProjectTeams.project_id' => $project_id]);
-        // }])->toArray();
-        //  $team_id = $teams[0]->id;
         $teams = $this->Teams->find()->contain(['ProjectTeams' => function($q) use($project_id){
             return $q->where(['ProjectTeams.project_id' => $project_id]);
         }])->toArray();

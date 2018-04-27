@@ -22,6 +22,7 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->checklogin($_POST['username'], $_POST['password']);
             if ($user) {
+                $this->Flash->success("Bạn đã đăng nhập thành công.");
                 $this->session->write('current_user', $this->Users->writeSession($user['id']));
                 if ($user->last_login) {
                     return($this->redirect('/'));
@@ -48,7 +49,7 @@ class UsersController extends AppController
                 $user = $this->Users->get($email->user_id);
                 $user->password = '12345678';
                 if ($this->Users->save($user)) {
-                    echo "<script>alert('Password của bạn đã được rest về giá trị mặc định.')</script>";
+                    $this->Flash->success("Password của bạn đã được rest về giá trị mặc định.");
                 }
             }
         }
@@ -60,7 +61,7 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->newEntity($this->request->getData());
             if($this->Users->save($user)) {
-                echo "<script>alert('Them thành công')</script>";
+                $this->Flash->success("Thêm mới người dùng thành công.");
             }
         }
         $this->set(compact(['teams', 'positions']));
@@ -102,7 +103,7 @@ class UsersController extends AppController
         if ($user) {
             $user->status = '0';
             if ($this->Users->save($user)) {
-                echo "<script>alert('Xoa thanh cong')</script>";
+                $this->Flash->success("Xoá thành công.");
             }
         }
         return($this->redirect('/Users/index'));
@@ -120,7 +121,7 @@ class UsersController extends AppController
         }
         if ($this->request->is('post')) {
             if ($this->Users->changePassword($current_user['id'], $_POST['new_password'])) {
-                echo "<script>alert('Sửa mật khẩu thành công')</script>";
+                $this->Flash->success("Cập nhập thành công.");
                 $user = $this->Users->get($id);
                 $user->password = $_POST['new_password'];
                 $this->Users->save($user);
@@ -141,7 +142,7 @@ class UsersController extends AppController
         }
         if ($this->request->is('post')) {
             if ($this->Users->changePassword($current_user['id'], $_POST['new_password'])) {
-                echo "<script>alert('Sửa mật khẩu thành công')</script>";
+                $this->Flash->success("Cập nhập thành công.");
                 $user = $this->Users->get($id);
                 $user->password = $_POST['new_password'];
                 $this->Users->save($user);
@@ -155,7 +156,7 @@ class UsersController extends AppController
         $user->last_login = Time::now();
         $this->Users->save($user);
         session_destroy();
-
+        $this->Flash->success("Bạn đã đăng xuất thành công.");
         return($this->redirect('/Users/login'));
     }
 

@@ -81,7 +81,7 @@ $status = $project->sex == 1 ? 'Dự án kết thúc' : 'Chưa hoàn thành';
                                 <?php foreach($userProjects as $userProject) {
                                     $user =$userProject->user;
                                     ?>
-                                    <tr class='jumb-link-row-table' title='Click vào để xem chi tiết nhân viên'>
+                                    <tr class='jumb-link-row-table' data-href='/Users/view/<?= $user->id ?>' title='Click vào để xem chi tiết nhân viên'>
                                         <td><?= $user->id?></td>
                                         <td><?= $user->name ?></td>
                                         <td><?= $user->username?></td>

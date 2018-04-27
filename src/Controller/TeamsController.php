@@ -19,16 +19,15 @@ class TeamsController extends AppController
             if ($this->Teams->save($team)) {
                 return($this->Flash->success("Tạo mới team thành công."));
             } else {
-                $this->Flash->success("Tạo mới team thất bại.");
+                $this->Flash->error("Tạo mới team thất bại.");
             }
         }
-        
+
         $this->set(compact('users'));
     }
 
     public function usersOfTeam($team_id) {
         $team = $this->Teams->get($team_id);
-        // $userProjects = $this->UserProjects->getAllUserProjectByProjectId($id);
         $users = $this->Users->getListUserByTeam($team->id, $contain=['Positions']);
         $this->set(compact('team', 'users'));
     }

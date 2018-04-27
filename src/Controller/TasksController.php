@@ -44,7 +44,6 @@ class TasksController extends AppController
             $data = $this->Tasks->newEntity($data);
             if ($this->Tasks->save($data)) {
                 $task = $this->Tasks->save($data);
-                $this->Flash->Success('Thêm mới nhiệm vụ thành công.');
                 if (count($_FILES['files']['name']) >= 1) {
                     $array_image_do_not_upload = explode("|", $_POST['list-image-do-not-upload']);
                     for($i=0; $i< count($_FILES['files']['name']); $i++) {
@@ -68,6 +67,8 @@ class TasksController extends AppController
                             }
                         }
                     }
+                    $this->Flash->Success('Thêm mới nhiệm vụ thành công.');
+                    $this->redirect('/Tasks/listTaskOfProjectId/' . $id);
                 }
             }
         }
@@ -103,7 +104,7 @@ class TasksController extends AppController
             if ($this->Tasks->save($task)) {
                 $email = $this->Emails->addNew($task->user_action, $task->id , 'edit task');
                 $email->sended_at = Time::now();
-                echo "<script>alert('Sửa mới thành công.')</script>";
+                $this->Flash->success("Cập nhập thành công.");
                 if (count($_FILES['files']['name']) >= 1) {
                     $array_image_do_not_upload = explode("|", $_POST['list-image-do-not-upload']);
                     for($i=0; $i< count($_FILES['files']['name']); $i++) {
