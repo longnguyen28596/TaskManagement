@@ -57,6 +57,7 @@ class AppController extends Controller
         $this->loadModel('Images');
         $this->loadModel('Emails');
         $this->loadModel('Comments');
+        $this->loadModel('ProjectTeams');
         $this->AppHelper = new ApplicationHelper(new \Cake\View\View());        
         if ($this->request->here != '/Users/login' && $this->request->here != '/Users/resetPassword'  && !$this->request->session()->read('current_user')) {
             return($this->redirect('/Users/login'));
@@ -73,7 +74,7 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         if ($this->request->session()->check('current_user')) {
-            $listProjectManager = $this->Projects->getListProjectsManager($this->current_user['id'])->toArray();
+            $listProjectManager = $this->ProjectTeams->getListProjectsManager($this->current_user['id'], $this->current_user['team_id'])->toArray();
             $myProjects = $this->UserProjects->getProjectByUser($this->current_user['id']);
             $this->set(compact(['listProjectManager', 'myProjects']));
         }

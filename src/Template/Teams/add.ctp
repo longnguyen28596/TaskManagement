@@ -21,7 +21,7 @@
                                         <select name="leader" class="form-control">
                                             <option value="">Lựa chọn trưởng nhóm</option>
                                             <?php foreach($users as $user) { ?>
-                                                <option value=<?= $user->id ?>><?= $user->user_profile->name.'('.$user->position->name.')'?></option>
+                                                <option value=<?= $user->id ?>><?= $user->name.'('.$user->name.')'?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
