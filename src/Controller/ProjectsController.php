@@ -27,13 +27,11 @@ class ProjectsController extends AppController
         $teams = $this->Teams->find('all')->where(['status' => '1']);
         $companies = $this->Companies->getAll();
         if ($this->request->is('post')) {
-            $project = $this->Projects->newEntity($this->request->getData());
-            if ($this->Projects->save($project)) {
-                // cập nhập lại session quản lý dự án
-                if ($this->session->read('listProjectManager') != NULL) {
-                    $this->session->delete('listProjectManager');
-                    $listProjectManager = $this->Projects->getListProjectsManager($this->current_user['id'])->toArray();
-                    $this->session->write('listProjectManager', $listProjectManager);
+            $project = $this->Projects->addNew($_POST['name'], $_POST['company_id'], $_POST['description']);
+            if ($project) {
+                $team_ids = $_POST['teams'];
+                foreach ($team_ids as $team_id) {
+                    $this->ProjectTeams->addNew($project->id, $team_id);
                 }
                 echo "<script>alert('Thêm mới thành công.')</script>";
             }
@@ -42,16 +40,28 @@ class ProjectsController extends AppController
     }
 
     public function edit($id) {
-        $teams = $this->Teams->find('all')->where(['status' => '1']);
+        $teams = $this->Teams->find('all')->where(['status' => '1'])->select(['id', 'name']);
         $companies = $this->Companies->getAll();
-        $project = $this->Projects->find()->where(['id' => $id])->first();
+        $project = $this->Projects->find()->where(['id' => $id, 'status' => '0'])->select(['name', 'id', 'company_id', 'description'])->first();
+        $projectTeams = ($this->ProjectTeams->find()->where(['ProjectTeams.project_id' => $project->id]));
         if ($this->request->is('post')) {
-            $project = $this->Projects->patchEntity($project, $this->request->getData());
+            $data = [
+                'name' => $_POST['name'],
+                'company_id' => $_POST['company_id'],
+                'description' => $_POST['description']
+            ];
+            $project = $this->Projects->patchEntity($project, $data);
+            foreach ($projectTeams as $projectTeam) {
+                $this->ProjectTeams->delete($projectTeam);
+            }
+            foreach ($_POST['teams'] as $team_project) {
+                $this->ProjectTeams->addNew($project->id, $team_project);
+            }
             if ($this->Projects->save($project)) {
                 echo "<script>alert('Sửa thành công.')</script>";
             }
         }
-        $this->set(compact('teams', 'companies', 'project'));
+        $this->set(compact('teams', 'companies', 'project', 'projectTeams'));
 
     }
 }
