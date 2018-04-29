@@ -18,11 +18,11 @@
                             </thead>
                             <tbody>
                                 <?php foreach($users as $user) { ?>
-                                    <tr class='jumb-link-row-table' data-href='/Users/view/<?= $user->id ?>' title='Click vào để xem thông tin chi tiết của nhân viên'>
-                                        <td><?= $user->id ?></td>
-                                        <td><?= $user->name ?></td>
-                                        <td><?= $user->username ?></td>
-                                        <td><?= $user->position['name'] ?></td>
+                                    <tr title='Click vào để xem thông tin chi tiết của nhân viên'>
+                                        <td class='jumb-link-row-table' data-href='/Users/view/<?= $user->id ?>' ><?= $user->id ?></td>
+                                        <td class='jumb-link-row-table' data-href='/Users/view/<?= $user->id ?>'><?= $user->name ?></td>
+                                        <td class='jumb-link-row-table' data-href='/Users/view/<?= $user->id ?>'><?= $user->username ?></td>
+                                        <td class='jumb-link-row-table' data-href='/Users/view/<?= $user->id ?>'><?= $user->position['name'] ?></td>
                                         <td>
                                             <a href="/Users/delete/<?= $user->id ?>" onclick="return confirm('Bạn có chắc muốn xoá nhân viên này?')" title="Xoá nhân viên ra khỏi công ty" > Xoá</a>
                                         </td>
