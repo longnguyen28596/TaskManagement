@@ -19,7 +19,7 @@
                                 <?php foreach($users as $user) {
                                     $isLeader = $team->leader == $user->id ? "(trưởng nhóm)" : ""
                                 ?>
-                                    <tr class='jumb-link-row-table' data-href='/Users/view/<?= $user->id ?>' title="Click vào để xem chi tiết nhân viên này.">
+                                    <tr class="modal-user" data-user_id="<?= $user->id ?>" title="Click vào để xem chi tiết nhân viên này.">
                                         <td><?= $user->id?></td>
                                         <td><?= $user->name.' '.$isLeader?></td>
                                         <td><?= $user->username?></td>
@@ -34,3 +34,5 @@
         </div>
     </div>
 </div>
+
+<?= $this->element('modal_user_detail') ?>

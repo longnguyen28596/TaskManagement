@@ -6,7 +6,7 @@
 <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 <meta name="viewport" content="width=device-width" />
 <!-- Bootstrap core CSS     -->
-<?= $this->Html->css('admin/bootstrap.min.css') ?>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!--  Material Dashboard CSS    -->
 <?= $this->Html->css('admin/material-dashboard.css?v=1.2.0') ?>
 <!--  CSS for do Purpose, don't include it in your project     -->
@@ -22,3 +22,6 @@
 <?= $this->Html->css('fontawesome/web-fonts-with-css/css/fontawesome-all.min.css') ?>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+<!-- select2 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>

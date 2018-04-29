@@ -1,14 +1,8 @@
-<?php
-$sex = $user->sex == 1 ? 'Nam' : 'Nữ';
-?>
-<div class="content">
+<?php $sex = $user->sex == 1 ? 'Nam' : 'Nữ'; ?>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header text-center" data-background-color="purple">
-                        <h4 class="title">Thông tin chi tiết của nhân viên</h3>
-                    </div>
                     <div class="card-content">
                         <div class="table-responsive table-upgrade">
                             <br>
@@ -67,4 +61,3 @@ $sex = $user->sex == 1 ? 'Nam' : 'Nữ';
             </div>
         </div>
     </div>
-</div>

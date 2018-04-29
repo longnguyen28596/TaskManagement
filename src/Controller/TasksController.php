@@ -86,6 +86,16 @@ class TasksController extends AppController
         }
     }
 
+    public function delete($id) {
+        $task = $this->Tasks->get($id);
+        if ($task) {
+            if ($this->Tasks->delete($task)) {
+                $this->Flash->success("Đã huỷ nhiệm vụ.");
+                $this->redirect('/Tasks/listTaskOfProjectId/' . $task->project_id);
+            }
+        }
+    }
+
     public function edit($id) {
         $task = $this->Tasks->find()->where(['Tasks.id' => $id])->contain('Images')->first();
         $user_projects = $this->UserProjects->getUserProjectByProjectId($task->project_id);
@@ -136,7 +146,11 @@ class TasksController extends AppController
     public function editAjax($id) {
         $task = $this->Tasks->get($id);
         if ($task) {
-            $task->status = $_POST['status'];
+            if (isset($_POST['status'])) {
+                $task->status = $_POST['status'];
+            } elseif(isset($_POST['done'])) {
+                $task->done = $_POST['done'];
+            }
             if ($this->Tasks->save($task)) {
                 echo $this->AppHelper->successMessage('Sửa trạng thái thành công');die();
             }

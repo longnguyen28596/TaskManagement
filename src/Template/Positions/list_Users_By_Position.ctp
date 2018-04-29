@@ -17,10 +17,10 @@
                             </thead>
                             <tbody>
                                 <?php foreach($users as $user) { ?>
-                                    <tr>
-                                        <td><a href="/Users/view/<?= $user->id ?>" title="click vào để xem chi tiết thông tin nhân viên"><?= $user->id?></a></td>
-                                        <td><a href="/Users/view/<?= $user->id ?>" title="click vào để xem chi tiết thông tin nhân viên"><?= $user->name?></a></td>
-                                        <td><a href="/Users/view/<?= $user->id ?>" title="click vào để xem chi tiết thông tin nhân viên"><?= $user->username?></a></td>
+                                    <tr class="modal-user" data-user_id="<?= $user->id ?>">
+                                        <td><a title="click vào để xem chi tiết thông tin nhân viên"><?= $user->id?></a></td>
+                                        <td><a title="click vào để xem chi tiết thông tin nhân viên"><?= $user->name?></a></td>
+                                        <td><a title="click vào để xem chi tiết thông tin nhân viên"><?= $user->username?></a></td>
                                         <td><?= $user->position['name']?></td>
                                     </tr>
                                 <?php } ?>
@@ -35,3 +35,4 @@
         </div>
     </div>
 </div>
+<?= $this->element('modal_user_detail') ?>

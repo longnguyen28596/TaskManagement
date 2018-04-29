@@ -8,6 +8,7 @@
                 <th class="text-center">Chức vụ</th>
             </thead>
             <tbody>
+                <?php if($userTeams->count() >= 1) {?>
                     <?php foreach($userTeams as $userTeam) {
                         $checked = '';
                         foreach($userProjects as $userProject) {
@@ -19,12 +20,15 @@
                     ?>
                         <tr data-href='/Users/view/<?= $userTeam->id ?>' title='Click vào để xem chi tiết nhân viên này.'>
                             <td><input value='<?= $userTeam->id ?>' id="checked_<?= $userTeam->id ?>" class='add_staff_to_project' name="add_staff_to_project[]" <?= $checked ?> type="checkbox"></td>
-                            <td><?= $userTeam->id?></td>
-                            <td><?= $userTeam->name?></td>
-                            <td><?= $userTeam->username?></td>
-                            <td><?= $userTeam->position->name?></td>
+                            <td class="modal-user" data-user_id="<?= $userTeam->id ?>"><?= $userTeam->id?></td>
+                            <td class="modal-user" data-user_id="<?= $userTeam->id ?>"><?= $userTeam->name?></td>
+                            <td class="modal-user" data-user_id="<?= $userTeam->id ?>"><?= $userTeam->username?></td>
+                            <td class="modal-user" data-user_id="<?= $userTeam->id ?>"><?= $userTeam->position->name?></td>
                         </tr>
-                    <?php } ?>
+                        <?php } ?>
+                    <?php } else {?>
+                        <tr><td colspan="7"><p style="color:silver" align="center">Hiện tại chưa có nhân viên nào trong team</p></td></tr>
+                    <?php }?>
             </tbody>
         </table>
 </div>
@@ -43,3 +47,5 @@
         })
     })
 </script>
+
+<?= $this->element('modal_user_detail') ?>

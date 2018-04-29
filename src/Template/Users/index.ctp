@@ -18,14 +18,12 @@
                             </thead>
                             <tbody>
                                 <?php foreach($users as $user) { ?>
-                                    <tr class='jumb-link-row-table' data-href='/Users/view/<?= $user->id ?>' title='Click vào để xem thông tin chi tiết của nhân viên'>
-                                        <td><?= $user->id ?></td>
-                                        <td><?= $user->name ?></td>
-                                        <td><?= $user->username ?></td>
-                                        <td><?= $user->position['name'] ?></td>
-                                        <td>
-                                            <a href="/Users/delete/<?= $user->id ?>" onclick="return confirm('Bạn có chắc muốn xoá nhân viên này?')" title="Xoá nhân viên ra khỏi công ty" > Xoá</a>
-                                        </td>
+                                    <tr title='Click vào để xem thông tin chi tiết của nhân viên'>
+                                        <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->id ?></td>
+                                        <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->name ?></td>
+                                        <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->username ?></td>
+                                        <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->position['name'] ?></td>
+                                        <td ><a href="/Users/delete/<?= $user->id ?>" onclick="return confirm('Bạn có chắc muốn xoá nhân viên này?')" title="Xoá nhân viên ra khỏi công ty" > Xoá</a></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -39,9 +37,4 @@
         </div>
     </div>
 </div>
-
-<script>
-// $(document).ready( function () {
-//     $('.dataTable').DataTable();
-// } );
-</script>
+<?= $this->element('modal_user_detail') ?>
