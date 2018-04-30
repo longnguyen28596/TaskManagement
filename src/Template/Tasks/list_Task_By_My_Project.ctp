@@ -10,15 +10,15 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover data-table-list text-center">
                             <thead class="text-primary">
-                                <th>Id</th>
-                                <th>Tên task</th>
-                                <th>Người làm</th>
-                                <th>Trạng thái</th>
-                                <th>Mức độ ưu tiên</th>
-                                <th>Xong/Chưa xong</th>
-                                <th>Hành động</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Tên task</th>
+                                <th class="text-center">Người làm</th>
+                                <th class="text-center">Trạng thái</th>
+                                <th class="text-center">Mức độ ưu tiên</th>
+                                <th class="text-center">Xong/Chưa xong</th>
+                                <th class="text-center">Hành động</th>
                             </thead>
                             <tbody>
                                 <?php if($tasks->count() >=1 ) { ?>

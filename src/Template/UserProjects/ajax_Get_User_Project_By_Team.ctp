@@ -1,5 +1,5 @@
 <div class="card-content table-responsive">
-        <table class="table table-hover text-center">
+        <table class="table table-hover text-center data-table-list">
             <thead class="text-primary">
                 <th class="text-center">Đang tham gia</th>
                 <th class="text-center">Id</th>

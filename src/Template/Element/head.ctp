@@ -20,7 +20,8 @@
 <?= $this->Html->script('jquery.datetimepicker.full.min.js') ?>
 <?= $this->Html->css('jquery.datetimepicker.min.css') ?>
 <?= $this->Html->css('fontawesome/web-fonts-with-css/css/fontawesome-all.min.css') ?>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
 <!-- select2 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />

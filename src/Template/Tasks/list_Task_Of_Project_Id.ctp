@@ -10,15 +10,15 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover data-table-list text-center">
                             <thead class="text-primary">
-                                <th>Id</th>
-                                <th>Tên task</th>
-                                <th>Người làm</th>
-                                <th>Trạng thái</th>
-                                <th>Mức độ ưu tiên</th>
-                                <th>Xong/Chưa xong</th>
-                                <th>Hành động</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Tên task</th>
+                                <th class="text-center">Người làm</th>
+                                <th class="text-center">Trạng thái</th>
+                                <th class="text-center">Mức độ ưu tiên</th>
+                                <th class="text-center">Xong/Chưa xong</th>
+                                <th class="text-center">Hành động</th>
                             </thead>
                             <tbody>
                                 <?php if($tasks->count() >=1 ) { ?>
@@ -31,12 +31,12 @@
                                             <td><?= $task->title?></td>
                                             <td><?= $task->user->username?></td>
                                             <td>
-                                            <select name="status" class="status" id="status" data-task_id=<?= $task->id ?>>
-                                                <option <?php if ($task->status == 'Chưa làm') echo "selected"; ?> value='Chưa làm'>Chưa làm</option>
-                                                <option <?php if ($task->status == 'Đang làm') echo "selected"; ?> value='Đang làm'>Đang làm</option>
-                                                <option <?php if ($task->status == 'Kiểm tra') echo "selected"; ?> value='Kiểm tra'>Kiểm tra</option>
-                                                <option <?php if ($task->status == 'Đã xong') echo "selected"; ?> value='Đã xong'>Đã xong</option>
-                                            </select>
+                                                <select name="status" class="status" id="status" data-task_id=<?= $task->id ?>>
+                                                    <option <?php if ($task->status == 'Chưa làm') echo "selected"; ?> value='Chưa làm'>Chưa làm</option>
+                                                    <option <?php if ($task->status == 'Đang làm') echo "selected"; ?> value='Đang làm'>Đang làm</option>
+                                                    <option <?php if ($task->status == 'Kiểm tra') echo "selected"; ?> value='Kiểm tra'>Kiểm tra</option>
+                                                    <option <?php if ($task->status == 'Đã xong') echo "selected"; ?> value='Đã xong'>Đã xong</option>
+                                                </select>
                                             </td>
                                             <td><?= $task->priority ?></td>
                                             <td>

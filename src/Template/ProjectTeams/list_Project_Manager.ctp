@@ -8,13 +8,13 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover data-table-list text-center">
                             <thead class="text-primary">
-                                <th>Id</th>
-                                <th>Tên dự án</th>
-                                <th>Tên công ty</th>
-                                <th>Ngày tạo dự án</th>
-                                <th>Hành động</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Tên dự án</th>
+                                <th class="text-center">Tên công ty</th>
+                                <th class="text-center">Ngày tạo dự án</th>
+                                <th class="text-center">Hành động</th>
                             </thead>
                             <tbody>
                                 <?php foreach($projects as $project) { ?>
