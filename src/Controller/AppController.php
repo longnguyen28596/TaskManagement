@@ -74,9 +74,9 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         if ($this->request->session()->check('current_user')) {
-            $listProjectManager = $this->ProjectTeams->getListProjectsManager($this->current_user['id'], $this->current_user['team_id'])->toArray();
+            $countProjectManager = $this->ProjectTeams->getCountProjectsManager($this->current_user['id'], $this->current_user['team_id']);
             $myProjects = $this->UserProjects->getProjectByUser($this->current_user['id']);
-            $this->set(compact(['listProjectManager', 'myProjects']));
+            $this->set(compact(['countProjectManager', 'myProjects']));
         }
     }
 }

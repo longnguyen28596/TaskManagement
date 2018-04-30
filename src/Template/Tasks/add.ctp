@@ -61,8 +61,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label">Người làm</label>
-                                        <select name="user_action" class="form-control">
+                                        <label class="control-label">Người thực hiện</label>
+                                        <select name="user_action" class="user_action form-control">
                                             <option value="">Lựa chọn người thực hiện</option>
                                             <?php foreach($user_projects as $user_project) { ?>
                                                 <option value=<?= $user_project->user->id ?>><?= $user_project->user->name . ' ( ' . $user_project->user->username . ' )'?></option>
@@ -117,8 +117,13 @@
                 },
             }
         });
+        $('.user_action').select2({
+            placeholder: "Lựa chọn người thực hiện"
+        });
     })
     jQuery('#datetimepicker').datetimepicker({
         format:'Y/m/d H:i'
     });
 </script>
+
+<?= $this->Element('custom_select2'); ?>

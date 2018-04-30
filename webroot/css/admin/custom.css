@@ -54,3 +54,8 @@ label.error {
 .c-text-style-datetime {
     color: silver; font-size: 13px; font-style: italic;
 }
+.c-custom-select-box-select2 {
+    border-radius: 0px;
+    border: 0px;
+    border-bottom: 1px solid silver;
+}

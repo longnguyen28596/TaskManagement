@@ -91,6 +91,7 @@ class TasksController extends AppController
         if ($task) {
             if ($this->Tasks->delete($task)) {
                 $this->Flash->success("Đã huỷ nhiệm vụ.");
+                $this->redirect('/Tasks/listTaskOfProjectId/' . $task->project_id);
             }
         }
     }

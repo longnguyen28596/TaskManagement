@@ -1,3 +1,4 @@
+<script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -18,10 +19,11 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="control-label">Chọn trưởng nhóm</label>
-                                        <select name="leader" class="form-control">
+                                        <br>
+                                        <select name="leader" class="form-control leader">
                                             <option value="">Lựa chọn trưởng nhóm</option>
                                             <?php foreach($users as $user) { ?>
-                                                <option value=<?= $user->id ?>><?= $user->name.'('.$user->name.')'?></option>
+                                                <option value=<?= $user->id ?>><?= $user->name.'('.$user->position['name'].')'?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -32,7 +34,7 @@
                                     <div class="form-group">
                                         <label>Hãy thêm tiêu chí, mục tiêu cho nhóm của mình:</label>
                                         <div class="form-group label-floating">
-                                            <textarea name="criteria" class="form-control" rows="5"></textarea>
+                                            <textarea name="criteria" class="form-control ckeditor" rows="5"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -59,5 +61,10 @@
                 leader: "Hãy lựa chọn leader cho nhóm"
             }
         });
+
+        $('.leader').select2({
+            placeholder: "Chọn trưởng nhóm"
+        });
     })
 </script>
+<?= $this->Element('custom_select2'); ?>

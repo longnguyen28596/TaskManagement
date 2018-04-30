@@ -95,6 +95,7 @@ class UsersController extends AppController
 
     public function view($id) {
         $user = $this->Users->get($id);
+        // die (json_encode($user));
         $this->set('user',$user);
     }
 

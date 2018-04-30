@@ -28,9 +28,15 @@ class ProjectTeamsTable extends Table
     }
     
     public function getListProjectsManager($user_id, $team_id) {
-        return $this->find()->where(['ProjectTeams.team_id' => $team_id])->contain(['projects'])->innerJoinWith('Teams', function($q) use($user_id) {
+        return $this->find()->where(['ProjectTeams.team_id' => $team_id])->contain(['projects' => function($q){
+            return $q->contain('Companies');
+        }])->innerJoinWith('Teams', function($q) use($user_id) {
             return $q->where(['Teams.leader' => $user_id]);
         });
+    }
+
+    public function getCountProjectsManager($user_id, $team_id) {
+        return $this->find()->where(['ProjectTeams.team_id' => $team_id])->count();
     }
     
     // public function getView($id) {

@@ -21,31 +21,36 @@
                                 <th>Hành động</th>
                             </thead>
                             <tbody>
-                                <?php foreach($tasks as $task) { 
-                                    $status = $task->status == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành<p>";
-                                    $done = $task->done == 1 ? "selected" : "";
-                                ?>
-                                    <tr>
-                                        <td><?= $task->id?></td>
-                                        <td><?= $task->title?></td>
-                                        <td><?= $task->user->username?></td>
-                                        <td>
-                                            <select name="status" class="status" id="status" data-task_id=<?= $task->id ?>>
-                                                <option <?php if ($task->status == 'Chưa làm') echo "selected"; ?> value='Chưa làm'>Chưa làm</option>
-                                                <option <?php if ($task->status == 'Đang làm') echo "selected"; ?> value='Đang làm'>Đang làm</option>
-                                                <option <?php if ($task->status == 'Kiểm tra') echo "selected"; ?> value='Kiểm tra'>Kiểm tra</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="done" class="done" id="done" data-task_id=<?= $task->id ?>>
-                                                <option value='0'>Chưa hoàn thành</option>
-                                                <option <?= $done ?> value='1'>Hoàn thành</option>
-                                            </select>
-                                        </td>
-                                        <td><?= $task->priority ?></td>
-                                        <td><a href="/Tasks/view/<?= $task->id ?>" title="Click vào để xem chi tiết task">Xem chi tết | <a href="/Tasks/edit/<?= $task->id ?>" title="Click vào để sửa task">Sửa | <a href="/Tasks/delete/<?= $task->id ?>" onclick="return confirm('Bạn có chắc muốn huỷ nhiệm vụ này ?')" title="Click vào để xoá task">Xoá</td>
-                                    </tr>
-                                <?php } ?>
+                                <?php if($tasks->count() >=1 ) { ?>
+                                    <?php foreach($tasks as $task) {
+                                        $status = $task->status == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành<p>";
+                                        $done = $task->done == 1 ? "selected" : "";
+                                    ?>
+                                        <tr>
+                                            <td><?= $task->id?></td>
+                                            <td><?= $task->title?></td>
+                                            <td><?= $task->user->username?></td>
+                                            <td>
+                                                <select name="status" class="status" id="status" data-task_id=<?= $task->id ?>>
+                                                    <option <?php if ($task->status == 'Chưa làm') echo "selected"; ?> value='Chưa làm'>Chưa làm</option>
+                                                    <option <?php if ($task->status == 'Đang làm') echo "selected"; ?> value='Đang làm'>Đang làm</option>
+                                                    <option <?php if ($task->status == 'Kiểm tra') echo "selected"; ?> value='Kiểm tra'>Kiểm tra</option>
+                                                </select>
+                                            </td>
+                                            <td><?= $task->priority ?></td>
+                                            <td>
+                                                <select name="done" class="done" id="done" data-task_id=<?= $task->id ?>>
+                                                    <option value='0'>Chưa hoàn thành</option>
+                                                    <option <?= $done ?> value='1'>Hoàn thành</option>
+                                                </select>
+                                            </td>
+                                            <td><a href="/Tasks/view/<?= $task->id ?>" title="Click vào để xem chi tiết task">Xem chi tết | <a href="/Tasks/edit/<?= $task->id ?>" title="Click vào để sửa task">Sửa | <a href="/Tasks/delete/<?= $task->id ?>" onclick="return confirm('Bạn có chắc muốn huỷ nhiệm vụ này ?')" title="Click vào để xoá task">Xoá</td>
+                                        </tr>
+                                    <?php } ?>
+                                <?php } else {?>
+                                    <tr><td colspan="7"><p style="color:silver" align="center">Hiện tại chưa có nhiệm vụ nào</p></td></tr>
+                                <?php }?>
+
                             </tbody>
                         </table>
                         <ul class="pagination" style="float:right">

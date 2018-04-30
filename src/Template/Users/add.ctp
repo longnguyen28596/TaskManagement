@@ -22,7 +22,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Chọn team(nếu đã được điều phân bổ)</label>
-                                        <select name="team_id" class="form-control">
+                                        <select name="team_id" class="form-control team">
                                             <option value="">Lựa chọn team</option>
                                             <option value="0">Chưa thuộc team nào</option>
                                             <?php foreach($teams as $team) { ?>
@@ -71,5 +71,10 @@
                 position_id: "Hãy lựa chọn chức vụ cho nhân viên."
             }
         });
+        $('.team').select2({
+            placeholder: "Lựa chọn team"
+        });
     })
 </script>
+
+<?= $this->Element('custom_select2'); ?>

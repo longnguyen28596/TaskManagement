@@ -23,10 +23,10 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="control-label">Chọn đối tác</label>
-                                        <select name="company_id" class="form-control">
+                                        <label class="control-label">Chọn khách hàng</label>
+                                        <select name="company_id" class="form-control companies">
                                             <option value="">Lựa chọn đối tác</option>
-                                            <?php foreach($companies as $company) { 
+                                            <?php foreach($companies as $company) {
                                                 $selected = $project->company_id == $company->id ? "selected" : "";
                                             ?>
                                                 <option <?= $selected ?> value=<?= $company->id ?>><?= $company->company_name?></option>
@@ -96,5 +96,10 @@
                 company_id: "Hãy lựa chọn đối tác.",
             }
         });
+
+    $('.companies').select2({
+        placeholder: "Lựa chọn khách hàng"
+    });
     })
 </script>
+<?= $this->Element('custom_select2'); ?>

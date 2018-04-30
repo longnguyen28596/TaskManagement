@@ -76,8 +76,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label">Người làm</label>
-                                        <select name="user_action" class="form-control">
+                                        <label class="control-label">Người thực hiện</label>
+                                        <select name="user_action" class="form-control user_action">
                                             <option value="">Lựa chọn người thực hiện</option>
                                             <?php foreach($user_projects as $user_project) { 
                                                 $selected = $task->user_action == $user_project->user_id ? "selected" : "";
@@ -119,6 +119,9 @@
         $(".area-upload-img").click(function() {
             $('.files').hide()
             $('.area-upload-img').append('<input class="files" onchange="changeimg(this);" type="file" name="files[]" multiple="multiple" placeholder="file đính kèm có thể là ảnh, text,..">');
+        });
+        $('.user_action').select2({
+            placeholder: "Người thực hiện"
         });
     })
     jQuery('#datetimepicker').datetimepicker({
@@ -166,3 +169,4 @@
         $('#list-image-do-not-upload').val(b);
     }
 </script>
+<?= $this->Element('custom_select2'); ?>
