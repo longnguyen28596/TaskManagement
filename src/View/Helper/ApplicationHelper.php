@@ -22,6 +22,15 @@ class ApplicationHelper extends Helper
     public function fullDate($datetime) {
         return strftime('%d/%m/%Y',strtotime($datetime));
     }
-
+    public function ratingStar($user_id, $point, $count) {
+        $rating = round($point/$count);
+        return '<div class="awesomeRating-'.$user_id.'"></div>
+        <script>
+            $(".awesomeRating-'.$user_id.'").awesomeRating({
+                readonly            : true,
+                valueInitial        : '.$rating.',
+            });
+        </script>';
+    }
 }
 ?>

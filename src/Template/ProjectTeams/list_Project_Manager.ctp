@@ -8,12 +8,12 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
-                        <table class="table table-hover data-table-list text-center">
+                        <table class="table table-striped table-bordered table-responsive table-hover data-table-list text-center">
                             <thead class="text-primary">
                                 <th class="text-center">Id</th>
                                 <th class="text-center">Tên dự án</th>
-                                <th class="text-center">Tên công ty</th>
-                                <th class="text-center">Ngày tạo dự án</th>
+                                <th class="text-center">Đối tác</th>
+                                <th class="text-center">Ngày tạo</th>
                                 <th class="text-center">Hành động</th>
                             </thead>
                             <tbody>
@@ -24,7 +24,10 @@
                                         <td><?= $project->Projects['company']->company_name; ?></td>
                                         <td><?= strftime('%d/%m/%Y',strtotime($project->Projects['create_at'])) ?></td>
                                         <td>
-                                            <a href="/projects/view/<?= $project->Projects['id'] ?>" title="click vào để xem chi tiết về dự án">Xem</a> | <a class="modal-user_projects" data-project_id="<?= $project->Projects['id'] ?>" href="#" title="click vào để thay đổi dự án">Danh sách nhân viên</a> |<a href="/projects/edit/<?= $project->Projects['id'] ?>" title="click vào để thay đổi dự án">Thay đổi</a> | <a href="/projects/view?project_id=<?= $project->Projects['id'] ?>" onclick="return confirm('Bạn có chắc muốn xoá dự án này?')" title="Xoá dự án" > Xoá</a>
+                                            <a href="/tasks/listTaskOfProjectId/<?= $project->Projects['id'] ?>" target="_blank" title="click vào để thay đổi dự án"> Danh sách nhiệm vụ</a> | 
+                                            <a class="modal-view_project" href="#" data-project_id=<?= $project->Projects['id'] ?> title="click vào để xem chi tiết về dự án">Chi tiết về dự án</a> | 
+                                            <a class="modal-user_projects" data-project_id="<?= $project->Projects['id'] ?>" href="#" title="click vào để thay đổi dự án">Thay đổi nhân sự</a> | 
+                                            <a class="modal-edit_project" data-project_id=<?= $project->Projects['id'] ?> href="#" title="click vào để thay đổi dự án">Thay đổi</a>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -37,7 +40,7 @@
     </div>
 </div>
 
-<div id="userProjectModal" class="modal fade" tabindex="-1" role="dialog">
+<div id="modalInListProjectManager" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -57,19 +60,36 @@
         $('.modal-user_projects').hover(function(){
             $(this).css("cursor", "pointer")
         });
-        // $('.dataTable').DataTable();
-        $('.modal-user_projects').click(function(){
+        $('.modal-user_projects').click(function() {
             project_id = $(this).data('project_id')
-                $.ajax({
-            url: '/UserProjects/index/'+project_id,
-            type: 'POST',
-        }).done(function(data) {
-            $('#conten-modal').children().remove()
-            $('#conten-modal').append(data)
+            $.ajax({
+                url: '/UserProjects/index/'+project_id,
+                type: 'POST',
+            }).done(function(data) {
+                $('#conten-modal').html(data)
+            })
+            $("#modalInListProjectManager").modal("show")
         })
-        $("#userProjectModal").modal("show")
-        // $("#userProjectModal").modal("hide")
 
-    })
-});
+        $('.modal-view_project').click(function() {
+            project_id = $(this).data('project_id')
+            $.ajax({
+                url: '/Projects/view/'+project_id,
+                type: 'POST',
+            }).done(function(data) {
+                $('#modalInListProjectManager').find('#conten-modal').html(data)
+            })
+            $("#modalInListProjectManager").modal("show")
+        })
+
+        $('.modal-edit_project').click(function() {
+            project_id = $(this).data('project_id')
+            $.ajax({
+                url: '/Projects/edit/'+project_id,
+            }).done(function(data) {
+                $('#modalInListProjectManager').find('#conten-modal').html(data)
+            })
+            $("#modalInListProjectManager").modal("show")
+        })
+    });
 </script>

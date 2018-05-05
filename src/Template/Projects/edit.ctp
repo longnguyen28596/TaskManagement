@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Tạo mới dự án.</h4>
+                        <h4 class="title">Thay đổi dự án</h4>
                     </div>
                     <div class="card-content">
                         <form method="post" action="/projects/edit/<?= $project->id ?>" id="formAddNewProject">

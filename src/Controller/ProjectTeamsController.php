@@ -13,7 +13,7 @@ class ProjectTeamsController extends AppController
     ];
 
     public function index() {
-        
+
     }
 
     public function listProjectManager() {

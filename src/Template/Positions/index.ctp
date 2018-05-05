@@ -8,7 +8,7 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
-                        <table class="table data-table-list text-center">
+                        <table class="table table-striped table-bordered data-table-list table-responsive table-hover text-center">
                             <thead class="text-primary">
                                 <th class="text-center">Id</th>
                                 <th class="text-center">Tên chức vụ</th>

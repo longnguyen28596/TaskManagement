@@ -59,3 +59,22 @@ label.error {
     border: 0px;
     border-bottom: 1px solid silver;
 }
+.pagination{
+    float: right;
+    margin: 20px 0 0 0;
+}
+.pagination li {
+    padding: 0px !important;
+}
+#DataTables_Table_0_info {
+    float: left;
+    margin: 20px 0 0 0;
+}
+
+.form-group {
+    margin-top: 0px !important;
+}
+
+#DataTables_Table_0_filter {
+    float: right;
+}

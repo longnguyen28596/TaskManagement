@@ -29,12 +29,6 @@ class ProjectsTable extends Table
         }])->first();
     }
 
-    // public function getListProjectsManager($user_id) {
-    //     return $this->find()->where(['Projects.status' => '0'])->innerJoinWith('Teams', function($q) use($user_id){
-    //         return $q->where(['Teams.leader' => $user_id]);
-    //     });
-    // }
-
     public function addNew($name, $company_id, $description, $priority, $release) {
         $project = [
             'name' => $name,

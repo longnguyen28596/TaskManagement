@@ -8,7 +8,8 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
-                        <table class="table table-hover data-table-list text-center">
+                        <a href="/projects/add"><button type="button" class="btn btn-primary">Thêm mới dự án</button></a>
+                        <table class="table table-striped table-bordered data-table-list table-responsive table-hover text-center">
                             <thead class="text-primary">
                                 <th class="text-center">Id</th>
                                 <th class="text-center">Tên dự án</th>
