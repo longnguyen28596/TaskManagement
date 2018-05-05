@@ -8,21 +8,22 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
-                        <table class="table table-hover">
+                        <a href="/projects/add"><button type="button" class="btn btn-primary">Thêm mới dự án</button></a>
+                        <table class="table table-striped table-bordered data-table-list table-responsive table-hover text-center">
                             <thead class="text-primary">
-                                <th>Id</th>
-                                <th>Tên dự án</th>
-                                <th>Tên công ty</th>
-                                <th>Ngày tạo dự án</th>
-                                <th>Hành động</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Tên dự án</th>
+                                <th class="text-center">Tên công ty</th>
+                                <th class="text-center">Ngày tạo dự án</th>
+                                <th class="text-center">Hành động</th>
                             </thead>
                             <tbody>
                                 <?php foreach($projects as $project) { ?>
-                                    <tr class='jumb-link-row-table' data-href='/Projects/view/<?= $project->id ?>'>
-                                        <td><?= $project->id?></td>
-                                        <td><?= $project->name?></td>
-                                        <td><?= $project->company['company_name']?></td>
-                                        <td><?= strftime('%d/%m/%Y',strtotime($project->create_at)) ?></td>
+                                    <tr>
+                                        <td class='jumb-link-row-table' data-href='/Projects/view/<?= $project->id ?>'><?= $project->id?></td>
+                                        <td class='jumb-link-row-table' data-href='/Projects/view/<?= $project->id ?>'><?= $project->name?></td>
+                                        <td class='jumb-link-row-table' data-href='/Projects/view/<?= $project->id ?>'><?= $project->company['company_name']?></td>
+                                        <td class='jumb-link-row-table' data-href='/Projects/view/<?= $project->id ?>'><?= strftime('%d/%m/%Y',strtotime($project->create_at)) ?></td>
                                         <td>
                                             <a href="/projects/view/<?= $project->id ?>" title="click vào để xem chi tiết về dự án">Xem</a> | <a href="/projects/edit/<?= $project->id ?>" title="click vào để thay đổi dự án">Thay đổi</a> | <a href="/projects/view?project_id=<?= $project->id ?>" onclick="return confirm('Bạn có chắc muốn xoá dự án này?')" title="Xoá dự án" > Xoá</a>
                                         </td>

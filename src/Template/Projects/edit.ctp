@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Tạo mới dự án.</h4>
+                        <h4 class="title">Thay đổi dự án</h4>
                     </div>
                     <div class="card-content">
                         <form method="post" action="/projects/edit/<?= $project->id ?>" id="formAddNewProject">
@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label class="control-label">Chọn khách hàng</label>
                                         <select name="company_id" class="form-control companies">
@@ -35,30 +35,41 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1"></div>
-                                <div class="col-md-7">
-                                    <div class="card-content">
-                                        <table class="table table-hover table-bordered text-center">
-                                            <thead class="text-primary">
-                                                <th class="text-center">Lựa chọn</th>
-                                                <th class="text-center">Tên Team</th>
-                                            </thead>
-                                            <tbody>
-                                                    <?php foreach($teams as $team) {
-                                                        $checked = "";
-                                                        foreach ($projectTeams as $projectTeam) {
-                                                            if ($team->id == $projectTeam->team_id) {
-                                                                $checked = "checked";
-                                                                break;
-                                                            }
-                                                        }
-                                                    ?>
-                                                        <tr data-href='/Teams/view/<?= $team->id ?>' title='Click vào để xem chi tiết team này.'>
-                                                            <td><input value=<?= $team->id ?> <?= $checked ?> class='teams' name="teams[]" type="checkbox"></td>
-                                                            <td><?= $team->name ?></td>
-                                                        </tr>
-                                                    <?php } ?>
-                                            </tbody>
-                                        </table>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="control-label">Chọn team làm dự án</label>
+                                        <select name="teams[]" class="form-control teams" multiple="multiple" >
+                                            <?php foreach($teams as $team) {
+                                                $selected = "";
+                                                foreach ($projectTeams as $projectTeam) {
+                                                    if ($team->id == $projectTeam->team_id) {
+                                                        $selected = "selected";
+                                                        break;
+                                                    }
+                                                }?>
+                                                <option <?= $selected ?> value=<?= $team->id ?>><?= $team->name?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="control-label">Độ ưu tiên</label>
+                                        <select name="priority" class="form-control" id="priority">
+                                            <option value='Thấp' <?php if($project->priority == "Thấp") echo "selected"; ?>>Thấp</option>
+                                            <option value='Trung bình' <?php if($project->priority == "Trung bình") echo "selected"; ?>>Trung bình</option>
+                                            <option value='Cao' <?php if($project->priority == "Cao") echo "selected"; ?>>Cao</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="control-label">Ngày relase(Có thể không cần)</label>
+                                        <input type="text" name="release" class="form-control" value="<?= $project->time_release ?>" id="release">
                                     </div>
                                 </div>
                             </div>
@@ -87,12 +98,12 @@
         var validator = $("#formAddNewProject").validate({
             rules: {
                 name: "required",
-                team_id: "required",
+                teams: "required",
                 company_id: "required",
             },
             messages: {
                 name: "Hãy điền tên cho dự án.",
-                team_id: "Hãy lựa chọn nhóm thực hiện dự án.",
+                teams: "Hãy lựa chọn nhóm thực hiện dự án.",
                 company_id: "Hãy lựa chọn đối tác.",
             }
         });
@@ -100,6 +111,10 @@
     $('.companies').select2({
         placeholder: "Lựa chọn khách hàng"
     });
+    $('.teams').select2({
+        placeholder: "Lựa chọn team làm dự án"
+    });
+    
     })
 </script>
 <?= $this->Element('custom_select2'); ?>

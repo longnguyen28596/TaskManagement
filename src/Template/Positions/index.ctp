@@ -8,11 +8,11 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
-                        <table class="table">
+                        <table class="table table-striped table-bordered data-table-list table-responsive table-hover text-center">
                             <thead class="text-primary">
-                                <th>Id</th>
-                                <th>Tên chức vụ</th>
-                                <th>Hành động</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Tên chức vụ</th>
+                                <th class="text-center">Hành động</th>
                             </thead>
                             <tbody>
                                 <?php foreach($positions as $position) {?>

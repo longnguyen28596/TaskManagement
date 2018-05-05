@@ -77,12 +77,13 @@ class TasksController extends AppController
 
     public function view($id) {
         $task = $this->Tasks->find()->where(['Tasks.id' => $id])->contain('Images')->first();
+        $hidecomment = isset($_GET['hidecomment']) ? $_GET['hidecomment'] : '0';
         if ($task) {
             $user_request = $this->Users->get($task->user_request);
             $user_action = $this->Users->get($task->user_action);
             $comments = $this->Comments->getCommentByTaskID($id);
             $comment_childs = $this->Comments->getCommentByTaskID($id);
-            $this->set(compact(['task', 'user_request', 'user_action', 'comments', 'comment_childs']));
+            $this->set(compact(['hidecomment', 'task', 'user_request', 'user_action', 'comments', 'comment_childs']));
         }
     }
 

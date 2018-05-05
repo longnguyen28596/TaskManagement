@@ -102,34 +102,34 @@
         </div>
     </div>
 </div>
-
-<div class="content comment">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-content">
-                        <h4 style="color: black;font-weight: 400;">Bình luận</h4>
-                        <div class="border-botom-purple"></div>
-                            <form action="/Comments/add/<?= $task->id ?>" method="post" id="formCommentsAdd">
-                                <div class='row'>
-                                    <div class='col-sm-1 col-md-1 '>
-                                        <div class="card-avatar" style="max-width: 100%;max-height: 100%;">
-                                            <a target="_blank" href="/Users/view/<?= $_SESSION['current_user']['id'] ?>">
-                                                <img class="img" src="<?= $_SESSION['current_user']['avatar'] ?>"/>
-                                            </a>
+<?php if($hidecomment != 1) { ?>
+    <div class="content comment">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <h4 style="color: black;font-weight: 400;">Bình luận</h4>
+                            <div class="border-botom-purple"></div>
+                                <form action="/Comments/add/<?= $task->id ?>" method="post" id="formCommentsAdd">
+                                    <div class='row'>
+                                        <div class='col-sm-1 col-md-1 '>
+                                            <div class="card-avatar" style="max-width: 100%;max-height: 100%;">
+                                                <a target="_blank" href="/Users/view/<?= $_SESSION['current_user']['id'] ?>">
+                                                    <img class="img" src="<?= $_SESSION['current_user']['avatar'] ?>"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class='col-sm-11 col-md-11'>
+                                            <textarea id="content_comment" name="content_comment" class="ckeditor" ></textarea>
+                                            <button data-task_id = <?= $task->id?> type="submit" id="submit_comment" class="btn btn-primary pull-right">Bình luận</button>
                                         </div>
                                     </div>
-                                    <div class='col-sm-11 col-md-11'>
-                                        <textarea id="content_comment" name="content_comment" class="ckeditor" ></textarea>
-                                        <button data-task_id = <?= $task->id?> type="submit" id="submit_comment" class="btn btn-primary pull-right">Bình luận</button>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="area_comment">
-                                <?php foreach ($comments as $comment) {
-                                    if ($comment->parent == 0) {
-                                ?>
+                                </form>
+                                <div class="area_comment">
+                                    <?php foreach ($comments as $comment) {
+                                        if ($comment->parent == 0) {
+                                    ?>
                                         <div  class="<?= $comment->id?> border-botom-gray"></div>
                                         <div class="row" id=<?= $comment->id?>>
                                             <div class='col-sm-1 col-md-1 '>
@@ -171,9 +171,10 @@
                                             <?php } ?>
                                             </div>
                                         </div>
+                                        <?php } ?>
                                     <?php } ?>
-                                <?php } ?>
-                            </div>
+                                </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -181,6 +182,5 @@
             </div>
         </div>
     </div>
-</div>
-
+<?php } ?>
 <?= $this->Html->script('custom/js-task-view.js') ?>

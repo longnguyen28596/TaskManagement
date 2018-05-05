@@ -20,7 +20,13 @@ class UserProjectsController extends AppController
         })->toArray();
         $team_id = $teams[0]->id;
         $userProjects = $this->UserProjects->getUserProjectByProjectId($project_id);
-        $userTeams = $this->Users->getListUserByTeam($team_id, ['Positions']);
+        $userTeams = $this->Users->getListUserByTeam($team_id, ['Positions', 'Ratings' => function($q){
+            return $q->select(['Ratings.user_id',
+                'sum_point' => $this->Ratings->find()->func()->sum('Ratings.point'),
+                'count_ratings' => $this->Ratings->find()->func()->count('Ratings.user_id'),
+            ])
+            ->group('Ratings.user_id');
+        }]);
         $this->set(compact('teams', 'userProjects', 'userTeams', 'project'));
     }
 

@@ -27,13 +27,14 @@ class ProjectsController extends AppController
         $teams = $this->Teams->find('all')->where(['status' => '1']);
         $companies = $this->Companies->getAll();
         if ($this->request->is('post')) {
-            $project = $this->Projects->addNew($_POST['name'], $_POST['company_id'], $_POST['description']);
+            $project = $this->Projects->addNew($_POST['name'], $_POST['company_id'], $_POST['description'], $_POST['priority'], $_POST['release']);
             if ($project) {
                 $team_ids = $_POST['teams'];
                 foreach ($team_ids as $team_id) {
                     $this->ProjectTeams->addNew($project->id, $team_id);
                 }
                 $this->Flash->success("Thêm mới thành công.");
+                $this->redirect('/Projects/index');
             }
         }
         $this->set(compact('teams', 'companies'));
@@ -42,23 +43,28 @@ class ProjectsController extends AppController
     public function edit($id) {
         $teams = $this->Teams->find('all')->where(['status' => '1'])->select(['id', 'name']);
         $companies = $this->Companies->getAll();
-        $project = $this->Projects->find()->where(['id' => $id, 'status' => '0'])->select(['name', 'id', 'company_id', 'description'])->first();
+        $project = $this->Projects->find()->where(['id' => $id, 'status' => '0'])->first();
         $projectTeams = ($this->ProjectTeams->find()->where(['ProjectTeams.project_id' => $project->id]));
         if ($this->request->is('post')) {
             $data = [
                 'name' => $_POST['name'],
                 'company_id' => $_POST['company_id'],
-                'description' => $_POST['description']
+                'description' => $_POST['description'],
+                'priority' => $_POST['priority'],
+                'time_release' => $_POST['release']
             ];
             $project = $this->Projects->patchEntity($project, $data);
             foreach ($projectTeams as $projectTeam) {
                 $this->ProjectTeams->delete($projectTeam);
             }
-            foreach ($_POST['teams'] as $team_project) {
-                $this->ProjectTeams->addNew($project->id, $team_project);
+            if (isset($_POST['teams']) && $_POST['teams'] != []) {
+                foreach ($_POST['teams'] as $team_project) {
+                    $this->ProjectTeams->addNew($project->id, $team_project);
+                }
             }
             if ($this->Projects->save($project)) {
                 $this->Flash->success("Cập nhập thành công.");
+                $this->redirect('/Projects/index');
             }
         }
         $this->set(compact('teams', 'companies', 'project', 'projectTeams'));

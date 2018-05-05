@@ -58,6 +58,7 @@ class AppController extends Controller
         $this->loadModel('Emails');
         $this->loadModel('Comments');
         $this->loadModel('ProjectTeams');
+        $this->loadModel('Ratings');
         $this->AppHelper = new ApplicationHelper(new \Cake\View\View());        
         if ($this->request->here != '/Users/login' && $this->request->here != '/Users/resetPassword'  && !$this->request->session()->read('current_user')) {
             return($this->redirect('/Users/login'));

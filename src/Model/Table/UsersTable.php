@@ -41,6 +41,7 @@ class UsersTable extends Table
         $this->hasMany('Tasks');
         $this->hasMany('Emails');
         $this->hasMany('Comments');
+        $this->hasMany('Ratings');
     }
 
     public function findAuth(\Cake\ORM\Query $query, array $options)
