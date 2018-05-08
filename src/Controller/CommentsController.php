@@ -17,10 +17,18 @@ class CommentsController extends AppController
                 'content' => $_POST['content_comment'],
                 'parent' => isset($_POST['comment_parent']) ? $_POST['comment_parent'] : '0'
             ];
+            $task = $this->Tasks->get($task_id);
             $comment = $this->Comments->newEntity($comment);
             if ($this->Comments->save($comment)) {
                 $this->Flash->success("Bạn đã thêm bình luận mới.");
                 $comment = $this->Comments->save($comment);
+                if (isset($_POST['comment_parent']) && $_POST['comment_parent'] != '0') {
+                    $comment_parent = $this->Comments->get($_POST['comment_parent']);
+                    $this->Messages->addNew($comment_parent['user_id'], $this->current_user['name'] . 'đã trả lời bình luận của bạn', '/Tasks/view/'.$comment->task_id.'/#'.$comment->id);
+                } else {
+                    $this->Messages->addNew($task['user_action'], $this->current_user['name'] . 'đã thêm 1 bình luân mới', '/Tasks/view/'.$comment->task_id.'/#'.$comment->id);
+                    $this->Messages->addNew($task['user_request'], $this->current_user['name'] . 'đã thêm 1 bình luân mới', '/Tasks/view/'.$comment->task_id.'/#'.$comment->id);
+                }
                 $this->redirect('/Tasks/view/'.$comment->task_id.'/#'.$comment->id);
             }
         }

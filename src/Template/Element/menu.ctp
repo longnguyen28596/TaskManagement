@@ -16,28 +16,26 @@
                         <p class="hidden-lg hidden-md">Dashboard</p>
                     </a>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" id="notifications">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="material-icons">notifications</i>
-                        <span class="notification">5</span>
+                        <?php if($count_messages != 0) { ?><span class="notification"><?php  echo $count_messages; ?></span><?php }?>
                         <p class="hidden-lg hidden-md">Notifications</p>
                     </a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a href="#">Mike John responded to your email</a>
-                        </li>
-                        <li>
-                            <a href="#">You have 5 new tasks</a>
-                        </li>
-                        <li>
-                            <a href="#">You're now friend with Andrew</a>
-                        </li>
-                        <li>
-                            <a href="#">Another Notification</a>
-                        </li>
-                        <li>
-                            <a href="#">Another One</a>
-                        </li>
+                    Thông báo
+                    <hr style="margin: 0">
+                    <?php if(isset($mesages)){ ?>
+                        <?php foreach ($mesages as $mesage) { ?>
+                            <li>
+                                <a href="<?= $mesage->url ?>" title=" Lúc <?= $mesage->created ?>"><?= $mesage->content ?></a>
+                            </li>
+                        <?php } ?>
+                    <?php } ?>
+                    <hr style="margin: 0">
+                    <li>
+                        <a style="text-align:center" href="#">Xem tất cả</a>
+                    </li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -71,3 +69,12 @@
         </div>
     </div>
 </nav>
+<script>
+    $('#notifications').click(function(){
+        $.ajax({
+            url: '/messages/edit/',
+        }).done(function(){
+            $('#notifications').find('.notification').hide()
+        })
+    })
+</script>
