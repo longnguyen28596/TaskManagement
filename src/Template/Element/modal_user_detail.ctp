@@ -12,7 +12,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default btn-close-modal" >Close</button>
       </div>
-
     </div>
   </div>
 </div>

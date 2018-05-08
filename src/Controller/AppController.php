@@ -59,6 +59,8 @@ class AppController extends Controller
         $this->loadModel('Comments');
         $this->loadModel('ProjectTeams');
         $this->loadModel('Ratings');
+        $this->loadModel('Messages');
+        $this->loadModel('Tasks');
         $this->AppHelper = new ApplicationHelper(new \Cake\View\View());        
         if ($this->request->here != '/Users/login' && $this->request->here != '/Users/resetPassword'  && !$this->request->session()->read('current_user')) {
             return($this->redirect('/Users/login'));
@@ -77,7 +79,9 @@ class AppController extends Controller
         if ($this->request->session()->check('current_user')) {
             $countProjectManager = $this->ProjectTeams->getCountProjectsManager($this->current_user['id'], $this->current_user['team_id']);
             $myProjects = $this->UserProjects->getProjectByUser($this->current_user['id']);
-            $this->set(compact(['countProjectManager', 'myProjects']));
+            $count_messages = $this->Messages->getCountMessagesDoNotCheck($this->current_user['id']);
+            $mesages = $this->Messages->getListMessagesLimit($this->current_user['id']);
+            $this->set(compact(['countProjectManager', 'myProjects', 'count_messages', 'mesages']));
         }
     }
 }

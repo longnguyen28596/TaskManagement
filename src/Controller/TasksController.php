@@ -15,9 +15,7 @@ class TasksController extends AppController
 
     public function listTaskOfProjectId($id) {
         $tasks = $this->Tasks->getListTaskOfProjectId($id);
-        $total_record = $this->Tasks->getListTaskOfProjectId($id)->count();
-        $this->set('tasks', $this->paginate($tasks));
-        $this->set('total_record', $total_record);
+        $this->set('tasks', $tasks);
     }
 
     public function listTaskByMyProject($projects_id) {
@@ -44,6 +42,7 @@ class TasksController extends AppController
             $data = $this->Tasks->newEntity($data);
             if ($this->Tasks->save($data)) {
                 $task = $this->Tasks->save($data);
+                $this->Messages->addNew($task['user_action'], $this->current_user['name'].' đã thêm 1 nhiệm vụ cho bạn', '/tasks/view/'.$task['id']);
                 if (count($_FILES['files']['name']) >= 1) {
                     $array_image_do_not_upload = explode("|", $_POST['list-image-do-not-upload']);
                     for($i=0; $i< count($_FILES['files']['name']); $i++) {
@@ -113,6 +112,7 @@ class TasksController extends AppController
             ];
             $task = $this->Tasks->patchEntity($task, $data);
             if ($this->Tasks->save($task)) {
+                $this->Messages->addNew($task['user_action'], $this->current_user['name'].' đã thay đổi nhiệm vụ', '/tasks/view/'.$task['id']);
                 $email = $this->Emails->addNew($task->user_action, $task->id , 'edit task');
                 $email->sended_at = Time::now();
                 $this->Flash->success("Cập nhập thành công.");
@@ -149,8 +149,16 @@ class TasksController extends AppController
         if ($task) {
             if (isset($_POST['status'])) {
                 $task->status = $_POST['status'];
+                if ($_POST['status'] == 'Kiểm tra') {
+                    $this->Messages->addNew($task['user_request'], $this->current_user['name'].' đã yêu cầu kiểm tra nhiệm vụ ', '/tasks/view/'.$task['id']);                    
+                }
             } elseif(isset($_POST['done'])) {
                 $task->done = $_POST['done'];
+                if ($_POST['done'] == 'Hoàn thành') {
+                    $this->Messages->addNew($task['user_action'], $this->current_user['name'].' xác nhân nhiệm vụ đã hoàn thành ', '/tasks/view/'.$task['id']);
+                } else {
+                    $this->Messages->addNew($task['user_action'], $this->current_user['name'].' đề kiểm tra lại nhiệm vụ', '/tasks/view/'.$task['id']);
+                }
             }
             if ($this->Tasks->save($task)) {
                 echo $this->AppHelper->successMessage('Sửa trạng thái thành công');die();
