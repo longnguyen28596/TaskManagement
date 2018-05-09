@@ -31,7 +31,7 @@
                                     $status = $task->status == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành<p>";
                                     $done = $task->done == 1 ? "selected" : "";
                                 ?>
-                                    <tr>
+                                    <tr id="<?= $task->id?>">
                                         <td><?= $task->id?></td>
                                         <td style="text-align: left"><?= $task->title?></td>
                                         <td><?= $task->user->username?></td>
@@ -50,7 +50,7 @@
                                             <option <?= $done ?> value='1'>Hoàn thành</option>
                                         </select>
                                         </td>
-                                        <td><a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task">Xem chi tết | <a href="/Tasks/edit/<?= $task->id ?>" title="Click vào để sửa task">Sửa | <a href="/Tasks/delete/<?= $task->id ?>" onclick="return confirm('Bạn có chắc muốn huỷ nhiệm vụ này ?')" title="Click vào để xoá task">Xoá</td>
+                                        <td><a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task">Chi tết | <a href="/Tasks/edit/<?= $task->id ?>" title="Click vào để sửa task">Sửa | <a href="/Tasks/delete/<?= $task->id ?>" onclick="return confirm('Bạn có chắc muốn huỷ nhiệm vụ này ?')" title="Click vào để xoá task">Xoá</td>
                                     </tr>
                                 <?php } ?>
                             </tbody>

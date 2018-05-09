@@ -20,11 +20,13 @@ class TasksController extends AppController
 
     public function listTaskByMyProject($projects_id) {
         $tasks = $this->Tasks->getListTaskByMyTasks($projects_id, $this->current_user['id']);
-        $total_record =  $this->Tasks->getListTaskByMyTasks($projects_id, $this->current_user['id'])->count();
-        $this->set('tasks', $this->paginate($tasks));
-        $this->set('total_record', $total_record);
+        $this->set('tasks', $tasks);
     }
 
+    public function filterListMyTask($projects_id) {
+        $tasks = $this->Tasks->find()->where(['done' => '0', 'user_action' => $this->current_user['id'], 'project_id' => $projects_id])->order(['deadline' => 'asc']);
+        $this->set('tasks', $tasks);
+    }
     // $id = project_id
     public function add($id)
     {

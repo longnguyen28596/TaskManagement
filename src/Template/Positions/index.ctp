@@ -19,7 +19,22 @@
                                     <tr>
                                         <td><?= $position->id?></td>
                                         <td><?= $position->name?></td>
-                                        <td><a href="/Positions/listUsersByPosition/<?= $position->id ?>" title="Click vào để xem nhân viên theo chức vụ">Danh sách các thành viên có chức vụ này | <a href="/positions/edit/<?= $position->id ?>" title="Click vào để sửa">Sửa | <a href="/positions/delete/<?= $position->id ?>" title="Click vào để xoá" onclick="return confirm('Bạn có chắc muốn xoá tài khoản này')">Xoá</td>
+                                        <td>
+                                            <a href="/Positions/listUsersByPosition/<?= $position->id ?>" title="Click vào để xem nhân viên theo chức vụ">                                                <button type="button" rel="tooltip" title="Xem chi tiết dự án" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">streetview</i>
+                                                </button>    
+                                            </a>
+                                            <a href="/positions/edit/<?= $position->id ?>" title="Click vào để sửa">
+                                                <button type="button" rel="tooltip" title="Cập nhật" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                            </a>
+                                            <a href="/positions/delete/<?= $position->id ?>" title="Click vào để xoá" onclick="return confirm('Bạn có chắc muốn xoá tài khoản này')">
+                                                <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </a>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>

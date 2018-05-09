@@ -55,8 +55,9 @@ class PagesController extends AppController
         if (!empty($path[1])) {
             $subpage = $path[1];
         }
-        $this->set(compact('page', 'subpage'));
-
+        $myTasks = $this->Tasks->find()->where(['done' => '0', 'user_action' => $this->current_user['id']]);
+        // dự án đang tham gia
+        $this->set(compact('page', 'subpage', 'myTasks'));
         try {
             $this->render(implode('/', $path));
         } catch (MissingTemplateException $exception) {
@@ -65,5 +66,6 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
+
     }
 }

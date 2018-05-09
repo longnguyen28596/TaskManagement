@@ -13,7 +13,6 @@
                                 <th class="text-center">Id</th>
                                 <th class="text-center">Tên dự án</th>
                                 <th class="text-center">Đối tác</th>
-                                <th class="text-center">Ngày tạo</th>
                                 <th class="text-center">Hành động</th>
                             </thead>
                             <tbody>
@@ -22,12 +21,33 @@
                                         <td><?= $project->Projects['id']?></td>
                                         <td><?= $project->Projects['name']?></td>
                                         <td><?= $project->Projects['company']->company_name; ?></td>
-                                        <td><?= strftime('%d/%m/%Y',strtotime($project->Projects['create_at'])) ?></td>
                                         <td>
-                                            <a href="/tasks/listTaskOfProjectId/<?= $project->Projects['id'] ?>" target="_blank" title="click vào để thay đổi dự án"> Danh sách nhiệm vụ</a> | 
-                                            <a class="modal-view_project" href="#" data-project_id=<?= $project->Projects['id'] ?> title="click vào để xem chi tiết về dự án">Chi tiết về dự án</a> | 
-                                            <a class="modal-user_projects" data-project_id="<?= $project->Projects['id'] ?>" href="#" title="click vào để thay đổi dự án">Thay đổi nhân sự</a> | 
-                                            <a class="modal-edit_project" data-project_id=<?= $project->Projects['id'] ?> href="#" title="click vào để thay đổi dự án">Thay đổi</a>
+                                            <a href="/tasks/listTaskOfProjectId/<?= $project->Projects['id'] ?>" target="_blank" title="click vào để thay đổi dự án">
+                                                <button type="button" rel="tooltip" title="Danh sách nhiệm vụ" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">list_alt</i>
+                                                </button>
+                                            </a>
+                                            <a href="/tasks/add/<?= $project->Projects['id'] ?>" target="_blank" title="click vào để thay đổi dự án">
+                                                <button type="button" rel="tooltip" title="Thêm nhiệm vụ" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">add</i>
+                                                </button>    
+                                            </a>
+                                            <a class="modal-user_projects" data-project_id="<?= $project->Projects['id'] ?>" href="#">
+                                                <button type="button" rel="tooltip" title="Thay đổi nhân sự cho dự án" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">person_add</i>
+                                                </button>
+                                            </a>
+                                            <a class="modal-view_project" href="#" data-project_id=<?= $project->Projects['id'] ?> >
+                                                <button type="button" rel="tooltip" title="click vào để xem chi tiết về dự án" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">streetview</i>
+                                                </button>    
+                                            </a>
+                                            <a class="modal-edit_project" data-project_id=<?= $project->Projects['id'] ?> href="#" title="click vào để thay đổi dự án">
+                                                <button type="button" rel="tooltip" title="Cập nhật thông tin dự án" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                            </a>
+
                                         </td>
                                     </tr>
                                 <?php } ?>

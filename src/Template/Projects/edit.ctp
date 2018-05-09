@@ -78,7 +78,7 @@
                                     <div class="form-group">
                                         <label>Hãy thêm thông tin cơ bản cho dự án:</label>
                                         <div class="form-group label-floating">
-                                            <textarea name="description" class="form-control ckeditor" rows="5"><?= $project->description ?></textarea>
+                                            <textarea class="description" id="description" name="description" class="form-control" rows="5"><?= $project->description ?></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
     $('.teams').select2({
         placeholder: "Lựa chọn team làm dự án"
     });
-    
+        CKEDITOR.replace( 'description' );    
     })
 </script>
 <?= $this->Element('custom_select2'); ?>

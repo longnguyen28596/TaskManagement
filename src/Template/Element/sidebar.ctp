@@ -1,6 +1,6 @@
 <div class="sidebar" data-color="purple" data-image="/img/admin/sidebar-1.jpg">
     <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text">
+        <a href="/" class="simple-text">
             Quản lý công việc
         </a>
     </div>

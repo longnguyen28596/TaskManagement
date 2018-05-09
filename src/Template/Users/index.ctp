@@ -23,7 +23,13 @@
                                         <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->name ?></td>
                                         <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->username ?></td>
                                         <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->position['name'] ?></td>
-                                        <td ><a href="/Users/delete/<?= $user->id ?>" onclick="return confirm('Bạn có chắc muốn xoá nhân viên này?')" title="Xoá nhân viên ra khỏi công ty" > Xoá</a></td>
+                                        <td>
+                                            <a href="/Users/delete/<?= $user->id ?>" onclick="return confirm('Bạn có chắc muốn xoá nhân viên này?')" title="Xoá nhân viên ra khỏi công ty" > 
+                                                <button type="button" rel="tooltip" title="Xoá nhân viên này" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </a>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>

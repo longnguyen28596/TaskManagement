@@ -20,7 +20,6 @@
                                 <th class="text-center">Hành động</th>
                             </thead>
                             <tbody>
-                                <?php if($tasks->count() >=1 ) { ?>
                                     <?php foreach($tasks as $task) {
                                         $status = $task->status == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành<p>";
                                         $done = $task->done == 1 ? "selected" : "";
@@ -40,10 +39,6 @@
                                             <td><a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task">Xem chi tết  | <a href="/Tasks/edit/<?= $task->id ?>" title="Click vào để sửa task">Sửa | <a href="/Tasks/delete/<?= $task->id ?>" onclick="return confirm('Bạn có chắc muốn huỷ nhiệm vụ này ?')" title="Click vào để xoá task">Xoá</td>
                                         </tr>
                                     <?php } ?>
-                                <?php } else {?>
-                                    <tr><td colspan="7"><p style="color:silver" align="center">Hiện tại chưa có nhiệm vụ nào</p></td></tr>
-                                <?php }?>
-
                             </tbody>
                         </table>
                     </div>

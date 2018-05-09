@@ -25,7 +25,21 @@
                                         <td class='jumb-link-row-table' data-href='/Projects/view/<?= $project->id ?>'><?= $project->company['company_name']?></td>
                                         <td class='jumb-link-row-table' data-href='/Projects/view/<?= $project->id ?>'><?= strftime('%d/%m/%Y',strtotime($project->create_at)) ?></td>
                                         <td>
-                                            <a href="/projects/view/<?= $project->id ?>" title="click vào để xem chi tiết về dự án">Xem</a> | <a href="/projects/edit/<?= $project->id ?>" title="click vào để thay đổi dự án">Thay đổi</a> | <a href="/projects/view?project_id=<?= $project->id ?>" onclick="return confirm('Bạn có chắc muốn xoá dự án này?')" title="Xoá dự án" > Xoá</a>
+                                            <a href="/projects/view/<?= $project->id ?>" title="click vào để xem chi tiết về dự án">
+                                                <button type="button" rel="tooltip" title="Xem chi tiết dự án" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">streetview</i>
+                                                </button>    
+                                            </a>
+                                            <a href="/projects/edit/<?= $project->id ?>">
+                                                <button type="button" rel="tooltip" title="Cập nhật" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                            </a>
+                                            <a href="/projects/view?project_id=<?= $project->id ?>" onclick="return confirm('Bạn có chắc muốn xoá dự án này?')"> 
+                                                <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php } ?>

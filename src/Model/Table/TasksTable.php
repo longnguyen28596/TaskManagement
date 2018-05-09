@@ -16,6 +16,7 @@ class TasksTable extends Table
         ]);
         $this->hasMany('Images');
         $this->hasMany('Comments');
+        $this->belongsTo('Projects');
     }
 
     public function getListTaskOfProjectId($project_id) {
