@@ -28,6 +28,11 @@
                             </div>
                         </div>
                         <div>
+                            <h4 style="color: black;font-weight: 400;">Mã nhiệm vụ</h4>
+                            <div class="border-botom-purple"></div>
+                            <?= $task->id?>
+                        </div>
+                        <div>
                             <h4 style="color: black;font-weight: 400;">Tên nhiệm vụ</h4>
                             <div class="border-botom-purple"></div>
                             <div class="row">
@@ -74,6 +79,13 @@
                                                     <td>Deadline</td>
                                                     <td><?= $this->Application->fullDateTime($task->deadline) ?></td>
                                                 </tr>
+                                                <?php
+                                                if($task->done == '1') { ?>
+                                                    <tr>
+                                                        <td>Ngày hoàn thành</td>
+                                                        <td><?= $this->Application->fullDateTime($task->daydone) ?></td>
+                                                    </tr>
+                                                <?php }?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -87,9 +99,25 @@
                                                     <td style="border-top: 1px solid #ddd;"><?= $user_action->name ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Tình trạng công việc</td>
-                                                    <td><?php $status = $task->status == 'Hoàn thành' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> ".$task->status."<p>"; echo $status ?></td>
+                                                    <td>Trạng thái công việc</td>
+                                                    <td><?php  $done = $task->done == '1' ? "<span class='text-success'> Đã hoàn thành<span>" : "<span class='text-danger'> Chưa hoàn thành</span>";?><?= $done?></td>
                                                 </tr>
+                                                <?php if ($task->done == 1){ ?>  
+                                                    <tr>
+                                                        <td>Đánh giá công việc</td>
+                                                        <td>
+                                                            <?php 
+                                                        $deadline = new DateTime(date("H:s Y-m-d", strtotime(date("H:s Y-m-d", strtotime($task->deadline))))); 
+                                                                $daydone = new DateTime(date("H:s Y-m-d", strtotime(date("H:s Y-m-d", strtotime($task->daydone))))); 
+                                                                $note = ($daydone > $deadline) ? "<span class=' text-danger'>(Hoàn thành quá hạn)</span>"  : "<span class='text-success'>Hoàn thành đúng hạn</span>";
+                                                            ?>
+                                                            <span style="left: 25px;position: relative;">
+                                                                <?= $this->Application->ratingStar($task->user_request, $point['point'], 1)?>
+                                                            </span>                                                            
+                                                            <span><?= $note?></span>
+                                                        </td>
+                                                    </tr>
+                                                <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -184,3 +212,4 @@
     </div>
 <?php } ?>
 <?= $this->Html->script('custom/js-task-view.js') ?>
+  

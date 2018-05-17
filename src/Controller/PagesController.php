@@ -55,8 +55,20 @@ class PagesController extends AppController
         if (!empty($path[1])) {
             $subpage = $path[1];
         }
-        $this->set(compact('page', 'subpage'));
-
+        // các nhiệm vụ chưa hoàn thành
+        $myTasks = $this->Tasks->find()->where(['done' => '0', 'user_action' => $this->current_user['id']]);
+        // hiển thị các nhiệm vụ mà mình đã giao
+        $listTasksRequest = $this->Tasks->find()->where(['done' => '0', 'user_request' => $this->current_user['id']]);
+        // dự án đang tham gia
+        // show thông tin current_user 
+        $user = $this->Users->find()->contain(['Ratings' => function($q){
+            return $q->select(['Ratings.user_id',
+            'sum_point' => $this->Ratings->find()->func()->sum('Ratings.point'),
+            'count_ratings' => $this->Ratings->find()->func()->count('Ratings.user_id'),
+            ])
+            ->group('Ratings.user_id');
+        }])->where(['id' => $this->current_user['id']])->first();
+        $this->set(compact('page', 'subpage', 'myTasks', 'listTasksRequest', 'user'));
         try {
             $this->render(implode('/', $path));
         } catch (MissingTemplateException $exception) {
@@ -65,5 +77,6 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
+
     }
 }

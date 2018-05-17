@@ -62,6 +62,7 @@ class UsersController extends AppController
             $user = $this->Users->newEntity($this->request->getData());
             if($this->Users->save($user)) {
                 $this->Flash->success("Thêm mới người dùng thành công.");
+                return($this->redirect('/Users/index/'));
             }
         }
         $this->set(compact(['teams', 'positions']));
@@ -78,7 +79,6 @@ class UsersController extends AppController
                     $type = pathinfo($_FILES['avatar']['tmp_name'], PATHINFO_EXTENSION);
                     $data = file_get_contents($_FILES['avatar']['tmp_name']);
                     $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-                    // move_uploaded_file($_FILES['avatar']['tmp_name'], WWW_ROOT."/img/avatar/".$_FILES['avatar']['name']);
                     $user->avatar = $base64;
                     $this->Users->save($user);
                 }

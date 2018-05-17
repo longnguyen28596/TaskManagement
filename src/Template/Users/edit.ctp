@@ -3,7 +3,7 @@
 ?>
 <?= $this->Html->script('admin/jquery.uploadPreview.min.js') ?>
 
-<h2 style="text-align:center" class="title">Cập nhập thông tin cá nhân cho người dùng mới.</h2>
+<h2 style="text-align:center" class="title"></h2>
 <div class="content">
     <div class="container-fluid">
         <div class="row">

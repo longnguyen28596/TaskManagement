@@ -48,7 +48,7 @@ $status = $project->sex == 1 ? 'Dự án kết thúc' : 'Chưa hoàn thành';
             <div class="col-md-8 col-md-offset-2">
                 <div class="card">
                     <div class="card-header text-center" data-background-color="purple">
-                        <h4 class="title">Các thông tin về dự án</h3>
+                        <h4 class="title">Mô tả về dự án</h3>
                     </div>
                     <div class="tim-typo">
                         <p><?= $project->description?></p>
