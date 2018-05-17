@@ -8,6 +8,7 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
+                        <a href="/users/add"><button type="button" class="btn btn-primary">Thêm mới nhân viên</button></a>
                         <table class="table table-striped table-bordered table-responsive table-hover data-table-list text-center">
                             <thead class="text-primary">
                                 <th class="text-center">Id</th>
@@ -24,6 +25,11 @@
                                         <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->username ?></td>
                                         <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->position['name'] ?></td>
                                         <td>
+                                            <a href="/Users/edit/<?= $user->id ?>" title="Sửa thông tin nhân viên" > 
+                                                <button type="button" rel="tooltip" title="Sửa thông tin nhân viên" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                            </a>
                                             <a href="/Users/delete/<?= $user->id ?>" onclick="return confirm('Bạn có chắc muốn xoá nhân viên này?')" title="Xoá nhân viên ra khỏi công ty" > 
                                                 <button type="button" rel="tooltip" title="Xoá nhân viên này" class="btn btn-danger btn-simple btn-xs">
                                                     <i class="material-icons">close</i>

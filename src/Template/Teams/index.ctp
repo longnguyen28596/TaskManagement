@@ -4,10 +4,11 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Danh sách các team trong công ty</h4>
+                        <h4 class="title">Danh sách các phòng ban trong công ty</h4>
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
+                        <a href="/teams/add"><button type="button" class="btn btn-primary">Thêm mới phòng ban</button></a>
                         <table class="table table-striped table-bordered table-responsive table-hover data-table-list text-center">
                             <thead class="text-primary">
                                 <th class="text-center">Id</th>

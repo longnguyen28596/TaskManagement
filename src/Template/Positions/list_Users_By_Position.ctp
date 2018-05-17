@@ -10,10 +10,10 @@
                     <div class="card-content table-responsive">
                         <table class="table table-striped table-bordered data-table-list table-responsive table-hover text-center">
                             <thead class="text-primary">
-                                <th>Id</th>
-                                <th>Tên nhân viên</th>
-                                <th>Tên tài khoản</th>
-                                <th>Chức vụ</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Tên nhân viên</th>
+                                <th class="text-center">Tên tài khoản</th>
+                                <th class="text-center">Chức vụ</th>
                             </thead>
                             <tbody>
                                 <?php foreach($users as $user) { ?>

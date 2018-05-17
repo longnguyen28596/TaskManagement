@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class AddProgressToTasks extends AbstractMigration
+class AddDayDoneToTasks extends AbstractMigration
 {
     /**
      * Change Method.
@@ -13,10 +13,9 @@ class AddProgressToTasks extends AbstractMigration
     public function change()
     {
         $table = $this->table('tasks');
-        $table->addColumn('Progress', 'integer', [
+        $table->addColumn('daydone', 'datetime', [
             'default' => null,
-            'limit' => 11,
-            'null' => false,
+            'null' => true,
         ]);
         $table->update();
     }

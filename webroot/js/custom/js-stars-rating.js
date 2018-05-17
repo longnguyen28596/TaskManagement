@@ -1,16 +1,16 @@
 $(document).ready( function () {
-    $('.done').change(function(){
+    $('#done').change(function(){
         if($(this).val() == 1) {
             $("#myModal").modal("show")
-            $("#myModal").find('.stars').data("user_id", $(this).data('user_id'));
-            $("#myModal").find('.stars').data("task_id", $(this).data('task_id'));
         } else {
+            alert($('#myModal').data('task_id'))
+            alert($('#myModal').data('user_id'))
             $.ajax({
                 url: '/ratings/delete/',
                 type: 'POST',
                 data: {
-                    id_task: $('.stars').data('task_id'),
-                    user_id: $('.stars').data('user_id'),
+                    id_task: $('#myModal').data('task_id'),
+                    user_id: $('#myModal').data('user_id'),
             }
             }).done(function(ketqua) {
                 $("#myModal").modal("hide")
@@ -23,8 +23,8 @@ $(document).ready( function () {
             type: 'POST',
             data: {
                 point: $(this).data('point'),
-                id_task: $('.stars').data('task_id'),
-                user_id: $('.stars').data('user_id'),
+                id_task: $('#myModal').data('task_id'),
+                user_id: $('#myModal').data('user_id'),
         }
         }).done(function(ketqua) {
             $("#myModal").modal("hide")

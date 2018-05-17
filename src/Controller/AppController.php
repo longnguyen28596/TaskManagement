@@ -81,7 +81,8 @@ class AppController extends Controller
             $myProjects = $this->UserProjects->getProjectByUser($this->current_user['id']);
             $count_messages = $this->Messages->getCountMessagesDoNotCheck($this->current_user['id']);
             $mesages = $this->Messages->getListMessagesLimit($this->current_user['id']);
-            $this->set(compact(['countProjectManager', 'myProjects', 'count_messages', 'mesages']));
+            $position_id = $this->session->read('current_user')->position['id'];
+            $this->set(compact(['countProjectManager', 'myProjects', 'count_messages', 'mesages', 'position_id']));
         }
     }
 }

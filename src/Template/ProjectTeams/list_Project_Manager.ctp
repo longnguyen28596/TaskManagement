@@ -47,7 +47,6 @@
                                                     <i class="material-icons">edit</i>
                                                 </button>
                                             </a>
-
                                         </td>
                                     </tr>
                                 <?php } ?>

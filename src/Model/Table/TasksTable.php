@@ -14,6 +14,9 @@ class TasksTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_action',
         ]);
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_request',
+        ]);
         $this->hasMany('Images');
         $this->hasMany('Comments');
         $this->belongsTo('Projects');

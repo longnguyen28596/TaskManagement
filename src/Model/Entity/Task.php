@@ -11,4 +11,11 @@ class Task extends Entity
             return date('Y-m-d H:i', strtotime(strtr($value, '/', '-')));
         }
     }
+
+    protected function _setCreateAt($value)
+    {
+        if (strlen($value)) {
+            return date('Y-m-d H:i', strtotime(strtr($value, '/', '-')));
+        }
+    }
 }

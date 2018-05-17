@@ -1,4 +1,14 @@
 <?= $this->Html->css('stars')?>
+<style type="text/css">
+    .dark-area {
+        background-color: #666;
+        padding: 40px;
+        margin: 0 -40px 20px -40px;
+        clear: both;
+    }
+    .clearfix:before,.clearfix:after {content: " "; display: table;}
+</style>
+<?= $this->Html->css('circle.css') ?>
 <?php
     $curent_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $project_id = substr(strrchr($curent_url,'/'),1);
@@ -11,16 +21,17 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Danh sách nhiệm vụ</h4>
+                        <h4 class="title">Danh sách nhiệm vụ của dự án: "<?= $project['name'] ?>"</h4>
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
                         <a target="_blank" href="/tasks/add/<?= $project_id ?>"><button type="button" class="btn btn-primary">Thêm mới nhiệm vụ</button></a>
                         <table class="table table-striped table-bordered table-responsive table-hover data-table-list text-center">
                             <thead class="text-primary">
+                                <th class="text-center">Tiến độ</th>
                                 <th class="text-center">Id</th>
                                 <th class="text-center">Tên task</th>
-                                <th class="text-center">Người làm</th>
+                                <th class="text-center">Người thực hiện</th>
                                 <th class="text-center">Trạng thái</th>
                                 <th class="text-center">Mức độ ưu tiên</th>
                                 <th class="text-center">Hoàn thành</th>
@@ -29,26 +40,32 @@
                             <tbody>
                                 <?php foreach($tasks as $task) {
                                     $status = $task->status == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành<p>";
-                                    $done = $task->done == 1 ? "selected" : "";
+                                    $status = $task->status == '' ? "Chưa xử lý" : "Đang xử lý";
+                                    if ($task->done == 0) {
+                                        if ($task->request_check == '-1' && $task->status == '100') 
+                                        $status = 'Kiểm tra';
+                                        if (($task->request_check == '0' && $task->status == '100') || $task->request_check == '0') 
+                                            $status = 'Yêu cầu làm lại';
+                                    }
+                                    // $done = $task->done == 1 ? "Đã xong" : "Chưa xong";
                                 ?>
                                     <tr id="<?= $task->id?>">
+                                        <td>
+                                            <div class="c100 p<?= $task->status ?> small green">
+                                                <span><?= $task->status ?>%</span>
+                                                <div class="slice">
+                                                    <div class="bar"></div>
+                                                    <div class="fill"></div>
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td><?= $task->id?></td>
                                         <td style="text-align: left"><?= $task->title?></td>
                                         <td><?= $task->user->username?></td>
-                                        <td>
-                                            <select name="status" class="status" id="status" data-task_id=<?= $task->id ?>>
-                                                <option <?php if ($task->status == 'Chưa làm') echo "selected"; ?> value='Chưa làm'>Chưa làm</option>
-                                                <option <?php if ($task->status == 'Đang làm') echo "selected"; ?> value='Đang làm'>Đang làm</option>
-                                                <option <?php if ($task->status == 'Kiểm tra') echo "selected"; ?> value='Kiểm tra'>Kiểm tra</option>
-                                                <option <?php if ($task->status == 'Đã xong') echo "selected"; ?> value='Đã xong'>Đã xong</option>
-                                            </select>
-                                        </td>
+                                        <td><?= $status ?></td>
                                         <td><?= $task->priority ?></td>
                                         <td>
-                                        <select name="done" class="done" id="done" data-user_id=<?= $task->user->id ?> data-task_id=<?= $task->id ?>>
-                                            <option value='0'>Chưa hoàn thành</option>
-                                            <option <?= $done ?> value='1'>Hoàn thành</option>
-                                        </select>
+                                            <?php  $done = $task->done == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành</p>";?><?= $done?>
                                         </td>
                                         <td><a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task">Chi tết | <a href="/Tasks/edit/<?= $task->id ?>" title="Click vào để sửa task">Sửa | <a href="/Tasks/delete/<?= $task->id ?>" onclick="return confirm('Bạn có chắc muốn huỷ nhiệm vụ này ?')" title="Click vào để xoá task">Xoá</td>
                                     </tr>
@@ -81,6 +98,29 @@
     </div>
 </div>
 
+<script>
+    $(document).ready( function () {
+        $('.modal-view_task').click(function() {
+            task_id = $(this).data('task_id')
+            $('#modalInListTaskOfProjectId').data('task-id', task_id)
+            // xử lý khi xem chi tiết task ở màn hình riêng
+            $('#go_to_view_task').click(function() {
+                window.location.href = "/tasks/view/"+task_id;
+            })
+            $.ajax({
+                url: '/Tasks/view/'+task_id,
+                type: 'GET',
+                data: {
+                    hidecomment: '1',
+                }
+            }).done(function(data) {
+                $('#modalInListTaskOfProjectId').find('#conten-modal').html(data)
+            })
+            $("#modalInListTaskOfProjectId").modal("show")
+        })
+    });
+</script>
+
 <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -111,25 +151,3 @@
     </div>
 </div>
 <?= $this->Html->script("custom/js-stars-rating.js") ?>
-<script>
-    $(document).ready( function () {
-        $('.modal-view_task').click(function() {
-            task_id = $(this).data('task_id')
-            $('#modalInListTaskOfProjectId').data('task-id', task_id)
-            // xử lý khi xem chi tiết task ở màn hình riêng
-            $('#go_to_view_task').click(function() {
-                window.location.href = "/tasks/view/"+task_id;
-            })
-            $.ajax({
-                url: '/Tasks/view/'+task_id,
-                type: 'GET',
-                data: {
-                    hidecomment: '1',
-                }
-            }).done(function(data) {
-                $('#modalInListTaskOfProjectId').find('#conten-modal').html(data)
-            })
-            $("#modalInListTaskOfProjectId").modal("show")
-        })
-    });
-</script>

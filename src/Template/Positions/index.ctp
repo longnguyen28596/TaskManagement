@@ -8,6 +8,7 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
+                    <a href="/positions/add"><button type="button" class="btn btn-primary">Thêm mới chức vụ</button></a>
                         <table class="table table-striped table-bordered data-table-list table-responsive table-hover text-center">
                             <thead class="text-primary">
                                 <th class="text-center">Id</th>
@@ -20,7 +21,8 @@
                                         <td><?= $position->id?></td>
                                         <td><?= $position->name?></td>
                                         <td>
-                                            <a href="/Positions/listUsersByPosition/<?= $position->id ?>" title="Click vào để xem nhân viên theo chức vụ">                                                <button type="button" rel="tooltip" title="Xem chi tiết dự án" class="btn btn-primary btn-simple btn-xs">
+                                            <a href="/Positions/listUsersByPosition/<?= $position->id ?>" title="Click vào để xem nhân viên theo chức vụ">
+                                                <button type="button" rel="tooltip" title="Danh sách nhân viên theo chức vụ" class="btn btn-primary btn-simple btn-xs">
                                                     <i class="material-icons">streetview</i>
                                                 </button>    
                                             </a>

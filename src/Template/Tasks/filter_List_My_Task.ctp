@@ -1,5 +1,3 @@
-
-
 <?php if ($tasks->count() != '0') {?>
     <?php foreach($tasks as $task) {
         $status = $task->status == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành<p>";
@@ -14,40 +12,48 @@
         } elseif($diff == 1 || $diff == 0) {
             $style = 'background-color: yellow';
         }
+        $status = $task->status == '' ? "Chưa xử lý" : "Đang xử lý";
+        if ($task->request_check == '-1' && $task->status == '100') 
+            $status = 'Kiểm tra';
+        if (($task->request_check == '0' && $task->status == '100') || $task->request_check == '0') 
+            $status = 'Yêu cầu làm lại';
     ?>
         <tr style='<?= $style ?>'>
+            <td>
+                <div class="c100 p<?= $task->status ?> small green">
+                    <span><?= $task->status ?>%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </td>
             <td><?= $task->id?></td>
             <td><?= $task->title?></td>
-            <td><?= $task->deadline?></td>
-            <td>
-                <select name="status" class="status" id="status" data-task_id=<?= $task->id ?>>
-                    <option <?php if ($task->status == 'Chưa làm') echo "selected"; ?> value='Chưa làm'>Chưa làm</option>
-                    <option <?php if ($task->status == 'Đang làm') echo "selected"; ?> value='Đang làm'>Đang làm</option>
-                    <option <?php if ($task->status == 'Kiểm tra') echo "selected"; ?> value='Kiểm tra'>Kiểm tra</option>
-                </select>
-            </td>
+            <td><?=$this->Application->fullDateTime($task->deadline)?></td>
+            <td><?= $status?></td>
             <td><?= $task->priority ?></td>
-            <td><a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task">Xem chi tết </td>
+            <td>
+                <a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">Xem chi tết |
+                <a href="#" class="modal-change_status" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">Cập nhật trạng thái |                                                
+            </td>
         </tr>
     <?php } ?>
 <?php } else {?>
-    <tr><td colspan="6"><p style="color:silver" align="center">Hiện tại chưa có nhiệm vụ nào</p></td></tr>
+    <tr><td colspan="7"><p style="color:silver" align="center">Hiện tại chưa có nhiệm vụ nào</p></td></tr>
 <?php }?>
 <?= $this->Html->script('custom/js_list_task_of_projects.js') ?>
 
-<div id="modalInListTaskByMyProject" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+<div id="modalUpdateStatusTasks" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Chi tiết nhiệm vụ</h4>
+            <h4 class="modal-title">Cập nhật trạng thái</h4>
         </div>
         <hr>
-        <div class="modal-body" id="conten-modal" style="padding-top: 0"></div>
-        <hr>
-        <div class="modal-footer">
-            <button type="button" id="go_to_view_task" class="btn btn-primary" >Chuyển sang màn hình to</button>
-            <button type="button" class="btn btn-primary btn-close-modal" >Close</button>
+        <div class="modal-body" id="conten-modal" style="padding-top: 0">
+
         </div>
     </div>
     </div>
@@ -57,11 +63,7 @@
     $(document).ready( function () {
         $('.modal-view_task').click(function() {
             task_id = $(this).data('task_id')
-            $('#modalInListTaskByMyProject').data('task-id', task_id)
-            // xử lý khi xem chi tiết task ở màn hình riêng
-            $('#go_to_view_task').click(function() {
-                window.location.href = "/tasks/view/"+task_id;
-            })
+            $('#modalUpdateStatusTasks').data('task-id', task_id)
             $.ajax({
                 url: '/Tasks/view/'+task_id,
                 type: 'GET',
@@ -69,9 +71,26 @@
                     hidecomment: '1',
                 }
             }).done(function(data) {
-                $('#modalInListTaskByMyProject').find('#conten-modal').html(data)
+                $('#modalUpdateStatusTasks').find('#conten-modal').html(data)
             })
-            $("#modalInListTaskByMyProject").modal("show")
+            $("#modalUpdateStatusTasks").modal("show")
+            $("#modalUpdateStatusTasks").find("modal-title").remove()
+            $('#modalUpdateStatusTasks').find(".modal-dialog").addClass("modal-lg");
+            $('#modalUpdateStatusTasks').find(".modal-dialog").removeClass("modal-md");
+            $('#modalUpdateStatusTasks').find(".modal-title").text("Thông tin chi tiết nhiệm vụ")
+        })
+
+        $('.modal-change_status').click(function() {
+            task_id = $(this).data('task_id')
+            $.ajax({
+                url: '/Tasks/changeStatus/'+task_id,
+            }).done(function(data) {
+                $('#modalUpdateStatusTasks').find('#conten-modal').html(data)
+            })
+            $("#modalUpdateStatusTasks").modal("show")
+            $('#modalUpdateStatusTasks').find(".modal-dialog").removeClass("modal-lg");
+            $('#modalUpdateStatusTasks').find(".modal-dialog").addClass("modal-md");
+            $('#modalUpdateStatusTasks').find(".modal-title").text("Cập nhật trạng thái");
         })
     });
-</script>
+</script>    
