@@ -1,4 +1,4 @@
-<?php if($position_id == 1 || $position_id ==2){ ?>
+<?php if($position_id == 1 || $position_id == 2 || $isLeader == 1){ ?>
 <div class="sidebar" data-color="purple" data-image="/img/admin/sidebar-1.jpg">
     <div class="logo">
         <a href="/" class="simple-text">
@@ -55,9 +55,6 @@
     </div>
 </div>
 <?php } ?>
-
-
-
 
 
 <?php if($position_id == 3 || $position_id ==4){ ?>

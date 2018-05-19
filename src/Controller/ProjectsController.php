@@ -23,6 +23,27 @@ class ProjectsController extends AppController
         $this->set(compact('userProjects', 'project'));
     }
 
+    public function delete($id) {
+        $project = $this->Projects->get($id);
+        $userProjects = $this->UserProjects->getAllUserProjectByProjectId($id);
+        $projectTeams = $this->ProjectTeams->find('all')->where(['project_id' => $id]);
+        if($project) {
+            $this->Projects->delete($project);
+            if($userProjects){
+                foreach ($userProjects as $userProject) {
+                    $this->UserProjects->delete($userProject);
+                }
+            }
+            if(!is_null($projectTeams)){
+                foreach ($projectTeams as $projectTeam) {
+                    $this->ProjectTeams->delete($projectTeam);
+                }
+            }
+            $this->Flash->success("Xoá dự án thành công");
+            $this->redirect('/Projects/index');
+        }
+    }
+
     public function add() {
         $teams = $this->Teams->find('all')->where(['status' => '1']);
         $companies = $this->Companies->getAll();

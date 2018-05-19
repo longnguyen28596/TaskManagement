@@ -20,6 +20,8 @@ class ProjectsTable extends Table
     public function getAll() {
         return $this->find('all')->contain(['Companies' => function($q){
             return $q -> where(['Companies.status' => '1']);
+        }, 'ProjectTeams' => function($q) {
+            return $q->contain(['Teams']);
         }]);
     }
     
