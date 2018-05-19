@@ -78,7 +78,7 @@ class UsersTable extends Table
     }
 
     public function writeSession($id) {
-        return $this->find()->where(['Users.id' => $id, 'Users.status' => '1'])->contain(['Positions'])->first();
+        return $this->find()->where(['Users.id' => $id, 'Users.status' => '1'])->contain(['Positions','Teams'])->first();
     }
 
     public function getListUsersByPosition($id) {

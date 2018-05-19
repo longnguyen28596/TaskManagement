@@ -13,8 +13,9 @@
                             <thead class="text-primary">
                                 <th class="text-center">Id</th>
                                 <th class="text-center">Tên dự án</th>
-                                <th class="text-center">Tên công ty</th>
+                                <th class="text-center">Tên khách hàng</th>
                                 <th class="text-center">Ngày tạo dự án</th>
+                                <th class="text-center">Phòng ban đang đảm nhiệm</th>
                                 <th class="text-center">Hành động</th>
                             </thead>
                             <tbody>
@@ -24,6 +25,14 @@
                                         <td><?= $project->name?></td>
                                         <td><?= $project->company['company_name']?></td>
                                         <td><?= strftime('%d/%m/%Y',strtotime($project->create_at)) ?></td>
+                                        <td>
+                                        <?php 
+                                            $teams = "";
+                                            foreach ($project->project_teams as $project_team) {
+                                                echo  "<a href='/tasks/listTaskByTeam?team_id={$project_team->team['id']}&project_id={$project->id}'>".$project_team->team['name']."</a>"."<br>";
+                                            }
+                                        ?>
+                                        </td>
                                         <td>
                                             <a href="/tasks/listTaskOfProjectId/<?= $project->id ?>" title="Danh sách nhiệm vụ của dự án">
                                                 <button type="button" rel="tooltip" title="Danh sách nhiệm vụ" class="btn btn-primary btn-simple btn-xs">
@@ -40,7 +49,7 @@
                                                     <i class="material-icons">edit</i>
                                                 </button>
                                             </a>
-                                            <a href="/projects/view?project_id=<?= $project->id ?>" onclick="return confirm('Bạn có chắc muốn xoá dự án này?')"> 
+                                            <a href="/projects/delete/<?= $project->id ?>" onclick="return confirm('Bạn có chắc muốn xoá dự án này?')"> 
                                                 <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
                                                     <i class="material-icons">close</i>
                                                 </button>

@@ -75,47 +75,62 @@
 
 
 <script>
-    $('.add_staff_to_project').change(function(){
-        user_id = $(this).val()
-        $.ajax({
-            url: '/UserProjects/add/'+<?= $project_id ?>,
-            type: 'POST',
-            data: {
-                user_id: user_id,
-                status: $('#checked_'+user_id).is(':checked')
-            }
-        }).done(function(ketqua) {
+    $(document).ready( function () {
+        $('.add_staff_to_project').change(function(){
+            user_id = $(this).val()
+            $.ajax({
+                url: '/UserProjects/add/'+<?= $project_id ?>,
+                type: 'POST',
+                data: {
+                    user_id: user_id,
+                    status: $('#checked_'+user_id).is(':checked')
+                }
+            }).done(function(ketqua) {
+            })
         })
+
+        $('.team_id').change(function(){
+            // user_id = $(this).val()
+            $.ajax({
+                url: '/UserProjects/ajaxGetUserProjectByTeam/'+<?= $project_id ?>,
+                type: 'POST',
+                data: {
+                    team_id: $(this).val(),
+                }
+            }).done(function(data) {
+                $('.ketqua').children().remove()
+                $('.ketqua').html(data)
+                addStar()
+                $('.add_staff_to_project').change(function(){
+                    user_id = $(this).val()
+                    $.ajax({
+                        url: '/UserProjects/add/'+<?= $project_id ?>,
+                        type: 'POST',
+                        data: {
+                            user_id: user_id,
+                            status: $('#checked_'+user_id).is(':checked')
+                        }
+                    }).done(function(ketqua) {
+                    })
+                })
+            })
+        })
+
+        function addStar(){
+            <?php 
+                foreach ($userTeams as $userTeam) {
+                    if($userTeam->ratings != []) {
+                    $rating = round($userTeam->ratings[0]->sum_point/$userTeam->ratings[0]->count_ratings);
+            ?>
+                $('.awesomeRating-<?= $userTeam->id ?>').awesomeRating({
+                    readonly            : true,
+                    valueInitial        : <?= $rating ?>,
+                });
+            <?php
+                }}
+            ?>
+        }
     })
 
-    $('.team_id').change(function(){
-        // user_id = $(this).val()
-        $.ajax({
-            url: '/UserProjects/ajaxGetUserProjectByTeam/'+<?= $project_id ?>,
-            type: 'POST',
-            data: {
-                team_id: $(this).val(),
-            }
-        }).done(function(data) {
-            $('.ketqua').children().remove()
-            $('.ketqua').html(data)
-            addStar()
-        })
-    })
-
-    function addStar(){
-        <?php 
-            foreach ($userTeams as $userTeam) {
-                if($userTeam->ratings != []) {
-                $rating = round($userTeam->ratings[0]->sum_point/$userTeam->ratings[0]->count_ratings);
-        ?>
-            $('.awesomeRating-<?= $userTeam->id ?>').awesomeRating({
-                readonly            : true,
-                valueInitial        : <?= $rating ?>,
-            });
-        <?php
-            }}
-        ?>
-    }
 </script>
 <?= $this->element('modal_user_detail') ?>

@@ -69,9 +69,8 @@ class AppController extends Controller
             return($this->redirect('/'));
         }
         if ($this->session->check('current_user')) {
-            $this->current_user = $this->session->read('current_user');
+            $this->current_user = $this->session->read('current_user');            
         }
-
     }
 
     public function beforeFilter(Event $event)
@@ -82,6 +81,7 @@ class AppController extends Controller
             $count_messages = $this->Messages->getCountMessagesDoNotCheck($this->current_user['id']);
             $mesages = $this->Messages->getListMessagesLimit($this->current_user['id']);
             $position_id = $this->session->read('current_user')->position['id'];
+            $isLeader = ($this->session->read('current_user')->team['leader'] == $this->current_user['id']) ? 1 : 0;
             $this->set(compact(['countProjectManager', 'myProjects', 'count_messages', 'mesages', 'position_id']));
         }
     }

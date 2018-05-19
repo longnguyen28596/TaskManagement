@@ -30,6 +30,16 @@ class UserProjectsTable extends Table
             return $q->where(['Projects.id' => $project_id]);
         }]);
     }
+    
+    public function getUserProjectByProjectId2($project_id, $team_id) {
+        return $this->find('all')->where(['project_id' => $project_id])->contain([
+        'Users' => function($q) use($team_id){
+            return $q->where(['Users.team_id' => $team_id]);
+        },
+        'Projects' => function($q) use ($project_id){
+            return $q->where(['Projects.id' => $project_id]);
+        }]);
+    }
 
     public function addNew($user_id, $project_id) {
         $data = [

@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Danh sách dự án trong công ty </h4>
+                        <h4 class="title">Danh sách dự án đang quản lý </h4>
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
