@@ -29,7 +29,6 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <div class="message"><?= $this->Flash->render() ?></div>
                 <?= $this->fetch('content') ?>
             </div>
-            <?= $this->element('footer') ?>
         </div>
     </div>
 </body>

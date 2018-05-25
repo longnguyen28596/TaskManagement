@@ -161,4 +161,17 @@ class UsersController extends AppController
         return($this->redirect('/Users/login'));
     }
 
+    public function changeTeam($user_id) {
+        $teams = $this->Teams->getAll();
+        $user = $this->Users->get($user_id);
+        $positions = $this->Positions->getAll();
+        if ($this->request->is('post')) {
+            $user->position_id = $_POST['position_id'];
+            $user->team_id = $_POST['team_id'];
+            if ($this->Users->save($user)) {
+                $this->Flash->Success('Đã cập nhật thành công cho ' . $user['name']);
+            }
+        }
+        $this->set(compact(['teams', 'user', 'positions']));
+    }
 }

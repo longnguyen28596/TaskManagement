@@ -33,7 +33,7 @@
                                 <th class="text-center">Tên task</th>
                                 <th class="text-center">Người thực hiện</th>
                                 <th class="text-center">Trạng thái</th>
-                                <th class="text-center">Mức độ ưu tiên</th>
+                                <th class="text-center">Độ ưu tiên</th>
                                 <th class="text-center">Hoàn thành</th>
                                 <th class="text-center">Hành động</th>
                             </thead>

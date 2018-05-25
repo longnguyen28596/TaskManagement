@@ -94,6 +94,6 @@ class UsersTable extends Table
     }
 
     public function getAll() {
-        return $this->find('all')->where(['Users.status' => '1'])->contain(['Positions']);
+        return $this->find('all')->where(['Users.status' => '1'])->contain(['Positions', 'Teams']);
     }
 }

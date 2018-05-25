@@ -8,9 +8,9 @@
         $diff=date_diff($now, $deadline);
         $diff = $diff->format("%R%a");
         if($diff < 0) {
-            $style = 'background-color: #d9534f' ;
+            $style = 'background-color: #f2dede; color: #a94442';
         } elseif($diff == 1 || $diff == 0) {
-            $style = 'background-color: yellow';
+            $style = 'background-color: #fcf8e3; color: #8a6d3b';
         }
         $status = $task->status == '' ? "Chưa xử lý" : "Đang xử lý";
         if ($task->request_check == '-1' && $task->status == '100') 
@@ -34,8 +34,17 @@
             <td><?= $status?></td>
             <td><?= $task->priority ?></td>
             <td>
-                <a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">Xem chi tết |
-                <a href="#" class="modal-change_status" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">Cập nhật trạng thái |                                                
+                <a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">
+                    <button type="button" rel="tooltip" title="Click vào để chi tiết task" class="btn btn-primary btn-simple btn-xs">
+                        <i style="font-size: 20px; <?= $style ?>" class="material-icons">streetview</i>
+                    </button>
+                </a>
+                
+                <a href="#" class="modal-change_status" data-task_id=<?= $task->id ?> data-user_id=<?= $task->user_action ?> data-from_tab=tab3 >
+                    <button type="button" rel="tooltip" title="Cập nhật" class="btn btn-primary btn-simple btn-xs">
+                        <i style="font-size: 20px; <?= $style ?>" class="glyphicon glyphicon-check"></i>
+                    </button>
+                </a>
             </td>
         </tr>
     <?php } ?>

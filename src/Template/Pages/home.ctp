@@ -164,7 +164,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                 <th class="text-center">Hành động</th>
                             </thead>
                             <tbody class="ketqua">
-                                <?php if($listTasksRequest->count() >=1 ) { ?>
+                                <?php if($listTasksRequest->count() >= 1 ) { ?>
                                     <?php foreach($listTasksRequest as $task) {
                                         $deadline = new DateTime(date("H:s Y-m-d", strtotime(date("H:s Y-m-d", strtotime($task->deadline))))); 
                                         $now = new DateTime(date("H:s Y-m-d"));
@@ -172,9 +172,9 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                         $diff=date_diff($now, $deadline);
                                         $diff = $diff->format("%R%a");
                                         if($diff < 0) {
-                                            $style = 'background-color: #d9534f' ;
+                                            $style = 'background-color: #f2dede; color: #a94442';
                                         } elseif($diff == 1 || $diff == 0) {
-                                            $style = 'background-color: yellow';
+                                            $style = 'background-color: #fcf8e3; color: #8a6d3b';
                                         }
                                         $status = $task->status == '' ? "Chưa xử lý" : "Đang xử lý";
                                         if ($task->request_check == '-1' && $task->status == '100') 
@@ -199,8 +199,18 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                             <td><?= $status ?></td>
                                             <td><?= $task->priority ?></td>
                                             <td>
-                                                <a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">Xem chi tiết |
-                                                <a href="#" class="modal-change_status" data-from_tab=tab2 data-task_id=<?= $task->id ?> data-user_id=<?= $task->user_action ?> title="Click vào để chi tiết task">Cập nhật trạng thái 
+                                                <a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">
+                                                    <button type="button" rel="tooltip" title="Click vào để chi tiết task" class="btn btn-primary btn-simple btn-xs">
+                                                        <i style="font-size: 20px; <?= $style ?>" class="material-icons">streetview</i>
+                                                    </button>
+                                                </a>
+                                                
+                                                <!-- <a title="Click vào để chi tiết task"> | -->
+                                                <a href="#" class="modal-change_status" data-task_id=<?= $task->id ?> data-user_id=<?= $task->user_action ?> data-from_tab=tab3 >
+                                                    <button type="button" rel="tooltip" title="Cập nhật" class="btn btn-primary btn-simple btn-xs">
+                                                        <i style="font-size: 20px; <?= $style ?>" class="glyphicon glyphicon-check"></i>
+                                                    </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php } ?>
@@ -236,9 +246,9 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                         $diff=date_diff($now, $deadline);
                                         $diff = $diff->format("%R%a");
                                         if($diff < 0) {
-                                            $style = 'background-color: #d9534f' ;
+                                            $style = 'background-color: #f2dede; color: #a94442';
                                         } elseif($diff == 1 || $diff == 0) {
-                                            $style = 'background-color: yellow';
+                                            $style = 'background-color: #fcf8e3; color: #8a6d3b';
                                         }
                                         $status = $task->status == '' ? "Chưa xử lý" : "Đang xử lý";
                                         if ($task->request_check == '-1' && $task->status == '100') 
@@ -263,8 +273,17 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                             <td><?= $status ?></td>
                                             <td><?= $task->priority ?></td>
                                             <td>
-                                                <a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">Xem chi tết |
-                                                <a href="#" class="modal-change_status" data-task_id=<?= $task->id ?> data-user_id=<?= $task->user_action ?> data-from_tab=tab3 title="Click vào để chi tiết task">Cập nhật trạng thái |
+                                                <a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">
+                                                    <button type="button" rel="tooltip" title="Click vào để chi tiết task" class="btn btn-primary btn-simple btn-xs">
+                                                        <i style="font-size: 20px; <?= $style ?>" class="material-icons">streetview</i>
+                                                    </button>
+                                                </a>
+                                                
+                                                <a href="#" class="modal-change_status" data-task_id=<?= $task->id ?> data-user_id=<?= $task->user_action ?> data-from_tab=tab3 >
+                                                    <button type="button" rel="tooltip" title="Cập nhật" class="btn btn-primary btn-simple btn-xs">
+                                                        <i style="font-size: 20px; <?= $style ?>" class="glyphicon glyphicon-check"></i>
+                                                    </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php } ?>
@@ -356,7 +375,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                 url: '/Tasks/view/'+task_id,
                 type: 'GET',
                 data: {
-                    hidecomment: '0',
+                    hidecomment: '1',
                 }
             }).done(function(data) {
                 $('#modalInHome').find('#conten-modal').html(data)
@@ -379,7 +398,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
             $("#modalUpdateStatusTasks").modal("show")
         })
 
-        $('.project_id').change(function(){
+        $('.project_id').change(function() {
             from_tab = $(this).data('from_tab')
             $.ajax({
                 url: '/Tasks/filterListMyTask/',
