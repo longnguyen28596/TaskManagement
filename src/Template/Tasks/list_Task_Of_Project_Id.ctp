@@ -29,9 +29,9 @@
                         <table class="table table-striped table-bordered table-responsive table-hover data-table-list text-center">
                             <thead class="text-primary">
                                 <th class="text-center">Tiến độ</th>
-                                <th class="text-center">Id</th>
                                 <th class="text-center">Tên task</th>
                                 <th class="text-center">Người thực hiện</th>
+                                <th class="text-center">File đính kèm</th>
                                 <th class="text-center">Trạng thái</th>
                                 <th class="text-center">Độ ưu tiên</th>
                                 <th class="text-center">Hoàn thành</th>
@@ -59,9 +59,9 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><?= $task->id?></td>
                                         <td style="text-align: left"><?= $task->title?></td>
                                         <td><?= $task->user->username?></td>
+                                        <td><?php if(isset($task->images[0]->count_images)) echo $task->images[0]->count_images; else echo "0";   ?></td>                                        
                                         <td><?= $status ?></td>
                                         <td><span class="glyphicon glyphicon-arrow-up"></span></td>
                                         <td>

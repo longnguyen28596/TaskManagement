@@ -23,7 +23,9 @@ class TasksTable extends Table
     }
 
     public function getListTaskOfProjectId($project_id) {
-        return $this->find('all')->where(['project_id' => $project_id])->contain('Users');
+        return $this->find('all')->where(['project_id' => $project_id])->contain(['Users', 'images' => function($q){
+            return $q->select(['Images.task_id', 'count_images' => $this->Images->find()->func()->count('Images.id')])->group('Images.Task_id');;
+        }]);
     }
 
     public function getListTaskByMyTasks($project_id, $user_action) {

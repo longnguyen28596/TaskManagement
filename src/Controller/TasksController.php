@@ -24,12 +24,6 @@ class TasksController extends AppController
         $team = $this->Teams->get($_GET['team_id']);
         $project = $this->Projects->find()->select(['name'])->where(['id' => $_GET['project_id']])->first();
         $tasks = $this->Tasks->find()->where(['user_request' => $team->leader, 'project_id' => $_GET['project_id']])->contain("Users");
-        // $team_id = $_GET['team_id'];
-        // $tasks = $this->Tasks->find()->where(['project_id' => $_GET['project_id']])->contain(['users', 'projects' => function($q) use($team_id) {
-        //     return $q->contain(['ProjectTeams' => function($q1) use($team_id) {
-        //                 return $q1->find('all')->where(['ProjectTeams.team_id' => $team_id]);
-        //             }]);
-        // }]);
         $this->set('tasks', $tasks);
         $this->set('project', $project);
     }
