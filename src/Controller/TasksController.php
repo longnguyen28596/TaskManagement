@@ -115,6 +115,8 @@ class TasksController extends AppController
             $data = $this->Tasks->newEntity($data);
             if ($this->Tasks->save($data)) {
                 $task = $this->Tasks->save($data);
+                $email = $this->Emails->addNew($task->user_action, $task->id , 'new task');
+                $email->sended_at = Time::now();
                 $this->Messages->addNew($task['user_action'], $this->current_user['name'].' đã thêm 1 nhiệm vụ cho bạn', '/tasks/view/'.$task['id']);
                 if (count($_FILES['files']['name']) >= 1) {
                     $array_image_do_not_upload = explode("|", $_POST['list-image-do-not-upload']);

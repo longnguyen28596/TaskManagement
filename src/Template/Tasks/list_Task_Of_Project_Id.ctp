@@ -33,7 +33,7 @@
                                 <th class="text-center">Tên task</th>
                                 <th class="text-center">Người thực hiện</th>
                                 <th class="text-center">Trạng thái</th>
-                                <th class="text-center">Mức độ ưu tiên</th>
+                                <th class="text-center">Độ ưu tiên</th>
                                 <th class="text-center">Hoàn thành</th>
                                 <th class="text-center">Hành động</th>
                             </thead>
@@ -63,7 +63,7 @@
                                         <td style="text-align: left"><?= $task->title?></td>
                                         <td><?= $task->user->username?></td>
                                         <td><?= $status ?></td>
-                                        <td><?= $task->priority ?></td>
+                                        <td><span class="glyphicon glyphicon-arrow-up"></span></td>
                                         <td>
                                             <?php  $done = $task->done == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành</p>";?><?= $done?>
                                         </td>
@@ -83,11 +83,7 @@
 <div id="modalInListTaskOfProjectId" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Chi tiết nhiệm vụ</h4>
-        </div>
-        <hr>
+        <br>
         <div class="modal-body" id="conten-modal" style="padding-top: 0"></div>
         <hr>
         <div class="modal-footer">

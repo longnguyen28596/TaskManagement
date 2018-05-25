@@ -3,11 +3,9 @@
     $sum_tong_task_da_xong_cham_tien_do = 0;
     $sum_tong_task_chua_xong_cham_tien_do = 0;
     $sum_tong_task_chua_xong_dung_tien_do = 0;
-
-
 ?>
 <?= $this->Html->script('Chart.min.js') ?>
-<!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
 <div class="content">

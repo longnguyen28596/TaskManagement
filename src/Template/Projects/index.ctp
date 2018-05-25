@@ -9,7 +9,7 @@
                     </div>
                     <div class="card-content table-responsive">
                         <a href="/projects/add"><button type="button" class="btn btn-primary">Thêm mới dự án</button></a>
-                        <table class="table table-striped table-bordered data-table-list table-responsive table-hover text-center">
+                        <table class="table table-striped table-bordered data-table-list table-responsive table-hover">
                             <thead class="text-primary">
                                 <th class="text-center">Id</th>
                                 <th class="text-center">Tên dự án</th>

@@ -12,10 +12,10 @@ class TasksTable extends Table
     {
         parent::initialize($config);
         $this->belongsTo('Users', [
-            'foreignKey' => 'user_action',
+            'foreignKey' => 'user_request',
         ]);
         $this->belongsTo('Users', [
-            'foreignKey' => 'user_request',
+            'foreignKey' => 'user_action',
         ]);
         $this->hasMany('Images');
         $this->hasMany('Comments');

@@ -23,8 +23,9 @@
                         <p class="hidden-lg hidden-md">Notifications</p>
                     </a>
                     <ul class="dropdown-menu">
-                    Thông báo
-                    <hr style="margin: 0">
+                    <center style="font-weight: bold;font-size: 15px;">Thông báo</center>
+                    <div style="margin-top: 5px;margin-bottom: 5px;border-top: 1px solid #eee;"></div>
+                    <!-- <div style="border-bottom: 1px soild"></div> -->
                     <?php if(isset($mesages)){ ?>
                         <?php foreach ($mesages as $mesage) { ?>
                             <li>
@@ -34,7 +35,8 @@
                     <?php } ?>
                     <hr style="margin: 0">
                     <li>
-                        <a style="text-align:center" href="#">Xem tất cả</a>
+                        
+                        <center style="font-weight: bold;font-size: 15px;"><a href="#">Xem tất cả</a></center>
                     </li>
                     </ul>
                 </li>

@@ -25,7 +25,7 @@
             </li>
             <li>
                 <a href="/users/index">
-                    <i class="material-icons">person</i>
+                    <i class="fas fa-users"></i>
                     <p> Quản lý nhân viên
                     </p>
                 </a>
@@ -46,9 +46,7 @@
             </li>
             <li>
                 <a href="/Tasks/report">
-                    <p> 
-                        <span style="padding-right: 14px;font-size: 24px;" class="glyphicon glyphicon-stats"></span> Thống kê
-                    </p>
+                    <i class="fas fa-chart-pie"></i> Thống kê
                 </a>
             </li>
         </ul>
