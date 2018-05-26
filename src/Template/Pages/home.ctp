@@ -136,6 +136,14 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                         <td>Địa chỉ thường trú:</td>
                                         <td><?= $user->address ?></td>
                                     </tr>
+                                    <tr>
+                                        <td>Dự án đang tham gia:</td>
+                                        <td><?php 
+                                        foreach($project_of_users as $project_of_user) {
+                                            echo "<a href='/tasks/listTaskOfProjectId/".$project_of_user->project['id']."'>".$project_of_user->project['name']."</a>, ";
+                                        }
+                                        ?></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -144,7 +152,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
             </div>
         </div>
     </div>
-
                     </div>
                     <div class="tab-pane" id="tab2">
                     <select data-from_tab=tab2 name="project_id" class="form-control project_id" id="project_id" >
@@ -153,7 +160,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                             echo '<option value="'.$myProject->project->id.'">'.$myProject->project->name.'</option>';
                         }?>
                     </select>
-                        <table class="table table-striped table-bordered table-responsive table-hover data-table-list text-center">
+                        <table class="table table-striped table-bordered table-responsive table-hover data-table-list">
                             <thead class="text-primary">
                                 <th class="text-center">Tiến độ</th>
                                 <th class="text-center">Id</th>
@@ -176,17 +183,11 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                         } elseif($diff == 1 || $diff == 0) {
                                             $style = 'background-color: #fcf8e3; color: #8a6d3b';
                                         }
-                                        $status = $task->status == '' ? "Chưa xử lý" : "Đang xử lý";
-                                        if ($task->request_check == '-1' && $task->status == '100') 
-                                            $status = 'Kiểm tra';
-                                        if (($task->request_check == '0' && $task->status == '100') || $task->request_check == '0') 
-                                            $status = 'Yêu cầu làm lại';
-                                        $done = $task->done == 1 ? "selected" : "";
                                     ?>
                                         <tr style='<?= $style ?>'>
                                             <td>
-                                                <div class="c100 p<?= $task->status ?> small green">
-                                                    <span><?php if($task->status != "") echo $task->status.'%';  ?></span>
+                                                <div class="c100 p<?= $task->progress ?> small green">
+                                                    <span><?= $task->progress.'%';  ?></span>
                                                     <div class="slice">
                                                         <div class="bar"></div>
                                                         <div class="fill"></div>
@@ -196,7 +197,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                             <td><?= $task->id?></td>
                                             <td><?= $task->title?></td>
                                             <td><?=$this->Application->fullDateTime($task->deadline)?></td>
-                                            <td><?= $status ?></td>
+                                            <td><?= $task->status ?></td>
                                             <td><?= $task->priority ?></td>
                                             <td>
                                                 <a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">
@@ -206,7 +207,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                                 </a>
                                                 
                                                 <!-- <a title="Click vào để chi tiết task"> | -->
-                                                <a href="#" class="modal-change_status" data-task_id=<?= $task->id ?> data-user_id=<?= $task->user_action ?> data-from_tab=tab3 >
+                                                <a href="#" class="modal-change_status" data-task_id=<?= $task->id ?> data-user_id=<?= $task->user_action ?> data-from_tab=tab2 >
                                                     <button type="button" rel="tooltip" title="Cập nhật" class="btn btn-primary btn-simple btn-xs">
                                                         <i style="font-size: 20px; <?= $style ?>" class="glyphicon glyphicon-check"></i>
                                                     </button>
@@ -214,9 +215,8 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                             </td>
                                         </tr>
                                     <?php } ?>
-                                <?php } else {?>
-                                    <tr><td colspan="7"><p style="color:silver" align="center">Hiện tại chưa có nhiệm vụ nào</p></td></tr>
-                                <?php }?>
+                                <?php } ?>
+                                   
                             </tbody>
                         </table>
                     </div>
@@ -227,7 +227,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                             echo '<option value="'.$myProject->project->id.'">'.$myProject->project->name.'</option>';
                         }?>
                     </select>
-                    <table class="table table-striped table-bordered table-responsive table-hover data-table-list text-center">
+                    <table class="table table-striped table-bordered table-responsive table-hover data-table-list">
                             <thead class="text-primary">
                                 <th class="text-center">Tiến độ</th>
                                 <th class="text-center">Id</th>
@@ -250,17 +250,11 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                         } elseif($diff == 1 || $diff == 0) {
                                             $style = 'background-color: #fcf8e3; color: #8a6d3b';
                                         }
-                                        $status = $task->status == '' ? "Chưa xử lý" : "Đang xử lý";
-                                        if ($task->request_check == '-1' && $task->status == '100') 
-                                            $status = 'Kiểm tra';
-                                        if (($task->request_check == '0' && $task->status == '100') || $task->request_check == '0') 
-                                            $status = 'Yêu cầu làm lại';
-                                        $done = $task->done == 1 ? "selected" : "";
                                     ?>
                                         <tr style='<?= $style ?>'>
                                             <td>
-                                                <div class="c100 p<?= $task->status ?> small green">
-                                                    <span><?php if($task->status != null) echo $task->status."%" ?></span>
+                                                <div class="c100 p<?= $task->progress ?> small green">
+                                                    <span><?= $task->progress . "%" ?></span>
                                                     <div class="slice">
                                                         <div class="bar"></div>
                                                         <div class="fill"></div>
@@ -270,7 +264,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                             <td><?= $task->id?></td>
                                             <td><?= $task->title?></td>
                                             <td><?=$this->Application->fullDateTime($task->deadline)?></td>
-                                            <td><?= $status ?></td>
+                                            <td><?= $task->status ?></td>
                                             <td><?= $task->priority ?></td>
                                             <td>
                                                 <a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">
@@ -287,8 +281,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                             </td>
                                         </tr>
                                     <?php } ?>
-                                <?php } else {?>
-                                    <tr><td colspan="7"><p style="color:silver" align="center">Hiện tại chưa có nhiệm vụ nào</p></td></tr>
                                 <?php }?>
                             </tbody>
                         </table>
@@ -324,7 +316,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">Cập nhật trạng thái</h4>
         </div>
-        <hr>
         <div class="modal-body" id="conten-modal" style="padding-top: 0">
 
         </div>
@@ -391,6 +382,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                 url: '/Tasks/changeStatus/'+task_id,
             }).done(function(data) {
                 $('#modalUpdateStatusTasks').find('#conten-modal').html(data)
+                $('#modalUpdateStatusTasks').data('from_tab', "")
                 $('#modalUpdateStatusTasks').data('from_tab', from_tab)
                 $('#myModal').data('user_id', user_id)
                 $('#myModal').data('task_id', task_id)

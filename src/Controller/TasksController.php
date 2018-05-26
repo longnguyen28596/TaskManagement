@@ -33,36 +33,19 @@ class TasksController extends AppController
         $this->set('task', $task);
         $this->set('current_user_id', $this->current_user['id']);
         if ($this->request->is('post')) {
-            if ($_POST['status'] == 'Đã bắt đầu' && $_POST['progess'] == '0') {
-                $task->status = '0';
-            }
-            if ($_POST['progess'] != '0' && $_POST['progess'] != '100') {
-                $task->status = $_POST['progess'];
-            }
-            // $task->request_check = $_POST['request_check'];
-            // if ($_POST['request_check'] == '-1') {
-            //     $this->Messages->addNew($task['user_request'], $this->current_user['name'].' yêu cầu kiểm tra.', '/tasks/view/'.$task['id']);
-            // }
-            if ($_POST['request_check'] == '1') {
-                $this->Messages->addNew($task['user_action'], $this->current_user['name'].' đã kiểm tra và xác nhận hoàn thành.', '/tasks/view/'.$task['id']);
-                $task->status = '100';
-                $task->done = '1';
-                $task->daydone = Time::now();
-            }
-            if ($_POST['request_check'] == '0' && $task->request_check != '0' ) {
-                $this->Messages->addNew($task['user_request'], $this->current_user['name'].' đã kiểm tra và yêu cầu xem lại.', '/tasks/view/'.$task['id']);
-            }
-            if ($_POST['progess'] == '100' || ($task->request_check == '-1' && $_POST['request_check'] == '0')) {
-                $task->status = $_POST['progess'];
+            if ($_POST['status'] == 'Yêu cầu kiểm tra') {
                 $this->Messages->addNew($task['user_request'], $this->current_user['name'].' yêu cầu kiểm tra.', '/tasks/view/'.$task['id']);
             }
-            $task->request_check = $_POST['request_check'];
-            if ((isset($_POST['cb_request_check']) && $_POST['cb_request_check']== true) ) {
-                $task->request_check = -1;
-            } 
-            if ((isset($_POST['cb_request_check']) && $_POST['cb_request_check']== false) ) {
-                $task->request_check = 0;         
+            if ($_POST['status'] == 'Yêu cầu làm lại') {
+                $this->Messages->addNew($task['user_action'], $this->current_user['name'].' đã kiểm tra và yêu cầu xem lại.', '/tasks/view/'.$task['id']);
             }
+            if ($_POST['status'] == 'Đã xong') {
+                $this->Messages->addNew($task['user_action'], $this->current_user['name'].' đã kiểm tra và xác nhận hoàn thành.', '/tasks/view/'.$task['id']);
+                $task->daydone = Time::now();
+                $task->progress = 100;
+            }
+            $task->status = $_POST['status'];
+            $task->progress = $_POST['progress'];
             $this->Tasks->save($task);
         }
     }
@@ -76,18 +59,18 @@ class TasksController extends AppController
         $project_id = $_POST['project_id'];
         if ($_POST['from_tab'] == 'tab2') {
             if ($project_id == 0) {
-                $tasks = $this->Tasks->find()->where(['done' => '0', 'user_request' => $this->current_user['id']])->order(['deadline' => 'asc']);
+                $tasks = $this->Tasks->find()->where(['status != "Đã xong"', 'user_request' => $this->current_user['id']])->order(['deadline' => 'asc']);
             } else {
                 // để load xem tất cả cho tab2
-                $tasks = $this->Tasks->find()->where(['done' => '0', 'user_request' => $this->current_user['id'], 'project_id' => $project_id])->order(['deadline' => 'asc']);
+                $tasks = $this->Tasks->find()->where(['status != "Đã xong"', 'user_request' => $this->current_user['id'], 'project_id' => $project_id])->order(['deadline' => 'asc']);
             }
-
         }
+
         if ($_POST['from_tab'] == 'tab3') {
             if ($project_id == 0) {
-                $tasks = $this->Tasks->find()->where(['done' => '0', 'user_action' => $this->current_user['id']])->order(['deadline' => 'asc']);
+                $tasks = $this->Tasks->find()->where(['status != "Đã xong"', 'user_action' => $this->current_user['id']])->order(['deadline' => 'asc']);
             } else {
-                $tasks = $this->Tasks->find()->where(['done' => '0', 'user_action' => $this->current_user['id'], 'project_id' => $project_id])->order(['deadline' => 'asc']);
+                $tasks = $this->Tasks->find()->where(['status != "Đã xong"', 'user_action' => $this->current_user['id'], 'project_id' => $project_id])->order(['deadline' => 'asc']);
             }
         }
         $this->set('tasks', $tasks);
@@ -241,10 +224,10 @@ class TasksController extends AppController
         $users = $this->Users->getAll();
         $where_user = [];
         $where_task = [];
-        $where_sum_task_da_xong_dung_tien_dos = ['Tasks.done' => '1', 'Tasks.daydone <= Tasks.deadline'];
-        $where_sum_task_da_xong_cham_tien_dos = ['Tasks.done' => '1', 'Tasks.daydone >= Tasks.deadline'];
-        $where_sum_task_chua_xong_dung_tien_dos = ['Tasks.done' => '0', '"'.date('Y-m-d H:i').'" <= Tasks.deadline'];
-        $where_sum_task_chua_xong_cham_tien_dos = ['Tasks.done' => '0', '"'.date('Y-m-d H:i').'" >= Tasks.deadline'];
+        $where_sum_task_da_xong_dung_tien_dos = ['Tasks.status' => 'Đã xong', 'Tasks.daydone <= Tasks.deadline'];
+        $where_sum_task_da_xong_cham_tien_dos = ['Tasks.status' => 'Đã xong', 'Tasks.daydone >= Tasks.deadline'];
+        $where_sum_task_chua_xong_dung_tien_dos = ['Tasks.status != "Đã xong"', '"'.date('Y-m-d H:i').'" <= Tasks.deadline'];
+        $where_sum_task_chua_xong_cham_tien_dos = ['Tasks.status != "Đã xong"', '"'.date('Y-m-d H:i').'" >= Tasks.deadline'];
 
         $fromDate = "";
         $toDate = "";
@@ -252,17 +235,17 @@ class TasksController extends AppController
         if ($this->request->is('post')) {
             if ($_POST['fromDate'] != "" && $_POST['toDate'] != "") {
                 $where_task = ['create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.$_POST['toDate'].'"'];
-                $where_sum_task_da_xong_dung_tien_dos = ['Tasks.done' => '1', 'Tasks.daydone <= Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.$_POST['toDate'].'"'];
-                $where_sum_task_da_xong_cham_tien_dos = ['Tasks.done' => '1', 'Tasks.daydone > Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.$_POST['toDate'].'"'];
-                $where_sum_task_chua_xong_dung_tien_dos = ['Tasks.done' => '0', '"'.date('Y-m-d H:i') . '" <= Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.$_POST['toDate'].'"'];
-                $where_sum_task_chua_xong_cham_tien_dos = ['Tasks.done' => '0', '"'.date('Y-m-d H:i') . '" > Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.$_POST['toDate'].'"'];
+                $where_sum_task_da_xong_dung_tien_dos = ['Tasks.status' => 'Đã xong', 'Tasks.daydone <= Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.$_POST['toDate'].'"'];
+                $where_sum_task_da_xong_cham_tien_dos = ['Tasks.status' => 'Đã xong', 'Tasks.daydone > Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.$_POST['toDate'].'"'];
+                $where_sum_task_chua_xong_dung_tien_dos = ['Tasks.status != "Đã xong"', '"'.date('Y-m-d H:i') . '" <= Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.$_POST['toDate'].'"'];
+                $where_sum_task_chua_xong_cham_tien_dos = ['Tasks.status != "Đã xong"', '"'.date('Y-m-d H:i') . '" > Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.$_POST['toDate'].'"'];
             }
             if ($_POST['fromDate'] != "" && $_POST['toDate'] == "") {
                 $where_task = ['create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.date('Y-m-d H:i').'"'];
-                $where_sum_task_da_xong_dung_tien_dos = ['Tasks.done' => '1', 'Tasks.daydone <= Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.date('Y-m-d H:i').'"'];
-                $where_sum_task_da_xong_cham_tien_dos = ['Tasks.done' => '1', 'Tasks.daydone > Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.date('Y-m-d H:i').'"'];
-                $where_sum_task_chua_xong_dung_tien_dos = ['Tasks.done' => '0', '"'.date('Y-m-d H:i') . '" <= Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.date('Y-m-d H:i').'"'];
-                $where_sum_task_chua_xong_cham_tien_dos = ['Tasks.done' => '0', '"'.date('Y-m-d H:i') . '" > Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.date('Y-m-d H:i').'"'];
+                $where_sum_task_da_xong_dung_tien_dos = ['Tasks.status' => 'Đã xong', 'Tasks.daydone <= Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.date('Y-m-d H:i').'"'];
+                $where_sum_task_da_xong_cham_tien_dos = ['Tasks.status' => 'Đã xong', 'Tasks.daydone > Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.date('Y-m-d H:i').'"'];
+                $where_sum_task_chua_xong_dung_tien_dos = ['Tasks.status != "Đã xong"', '"'.date('Y-m-d H:i') . '" <= Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.date('Y-m-d H:i').'"'];
+                $where_sum_task_chua_xong_cham_tien_dos = ['Tasks.status != "Đã xong"', '"'.date('Y-m-d H:i') . '" > Tasks.deadline', 'create_at > "'.$_POST['fromDate'].'"', 'create_at < "'.date('Y-m-d H:i').'"'];
             }
             if ($_POST['team_id'] != -1) {
                 $where_user = ['Users.team_id' => $_POST['team_id']];

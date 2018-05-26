@@ -80,7 +80,7 @@
                                                     <td><?= $this->Application->fullDateTime($task->deadline) ?></td>
                                                 </tr>
                                                 <?php
-                                                if($task->done == '1') { ?>
+                                                if($task->status == 'Đã xong') { ?>
                                                     <tr>
                                                         <td>Ngày hoàn thành</td>
                                                         <td><?= $this->Application->fullDateTime($task->daydone) ?></td>
@@ -100,9 +100,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Trạng thái công việc</td>
-                                                    <td><?php  $done = $task->done == '1' ? "<span class='text-success'> Đã hoàn thành<span>" : "<span class='text-danger'> Chưa hoàn thành</span>";?><?= $done?></td>
+                                                    <td><?php  $done = $task->status == "Đã xong" ? "<span class='text-success'> Đã hoàn thành<span>" : "<span class='text-danger'> Chưa hoàn thành</span>";?><?= $done?></td>
                                                 </tr>
-                                                <?php if ($task->done == 1){ ?>  
+                                                <?php if ($task->status == "Đã xong"){ ?>  
                                                     <tr>
                                                         <td>Đánh giá công việc</td>
                                                         <td>

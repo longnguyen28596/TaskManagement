@@ -95,8 +95,10 @@ class UsersController extends AppController
 
     public function view($id) {
         $user = $this->Users->get($id);
+        $project_of_users = $this->UserProjects->find()->where(['user_id' => $id])->contain(['Projects']);
         // die (json_encode($user));
-        $this->set('user',$user);
+        $this->set('user', $user);
+        $this->set('project_of_users', $project_of_users);
     }
 
     public function delete($id) {

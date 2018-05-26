@@ -13,38 +13,39 @@
         <div class="card-content">
         <form method="post" action="/tasks/changeStatus/<?= $task->id ?>" id="formUpdateStatusTask">
             <div class="row">
+            <?php if ($current_user_id == $task->user_action && $task->user_request != $task->user_action) { ?>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Cập nhật trạng thái công việc</label>
                         <select class="form-control" name="status" id="status">
-                            <option  <?php if($task->status == "") echo 'selected'; ?>  value="Chưa bắt đầu">Chưa bắt đầu</option>
-                            <option <?php if($task->status != "") echo 'selected'; ?> value="Đã bắt đầu">Đã bắt đầu</option>
+                            <option <?php if($task->status == "Chưa bắt đầu") echo 'selected'; ?>  value="Chưa bắt đầu">Chưa bắt đầu</option>
+                            <option <?php if($task->status == "Đã bắt đầu") echo 'selected'; ?> value="Đã bắt đầu">Đã bắt đầu</option>
+                            <option <?php if($task->status == "Yêu cầu kiểm tra") echo 'selected'; ?>  value="Yêu cầu kiểm tra">Yêu cầu kiểm tra</option>
+                            <option disabled <?php if($task->status == "Yêu cầu làm lại") echo 'selected'; ?>  value="Yêu cầu làm lại">Yêu cầu làm lại</option>                            
                         </select>
                     </div>
                 </div>
+            <?php } ?>
+            <?php if ($current_user_id == $task->user_request || $task->user_request == $task->user_action) { ?>
                 <div class="col-md-6">
-                    <?php if ($current_user_id == $task->user_request) { ?>
-                        <div class="form-group">
-                            <label class="control-label">Tình trạng</label>
-                            <select id="done" class="form-control" name="request_check">
-                                <option <?php if($task->request_check == '-1') echo 'selected'; ?> value="-1">Đề nghị kiểm tra</option>
-                                <option <?php if($task->request_check == '1') echo 'selected'; ?> value="1">Đã đạt</option>
-                                <option <?php if($task->request_check == '0') echo 'selected'; ?> value="0">Chưa đạt</option>    
-                            </select>
-                        </div>
-                    <?php } else { ?>
-                        <div class="checkbox">
-                            <label>
-                                <input <?php if ($task->request_check == '-1') echo 'checked';  ?> type="checkbox" name="cb_request_check" id="cb_request_check">
-                                Yêu cầu kiểm tra
-                            </label>
-                        </div>
-                    <?php } ?>
+                    <div class="form-group">
+                        <label class="control-label">Cập nhật trạng thái công việc</label>
+                        <select class="form-control" name="status" id="status">
+                            <option  <?php if($task->status == "Chưa bắt đầu") echo 'selected'; ?>  value="Chưa bắt đầu">Chưa bắt đầu</option>
+                            <option <?php if($task->status == "Đã bắt đầu") echo 'selected'; ?> value="Đã bắt đầu">Đã bắt đầu</option>
+                            <option  <?php if($task->status == "Yêu cầu kiểm tra") echo 'selected'; ?>  value="Yêu cầu kiểm tra">Yêu cầu kiểm tra</option>
+                            <option  <?php if($task->status == "Yêu cầu làm lại") echo 'selected'; ?>  value="Yêu cầu làm lại">Yêu cầu làm lại</option>
+                            <option  <?php if($task->status == "Đã xong") echo 'selected'; ?>  value="Đã xong">Đã xong</option>
+                        </select>
+                    </div>
+                </div>
+            <?php } ?>
+            <div class="col-md-6 area_progress">
+                <div class="form-group">
+                    <label class="control-label">Cập nhật tiến độ</label>
+                    <input name="progress" id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="<?= $task->progress ?>"/>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label">Cập nhật tiến độ </label>
-                <input name="progess" id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="<?= $task->status ?>"/>
             </div>
             <a href="#">
                 <button id='submit_update' class="btn btn-primary pull-right">Cập nhật</button>
@@ -55,7 +56,9 @@
 </div>
 
 <script>
-        $('#ex1').fadeOut()
+        if ($('#status').val() == 'Chưa bắt đầu') {
+            $('.area_progress').fadeOut()        
+        }
         $(document).ready( function () {
             if($('#status').val() != 'Chưa bắt đầu') {
                 $('#ex1').slider({
@@ -87,22 +90,18 @@
             });
         })
 
-        $('#status').change(function(){
+        $('#status').change(function() {
             if($('#status').val() != 'Chưa bắt đầu') {
-                $('#ex1').fadeIn()
+                $('.area_progress').fadeIn()
                 $('#ex1').slider({
                     formatter: function(value) {
                         return 'Xử lý: ' + value + '%';
                     }
                 });
+                $("#ex1Slider").css("top", "9px")
             }
         });
 
-        $(".checkbox").click(function(){
-            if($('#ex1').val() !="100" ){
-                alert("Tiến độ phải 100% mới kiểm tra được");
-                $("#cb_request_check").prop("checked", false);
-            }
-        })
+        $("#ex1Slider").css("top", "9px")
     });
 </script>

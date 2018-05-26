@@ -53,6 +53,14 @@
                                         <td>Địa chỉ thường trú:</td>
                                         <td><?= $user->address ?></td>
                                     </tr>
+                                    <tr>
+                                        <td>Dự án đang tham gia:</td>
+                                        <td><?php 
+                                        foreach($project_of_users as $project_of_user) {
+                                            echo "<a href='/tasks/listTaskOfProjectId/".$project_of_user->project['id']."'>".$project_of_user->project['name']."</a>, ";
+                                        }
+                                        ?></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

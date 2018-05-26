@@ -32,42 +32,40 @@
                                 <th class="text-center">Tên task</th>
                                 <th class="text-center">Người thực hiện</th>
                                 <th class="text-center">File đính kèm</th>
-                                <th class="text-center">Trạng thái</th>
                                 <th class="text-center">Độ ưu tiên</th>
-                                <th class="text-center">Hoàn thành</th>
+                                <th class="text-center">Trạng thái</th>
                                 <th class="text-center">Hành động</th>
                             </thead>
                             <tbody>
-                                <?php foreach($tasks as $task) {
-                                    $status = $task->status == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành<p>";
-                                    $status = $task->status == '' ? "Chưa xử lý" : "Đang xử lý";
-                                    if ($task->done == 0) {
-                                        if ($task->request_check == '-1' && $task->status == '100') 
-                                        $status = 'Kiểm tra';
-                                        if (($task->request_check == '0' && $task->status == '100') || $task->request_check == '0') 
-                                            $status = 'Yêu cầu làm lại';
-                                    }
-                                    // $done = $task->done == 1 ? "Đã xong" : "Chưa xong";
-                                ?>
+                                <?php foreach($tasks as $task) { ?>
                                     <tr id="<?= $task->id?>">
-                                        <td>
-                                            <div class="c100 p<?= $task->status ?> small green">
-                                                <span><?= $task->status ?>%</span>
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task">
+                                            <!-- <div class="c100 p<?= $task->progress ?> small green">
+                                            <span><?= $task->progress.'%';  ?></span>
                                                 <div class="slice">
                                                     <div class="bar"></div>
                                                     <div class="fill"></div>
                                                 </div>
-                                            </div>
+                                            </div> -->
+                                            <?= $task->id ?>
                                         </td>
-                                        <td style="text-align: left"><?= $task->title?></td>
-                                        <td><?= $task->user->username?></td>
-                                        <td><?php if(isset($task->images[0]->count_images)) echo $task->images[0]->count_images; else echo "0";   ?></td>                                        
-                                        <td><?= $status ?></td>
-                                        <td><span class="glyphicon glyphicon-arrow-up"></span></td>
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task" style="text-align: left"><?= $task->title?></td>
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task"><?= $task->user->username?></td>
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task"><?php if(isset($task->images[0]->count_images)) echo $task->images[0]->count_images; else echo "0";   ?></td>                                        
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task"><span class="glyphicon glyphicon-arrow-up"></span></td>
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task"><?= $task->status ?></td>
                                         <td>
-                                            <?php  $done = $task->done == '1' ? "<p class='text-success'> Đã hoàn thành<p>" : "<p class='text-danger'> Chưa hoàn thành</p>";?><?= $done?>
+                                            <a href="/Tasks/edit/<?= $task->id ?>" title="Click vào để sửa task"> 
+                                                <button style="padding-right: 0px;padding-left: 0px;" type="button" rel="tooltip" title="" class="btn btn-primary btn-simple btn-xs" data-original-title="Sửa thông tin nhân viên">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                            </a>
+                                            <a href="/Tasks/delete/<?= $task->id ?>" onclick="return confirm('Bạn có chắc muốn huỷ nhiệm vụ này ?')" title="Click vào để xoá task"> 
+                                                <button style="padding-right: 0px;" type="button" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Xoá nhân viên này">
+                                                    <i class="material-icons">close</i>
+                                                <div class="ripple-container"></div></button>
+                                            </a>
                                         </td>
-                                        <td><a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task">Chi tết | <a href="/Tasks/edit/<?= $task->id ?>" title="Click vào để sửa task">Sửa | <a href="/Tasks/delete/<?= $task->id ?>" onclick="return confirm('Bạn có chắc muốn huỷ nhiệm vụ này ?')" title="Click vào để xoá task">Xoá</td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
