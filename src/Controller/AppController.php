@@ -42,6 +42,7 @@ class AppController extends Controller
     public $session;
     public $current_user;
     public $AppHelper;
+    public $isLeader;
     public function initialize()
     {
         parent::initialize();
@@ -81,8 +82,14 @@ class AppController extends Controller
             $count_messages = $this->Messages->getCountMessagesDoNotCheck($this->current_user['id']);
             $mesages = $this->Messages->getListMessagesLimit($this->current_user['id']);
             $position_id = $this->session->read('current_user')->position['id'];
-            $isLeader = ($this->session->read('current_user')->team['leader'] == $this->current_user['id']) ? 1 : 0;
-            $this->set(compact(['countProjectManager', 'myProjects', 'count_messages', 'mesages', 'position_id']));
+            if ($this->session->read('current_user')->team['leader'] == $this->current_user['id'] && $position_id == 5 ) {
+                $isLeader = 1;
+                $this->isLeader = 1;
+            } else {
+                $isLeader = 0;
+                $this->isLeader = 0;
+            }
+            $this->set(compact(['isLeader', 'countProjectManager', 'myProjects', 'count_messages', 'mesages', 'position_id']));
         }
     }
 }

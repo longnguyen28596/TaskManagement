@@ -78,3 +78,7 @@ label.error {
 #DataTables_Table_0_filter {
     float: right;
 }
+
+.size_icon {
+    font-size: 19px !important;
+}

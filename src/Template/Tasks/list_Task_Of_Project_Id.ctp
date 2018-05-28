@@ -25,7 +25,9 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
-                        <a target="_blank" href="/tasks/add/<?= $project_id ?>"><button type="button" class="btn btn-primary">Thêm mới nhiệm vụ</button></a>
+                        <?php if($position_id == 1 || $position_id == 2 || (isset($isLeader) && $isLeader == 1) ) { ?>
+                            <a target="_blank" href="/tasks/add/<?= $project_id ?>"><button type="button" class="btn btn-primary">Thêm mới nhiệm vụ</button></a>
+                        <?php } ?>
                         <table class="table table-striped table-bordered table-responsive table-hover data-table-list text-center">
                             <thead class="text-primary">
                                 <th class="text-center">Tiến độ</th>
@@ -49,22 +51,30 @@
                                             </div> -->
                                             <?= $task->id ?>
                                         </td>
-                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task" style="text-align: left"><?= $task->title?></td>
-                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task"><?= $task->user->username?></td>
-                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task"><?php if(isset($task->images[0]->count_images)) echo $task->images[0]->count_images; else echo "0";   ?></td>                                        
-                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task"><span class="glyphicon glyphicon-arrow-up"></span></td>
-                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task"><?= $task->status ?></td>
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết nhiệm vụ" style="text-align: left"><?= $task->title?></td>
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết nhiệm vụ"><?= $task->user->username?></td>
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết nhiệm vụ"><?php if(isset($task->images[0]->count_images)) echo $task->images[0]->count_images; else echo "0"; ?></td>
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết nhiệm vụ"><?= $task->priority ?></td>
+                                        <td class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết nhiệm vụ"><?= $task->status ?></td>
                                         <td>
-                                            <a href="/Tasks/edit/<?= $task->id ?>" title="Click vào để sửa task"> 
-                                                <button style="padding-right: 0px;padding-left: 0px;" type="button" rel="tooltip" title="" class="btn btn-primary btn-simple btn-xs" data-original-title="Sửa thông tin nhân viên">
-                                                    <i class="material-icons">edit</i>
-                                                </button>
-                                            </a>
-                                            <a href="/Tasks/delete/<?= $task->id ?>" onclick="return confirm('Bạn có chắc muốn huỷ nhiệm vụ này ?')" title="Click vào để xoá task"> 
-                                                <button style="padding-right: 0px;" type="button" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Xoá nhân viên này">
-                                                    <i class="material-icons">close</i>
-                                                <div class="ripple-container"></div></button>
-                                            </a>
+                                            <?php if($position_id == 1 || $position_id == 2 || (isset($isLeader) && $isLeader == 1) ) { ?>
+                                                <a href="/Tasks/edit/<?= $task->id ?>" title="Click vào để sửa nhiệm vụ"> 
+                                                    <button style="padding-right: 0px;padding-left: 0px;" type="button" rel="tooltip" title="" class="btn btn-primary btn-simple btn-xs" data-original-title="Sửa thông tin nhiệm vụ">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                </a>
+                                                <a href="/Tasks/delete/<?= $task->id ?>" onclick="return confirm('Bạn có chắc muốn huỷ nhiệm vụ này ?')" title="Click vào để xoá task"> 
+                                                    <button style="padding-right: 0px;" type="button" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Xoá nhiệm vụ này">
+                                                        <i class="material-icons">close</i>
+                                                    <div class="ripple-container"></div></button>
+                                                </a>
+                                            <?php } else {?>
+                                                <a class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để xem chi tiết task">
+                                                    <button type="button" rel="tooltip" title="" class="btn btn-primary btn-simple btn-xs" data-original-title="click vào để xem chi tiết về nhiệm vụ">
+                                                        <i class="material-icons">streetview</i>
+                                                    <div class="ripple-container"></div></button>    
+                                                </a>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                 <?php } ?>

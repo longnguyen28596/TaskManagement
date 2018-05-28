@@ -105,6 +105,14 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                         <td><?= $user->name ?></td>
                                     </tr>
                                     <tr>
+                                        <td>Chức vụ:</td>
+                                        <td><?= $user->position['name'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phòng ban:</td>
+                                        <td><?= $user->team['name'] ?></td>
+                                    </tr>
+                                    <tr>
                                         <td>Đánh giá:</td>
                                         <td>
                                         <?php if($user->ratings != array()) { ?>

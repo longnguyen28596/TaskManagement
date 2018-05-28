@@ -61,13 +61,13 @@ class PagesController extends AppController
         $listTasksRequest = $this->Tasks->find()->where(['status != "Đã xong" ', 'user_request' => $this->current_user['id']]);
         // dự án đang tham gia
         // show thông tin current_user 
-        $user = $this->Users->find()->contain(['Ratings' => function($q) {
+        $user = $this->Users->find()->contain(['Positions', 'Teams', 'Ratings' => function($q) {
             return $q->select(['Ratings.user_id',
             'sum_point' => $this->Ratings->find()->func()->sum('Ratings.point'),
             'count_ratings' => $this->Ratings->find()->func()->count('Ratings.user_id'),
             ])
             ->group('Ratings.user_id');
-        }])->where(['id' => $this->current_user['id']])->first();
+        }])->where(['Users.id' => $this->current_user['id']])->first();
         $project_of_users = $this->UserProjects->find()->where(['user_id' => $this->current_user['id']])->contain(['Projects']);
         $this->set(compact('page', 'subpage', 'myTasks', 'listTasksRequest', 'user', 'project_of_users'));
         try {

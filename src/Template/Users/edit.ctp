@@ -10,7 +10,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Cập nhập thông tin cá nhân.</h4>
+                        <h4 class="title">Cập nhập thông tin cá nhân</h4>
                     </div>
                     <div class="card-content">
                         <form method="post" enctype="multipart/form-data" action="/Users/edit/<?= $user->id ?>" id="formUpdateProfile">

@@ -10,14 +10,19 @@
                     <div class="card-content">
                         <form method="post" action="/projects/edit/<?= $project->id ?>" id="formAddNewProject">
                             <div class="row">
-                                <div class="col-md-7">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Mã dự án</label>
+                                        <input value="<?= $project->id_name ?>" type="text" name="id_name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Tên của dự án</label>
                                         <input value="<?= $project->name ?>" type="text" name="name" class="form-control">
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-         
                                 </div>
                             </div>
                             <div class="row">
