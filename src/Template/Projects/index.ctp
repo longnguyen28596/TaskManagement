@@ -8,10 +8,12 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
-                        <a href="/projects/add"><button type="button" class="btn btn-primary">Thêm mới dự án</button></a>
+                        <?php if($position_id == 1 || $position_id == 2 ){ ?>
+                            <a href="/projects/add"><button type="button" class="btn btn-primary">Thêm mới dự án</button></a>
+                        <?php }?>
                         <table class="table table-striped table-bordered data-table-list table-responsive table-hover">
                             <thead class="text-primary">
-                                <th class="text-center">Id</th>
+                                <th class="text-center">Mã dự án</th>
                                 <th class="text-center">Tên dự án</th>
                                 <th class="text-center">Tên khách hàng</th>
                                 <th class="text-center">Ngày tạo dự án</th>
@@ -21,7 +23,7 @@
                             <tbody>
                                 <?php foreach($projects as $project) { ?>
                                     <tr>
-                                        <td><?= $project->id?></td>
+                                        <td><?= $project->id_name?></td>
                                         <td><?= $project->name?></td>
                                         <td><?= $project->company['company_name']?></td>
                                         <td><?= strftime('%d/%m/%Y',strtotime($project->create_at)) ?></td>
@@ -33,25 +35,25 @@
                                             }
                                         ?>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <a href="/tasks/listTaskOfProjectId/<?= $project->id ?>" title="Danh sách nhiệm vụ của dự án">
-                                                <button type="button" rel="tooltip" title="Danh sách nhiệm vụ" class="btn btn-primary btn-simple btn-xs">
-                                                    <i class="material-icons">list_alt</i>
+                                                <button style="padding-right: 0;" type="button" rel="tooltip" title="Danh sách nhiệm vụ" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons size_icon">list_alt</i>
                                                 </button>  
                                             </a>
                                             <a class="modal-view_project" data-project_id=<?= $project->id ?> href="" title="click vào để xem chi tiết về dự án">
-                                                <button type="button" rel="tooltip" title="Xem chi tiết dự án" class="btn btn-primary btn-simple btn-xs">
-                                                    <i class="material-icons">streetview</i>
+                                                <button style="padding-right: 0;" type="button" rel="tooltip" title="Xem chi tiết dự án" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons size_icon">streetview</i>
                                                 </button>    
                                             </a>
                                             <a href="/projects/edit/<?= $project->id ?>">
-                                                <button type="button" rel="tooltip" title="Cập nhật" class="btn btn-primary btn-simple btn-xs">
-                                                    <i class="material-icons">edit</i>
+                                                <button style="padding-right: 0;" type="button" rel="tooltip" title="Cập nhật" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons size_icon">edit</i>
                                                 </button>
                                             </a>
                                             <a href="/projects/delete/<?= $project->id ?>" onclick="return confirm('Bạn có chắc muốn xoá dự án này?')"> 
-                                                <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                    <i class="material-icons">close</i>
+                                                <button style="padding-right: 0;" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="material-icons size_icon">close</i>
                                                 </button>
                                             </a>
                                         </td>

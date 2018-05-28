@@ -20,18 +20,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-offset-1">
+                            <div class="col-md-2">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" style=" top: 10px;">
                                 <p>Người tạo: <?= $user_request->name ?></p>
                                 <p>Ngày tạo: <?= $this->Application->fullDateTime($task->create_at) ?></p>
                             </div>
+                            <div class="col-md-4" style=" top: 10px;">
+                            <div class="col-md-12">
+                                <p>Mã nhiệm vụ: <?= $task->id?></p>
+                            </div>
+                            <div class="col-md-12">
+                                <p>Tiến độ: <?= $task->progress."%"?></p>
+                            </div>
+                            </div>
                         </div>
-                        <div>
-                            <h4 style="color: black;font-weight: 400;">Mã nhiệm vụ</h4>
-                            <div class="border-botom-purple"></div>
-                            <?= $task->id?>
-                        </div>
+                        <br><br>
                         <div>
                             <h4 style="color: black;font-weight: 400;">Tên nhiệm vụ</h4>
                             <div class="border-botom-purple"></div>
@@ -80,7 +84,7 @@
                                                     <td><?= $this->Application->fullDateTime($task->deadline) ?></td>
                                                 </tr>
                                                 <?php
-                                                if($task->done == '1') { ?>
+                                                if($task->status == 'Đã xong') { ?>
                                                     <tr>
                                                         <td>Ngày hoàn thành</td>
                                                         <td><?= $this->Application->fullDateTime($task->daydone) ?></td>
@@ -100,9 +104,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Trạng thái công việc</td>
-                                                    <td><?php  $done = $task->done == '1' ? "<span class='text-success'> Đã hoàn thành<span>" : "<span class='text-danger'> Chưa hoàn thành</span>";?><?= $done?></td>
+                                                    <td><?php  $done = $task->status == "Đã xong" ? "<span class='text-success'> Đã hoàn thành<span>" : "<span class='text-danger'> Chưa hoàn thành</span>";?><?= $done?></td>
                                                 </tr>
-                                                <?php if ($task->done == 1){ ?>  
+                                                <?php if ($task->status == "Đã xong"){ ?>  
                                                     <tr>
                                                         <td>Đánh giá công việc</td>
                                                         <td>
@@ -156,7 +160,9 @@
                                 </form>
                                 <div class="area_comment">
                                     <?php foreach ($comments as $comment) {
+                                        $roles_edit_comment = 0;
                                         if ($comment->parent == 0) {
+                                            if ($current_user_id == $comment->user_id) $roles_edit_comment = 1;
                                     ?>
                                         <div  class="<?= $comment->id?> border-botom-gray"></div>
                                         <div class="row" id=<?= $comment->id?>>
@@ -172,7 +178,13 @@
                                                     </a><span style="color: silver; font-size: 13px; font-style: italic">đã bình luận lúc <?= $this->Application->fullDateTime($comment->created) ?></span> 
                                                 </p>
                                                 <div class="c-text-comment"><?= $comment->content ?></div>
-                                                <p><a onclick="handle_reply(this)" href="#" data-task_id = <?= $task->id?> data-comment_id = <?= $comment->id ?> >Trả lời</a>  |  <a href="#" onclick="handle_edit(this)" href="#" data-task_id = <?= $task->id?> data-content_comment= '<?= $comment->content ?>' data-comment_id = <?= $comment->id ?> data-comment_parent_id = <?= $comment->id ?> >Sửa</a> | <a href="#" data-comment_id = "<?= $comment->id ?>" onclick="delete_comment(this)">Xoá</a></p>
+                                                    <p>
+                                                        <a onclick="handle_reply(this)" href="#" data-task_id = <?= $task->id?> data-comment_id = <?= $comment->id ?> >Trả lời</a> 
+                                                        <?php if ($roles_edit_comment == 1) { ?> |  
+                                                            <a href="#" onclick="handle_edit(this)" href="#" data-task_id = <?= $task->id?> data-content_comment= '<?= $comment->content ?>' data-comment_id = <?= $comment->id ?> data-comment_parent_id = <?= $comment->id ?> >Sửa</a> |
+                                                            <a href="#" data-comment_id = "<?= $comment->id ?>" onclick="delete_comment(this)">Xoá</a>
+                                                        <?php } ?>
+                                                    </p>
                                                 <div class="reply_comment"></div>
                                                 <?php foreach ($comment_childs as $comment_child) {
                                                     if ($comment->id == $comment_child->parent) {

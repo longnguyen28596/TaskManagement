@@ -1,10 +1,8 @@
 $(document).ready( function () {
-    $('#done').change(function(){
-        if($(this).val() == 1) {
+    $('#status').change(function(){
+        if($(this).val() == "Đã xong") {
             $("#myModal").modal("show")
         } else {
-            alert($('#myModal').data('task_id'))
-            alert($('#myModal').data('user_id'))
             $.ajax({
                 url: '/ratings/delete/',
                 type: 'POST',

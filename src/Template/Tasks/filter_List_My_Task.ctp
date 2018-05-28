@@ -12,16 +12,11 @@
         } elseif($diff == 1 || $diff == 0) {
             $style = 'background-color: #fcf8e3; color: #8a6d3b';
         }
-        $status = $task->status == '' ? "Chưa xử lý" : "Đang xử lý";
-        if ($task->request_check == '-1' && $task->status == '100') 
-            $status = 'Kiểm tra';
-        if (($task->request_check == '0' && $task->status == '100') || $task->request_check == '0') 
-            $status = 'Yêu cầu làm lại';
     ?>
         <tr style='<?= $style ?>'>
             <td>
-                <div class="c100 p<?= $task->status ?> small green">
-                    <span><?= $task->status ?>%</span>
+                <div class="c100 p<?= $task->progress ?> small green">
+                    <span><?= $task->progress ?>%</span>
                     <div class="slice">
                         <div class="bar"></div>
                         <div class="fill"></div>
@@ -31,7 +26,7 @@
             <td><?= $task->id?></td>
             <td><?= $task->title?></td>
             <td><?=$this->Application->fullDateTime($task->deadline)?></td>
-            <td><?= $status?></td>
+            <td><?= $task->status?></td>
             <td><?= $task->priority ?></td>
             <td>
                 <a href="#" class="modal-view_task" data-task_id=<?= $task->id ?> title="Click vào để chi tiết task">

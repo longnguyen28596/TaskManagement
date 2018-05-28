@@ -5,12 +5,18 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Tạo mới dự án.</h4>
+                        <h4 class="title">Tạo mới dự án</h4>
                     </div>
                     <div class="card-content">
                         <form method="post" action="/projects/add" id="formAddNewProject">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Mã dự án</label>
+                                        <input type="text" name="id_name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Tên của dự án</label>
                                         <input type="text" name="name" class="form-control">
@@ -96,11 +102,12 @@
                 name: "required",
                 teams: "required",
                 company_id: "required",
+                id_name: "required",
             },
             messages: {
                 name: "Hãy điền tên cho dự án.",
                 teams: "Hãy lựa chọn nhóm thực hiện dự án.",
-                company_id: "Hãy lựa chọn đối tác.",
+                id_name: "Hãy thêm mã dự án vào.",
             }
         });
 
@@ -108,7 +115,7 @@
             placeholder: "Lựa chọn khách hàng"
         });
         $('.teams').select2({
-            placeholder: "Lựa chọn khách hàng"
+            placeholder: "Lựa chọn phòng ban đảm nhiệm"
         });
         jQuery('#release').datetimepicker({
             format:'Y/m/d H:i'

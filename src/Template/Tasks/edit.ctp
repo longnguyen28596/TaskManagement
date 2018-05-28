@@ -41,7 +41,14 @@
                                 <h4 style="color: black;font-weight: 400;">File đính kèm</h4>
                                 <div style="border: 0.05rem solid #8e24aa; margin-bottom: 10px"></div>
                                 <?php foreach($task->images as $image){ ?>
-                                    <p><a class="file_attachement" data-url_image='<?= "/webroot/img/admin/tasks/$task->id/".$image->file_name.'.'.$image->file_extension ?>' href="<?= "/webroot/img/admin/tasks/$task->id/".$image->file_name.'.'.$image->file_extension ?>" download><?= $image->default_name ?></a> <button data-image_id=<?= $image->id ?> onclick="remove_file_attachement(<?= $image->id ?>, this)" style="font-size:30px;position: relative;top: -3px;color:red;float: left;left: 130px;" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></p>
+                                    <p>
+                                        <div class="col-md-3">
+                                            <a style="display: block; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" class="file_attachement" data-url_image='<?= "/webroot/img/admin/tasks/$task->id/".$image->file_name.'.'.$image->file_extension ?>' href="<?= "/webroot/img/admin/tasks/$task->id/".$image->file_name.'.'.$image->file_extension ?>" download><?= $image->default_name ?></a>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <button data-image_id=<?= $image->id ?> onclick="remove_file_attachement(<?= $image->id ?>, this)" style="font-size:30px;position: relative;top: -3px;color:red; float: left" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                    </p>
                                 <?php }?>
                             </div>
                             <div class="row">
@@ -53,12 +60,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label">Tình trạng</label>
-                                        <select name="status" class="form-control">
-                                            <option <?php if ($task->status == 'Chưa làm') echo "selected"; ?> value='Chưa làm'>Chưa làm</option>
-                                            <option <?php if ($task->status == 'Đang làm') echo "selected"; ?> value='Đang làm'>Đang làm</option>
-                                            <option <?php if ($task->status == 'Kiểm tra') echo "selected"; ?> value='Kiểm tra'>Kiểm tra</option>
-                                            <option <?php if ($task->status == 'Đã xong') echo "selected"; ?> value='Đã xong'>Đã xong</option>
+                                        <label class="control-label">Trạng thái</label>
+                                        <select class="form-control" name="status" id="status">
+                                            <option  <?php if($task->status == "Chưa bắt đầu") echo 'selected'; ?>  value="Chưa bắt đầu">Chưa bắt đầu</option>
+                                            <option <?php if($task->status == "Đã bắt đầu") echo 'selected'; ?> value="Đã bắt đầu">Đã bắt đầu</option>
+                                            <option  <?php if($task->status == "Yêu cầu kiểm tra") echo 'selected'; ?>  value="Yêu cầu kiểm tra">Yêu cầu kiểm tra</option>
+                                            <option  <?php if($task->status == "Yêu cầu làm lại") echo 'selected'; ?>  value="Yêu cầu làm lại">Yêu cầu làm lại</option>
+                                            <option  <?php if($task->status == "Đã xong") echo 'selected'; ?>  value="Đã xong">Đã xong</option>
                                         </select>
                                     </div>
                                 </div>

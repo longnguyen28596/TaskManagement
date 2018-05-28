@@ -8,7 +8,9 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
+                    <?php if($position_id == 1 || $position_id == 2) { ?>
                         <a href="/teams/add"><button type="button" class="btn btn-primary">Thêm mới phòng ban</button></a>
+                    <?php } ?>
                         <table class="table table-striped table-bordered data-table-list table-responsive table-hover text-center">
                             <thead class="text-primary">
                                 <th class="text-center">Id</th>

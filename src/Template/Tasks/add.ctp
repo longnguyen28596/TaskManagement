@@ -1,7 +1,14 @@
 <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
 <?= $this->Flash->render() ?>
-<h2 style="text-align:center" class="title">Thêm mới nhiệm vụ cho project</h2>
 <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" data-background-color="purple">
+                        <h4 class="title">Thêm mới nhiệm vụ cho dự án: <?= $project['name'] ?></h4>
+                    </div>
+                    <div class="content">
     <div id="message">
     </div>
     <div class="container-fluid">
@@ -79,6 +86,11 @@
                             <div class="clearfix"></div>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                 </div>
             </div>
         </div>

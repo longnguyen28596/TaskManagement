@@ -31,11 +31,11 @@ class EmailShell extends Shell
                         break;
                     case 'new task':
                         $type_form = 'newTask';
-                        $variable = ['username' => $item->Users['name'],'task_id' => $item->variable];                        
+                        $variable = ['username' => $item->Users['name'],'task_id' => $item->variable];
                         break;
                     case 'edit task':
                         $type_form = 'editTask';
-                        $variable = ['username' => $item->Users['name'],'task_id' => $item->variable];                        
+                        $variable = ['username' => $item->Users['name'],'task_id' => $item->variable];
                         break;
                     default:
                         break;

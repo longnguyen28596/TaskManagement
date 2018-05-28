@@ -50,11 +50,14 @@
                                         <label class="control-label">Thống kê theo phòng ban</label>
                                         <select name="team_id" class="teams form-control">
                                             <option value='-1'>Thống kê tất cả phòng ban</option>
-                                            <?php foreach($teams as $team) { 
+                                            <?php
+                                            $team_name = "";
+                                            foreach($teams as $team) { 
                                                 echo $team_id;
                                                 $selected ="";
                                                 if($team->id == $team_id){
                                                     $selected = 'selected';
+                                                    $team_name = $team['name'];
                                                 }
                                             ?>
                                                 <option <?= $selected ?> value=<?= $team->id ?>><?= $team->name?></option>
@@ -106,7 +109,7 @@
             <div class="col-md-12 ">
                 <div class="card">
                     <div class="card-header text-center" data-background-color="purple">
-                        <h4 class="title">Kết quả tìm kiếm</h3>
+                        <h4 class="title">Kết quả tìm kiếm <?php  if(!empty($team_name)) echo "của team: ". $team_name;  ?></h3>
                     </div>
                     <div class="card-content">
                     <table class="table table-striped table-bordered table-responsive table-hover text-center">

@@ -31,13 +31,14 @@ class ProjectsTable extends Table
         }])->first();
     }
 
-    public function addNew($name, $company_id, $description, $priority, $release) {
+    public function addNew($name, $company_id, $description, $priority, $release, $id_name) {
         $project = [
             'name' => $name,
             'company_id' => $company_id,
             'description' => $description,
             'priority' => $priority,
-            'time_release' => $release
+            'time_release' => $release,
+            'id_name' => $id_name
         ];
         $project = $this->newEntity($project);
         return $this->save($project);

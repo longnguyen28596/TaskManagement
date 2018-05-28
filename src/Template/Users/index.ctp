@@ -8,14 +8,18 @@
                         <p class="category"></p>
                     </div>
                     <div class="card-content table-responsive">
+                    <?php if($position_id == 1 || $position_id == 2) { ?>
                         <a href="/users/add"><button type="button" class="btn btn-primary">Thêm mới nhân viên</button></a>
+                    <?php } ?>
                         <table class="table table-striped table-bordered table-responsive table-hover data-table-list text-center">
                             <thead class="text-primary">
                                 <th class="text-center">Tên nhân viên</th>
                                 <th class="text-center">Tên tài khoản</th>
                                 <th class="text-center">Chức vụ</th>
                                 <th class="text-center">Phòng ban</th>
-                                <th class="text-center">Hành động</th>
+                                <?php if ($position_id == 1 || $position_id == 2 ) { ?>
+                                    <th class="text-center">Hành động</th>
+                                <?php } ?>
                             </thead>
                             <tbody>
                                 <?php foreach($users as $user) { ?>
@@ -24,23 +28,25 @@
                                         <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->username ?></td>
                                         <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->position['name'] ?></td>
                                         <td class="modal-user" data-user_id="<?= $user->id ?>" ><?= $user->team['name'] ?></td>
-                                        <td>
-                                            <a class="modal-change_team" data-user_id=<?= $user->id ?> >
-                                                <button type="button" rel="tooltip" title="Chuyển đổi nhân viên sang phòng khác" class="btn btn-primary btn-simple btn-xs">
-                                                    <i class="fa fa-exchange"></i>
-                                                </button>
-                                            </a>
-                                            <a href="/Users/edit/<?= $user->id ?>" title="Sửa thông tin nhân viên" > 
-                                                <button type="button" rel="tooltip" title="Sửa thông tin nhân viên" class="btn btn-primary btn-simple btn-xs">
-                                                    <i class="material-icons">edit</i>
-                                                </button>
-                                            </a>
-                                            <a href="/Users/delete/<?= $user->id ?>" onclick="return confirm('Bạn có chắc muốn xoá nhân viên này?')" title="Xoá nhân viên ra khỏi công ty" > 
-                                                <button type="button" rel="tooltip" title="Xoá nhân viên này" class="btn btn-danger btn-simple btn-xs">
-                                                    <i class="material-icons">close</i>
-                                                </button>
-                                            </a>
-                                        </td>
+                                        <?php if ($position_id == 1 || $position_id == 2 ) { ?>                                        
+                                            <td>
+                                                <a class="modal-change_team" data-user_id=<?= $user->id ?> >
+                                                    <button type="button" rel="tooltip" title="Chuyển đổi nhân viên sang phòng khác" class="btn btn-primary btn-simple btn-xs">
+                                                        <i class="fa fa-exchange"></i>
+                                                    </button>
+                                                </a>
+                                                <a href="/Users/edit/<?= $user->id ?>" title="Sửa thông tin nhân viên" > 
+                                                    <button type="button" rel="tooltip" title="Sửa thông tin nhân viên" class="btn btn-primary btn-simple btn-xs">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                </a>
+                                                <a href="/Users/delete/<?= $user->id ?>" onclick="return confirm('Bạn có chắc muốn xoá nhân viên này?')" title="Xoá nhân viên ra khỏi công ty" > 
+                                                    <button type="button" rel="tooltip" title="Xoá nhân viên này" class="btn btn-danger btn-simple btn-xs">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        <?php } ?>
                                     </tr>
                                 <?php } ?>
                             </tbody>

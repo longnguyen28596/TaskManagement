@@ -56,9 +56,15 @@ class UsersController extends AppController
     }
 
     public function add() {
+    if ($this->current_user['position_id'] == 1 || $this->current_user['position_id'] == 2) {
         $positions = $this->Positions->getAll();
         $teams = $this->Teams->getAll();
         if ($this->request->is('post')) {
+            $check_user = $this->Users->find()->where(['username' => $_POST['username']])->count();
+            if ($check_user != 0) {
+                $this->Flash->error("Đã tồn tại tên đăng nhập này.");
+                return($this->redirect('/Users/add/'));
+            }
             $user = $this->Users->newEntity($this->request->getData());
             if($this->Users->save($user)) {
                 $this->Flash->success("Thêm mới người dùng thành công.");
@@ -66,37 +72,46 @@ class UsersController extends AppController
             }
         }
         $this->set(compact(['teams', 'positions']));
+    } else {
+        return($this->redirect('/error/error404/'));
+    }
     }
 
     // id: User ID
     public function edit($id) {
-        $user = $this->Users->get($id);
-        if ($this->request->is('post')) {
-            $this->Users->patchEntity($user, $this->request->getData());
-            $user = $this->Users->save($user);
-            if ($user) {
-                if (isset($_FILES['avatar'])){
-                    $type = pathinfo($_FILES['avatar']['tmp_name'], PATHINFO_EXTENSION);
-                    $data = file_get_contents($_FILES['avatar']['tmp_name']);
-                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-                    $user->avatar = $base64;
-                    $this->Users->save($user);
-                }
-                $this->session->write('current_user', $this->Users->writeSession($id));
-                if ($this->current_user['last_login'])
-                    return($this->redirect('/Users/edit/'.$user['id']));
-                else {
-                    return($this->redirect('/Users/editPasswordForNewUser/'));
+        if ($this->current_user['position_id'] == 1 || $this->current_user['position_id'] == 2 || $this->current_user['id'] == $id ) {
+            $user = $this->Users->get($id);
+            if ($this->request->is('post')) {
+                $this->Users->patchEntity($user, $this->request->getData());
+                $user = $this->Users->save($user);
+                if ($user) {
+                    if (isset($_FILES['avatar'])){
+                        $type = pathinfo($_FILES['avatar']['tmp_name'], PATHINFO_EXTENSION);
+                        $data = file_get_contents($_FILES['avatar']['tmp_name']);
+                        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                        $user->avatar = $base64;
+                        $this->Users->save($user);
+                    }
+                    $this->session->write('current_user', $this->Users->writeSession($id));
+                    if ($this->current_user['last_login'])
+                        return($this->redirect('/Users/edit/'.$user['id']));
+                    else {
+                        return($this->redirect('/Users/editPasswordForNewUser/'));
+                    }
                 }
             }
+            $this->set(compact(['user']));
+        } else {
+            return($this->redirect('/error/error404/'));
         }
-        $this->set(compact(['user']));
     }
 
     public function view($id) {
         $user = $this->Users->get($id);
+        $project_of_users = $this->UserProjects->find()->where(['user_id' => $id])->contain(['Projects']);
         // die (json_encode($user));
-        $this->set('user',$user);
+        $this->set('user', $user);
+        $this->set('project_of_users', $project_of_users);
     }
 
     public function delete($id) {
@@ -132,24 +147,28 @@ class UsersController extends AppController
     }
 
     public function editPassword($id) {
-        $current_user = $this->current_user;
-        $id = $current_user->id;
-        if (isset($_GET['ajax_current_password']) && $_GET['ajax_current_password']) {
-            if (sha1($_GET['ajax_current_password']) == $current_user['password']) {
-                 echo "<script>document.getElementById('noidung').style.display = 'none';</script>";
-            } else {
-                echo "<script>document.getElementById('noidung').style.display = 'block';</script>";
+        if ($this->current_user['position_id'] == 1 || $this->current_user['position_id'] == 2 || $this->current_user['id'] == $id ) {
+            $current_user = $this->current_user;
+            $id = $current_user->id;
+            if (isset($_GET['ajax_current_password']) && $_GET['ajax_current_password']) {
+                if (sha1($_GET['ajax_current_password']) == $current_user['password']) {
+                    echo "<script>document.getElementById('noidung').style.display = 'none';</script>";
+                } else {
+                    echo "<script>document.getElementById('noidung').style.display = 'block';</script>";
+                }
             }
-        }
-        if ($this->request->is('post')) {
-            if ($this->Users->changePassword($current_user['id'], $_POST['new_password'])) {
-                $this->Flash->success("Cập nhập thành công.");
-                $user = $this->Users->get($id);
-                $user->password = $_POST['new_password'];
-                $this->Users->save($user);
+            if ($this->request->is('post')) {
+                if ($this->Users->changePassword($current_user['id'], $_POST['new_password'])) {
+                    $this->Flash->success("Cập nhập thành công.");
+                    $user = $this->Users->get($id);
+                    $user->password = $_POST['new_password'];
+                    $this->Users->save($user);
+                }
             }
+            $this->set(compact(['current_user']));
+        } else {
+            return($this->redirect('/error/error404/'));
         }
-        $this->set(compact(['current_user']));
     }
 
     public function logout() {
@@ -162,16 +181,20 @@ class UsersController extends AppController
     }
 
     public function changeTeam($user_id) {
-        $teams = $this->Teams->getAll();
-        $user = $this->Users->get($user_id);
-        $positions = $this->Positions->getAll();
-        if ($this->request->is('post')) {
-            $user->position_id = $_POST['position_id'];
-            $user->team_id = $_POST['team_id'];
-            if ($this->Users->save($user)) {
-                $this->Flash->Success('Đã cập nhật thành công cho ' . $user['name']);
+        if ($this->current_user['position_id'] == 1 || $this->current_user['position_id'] == 2 ) {
+            $teams = $this->Teams->getAll();
+            $user = $this->Users->get($user_id);
+            $positions = $this->Positions->getAll();
+            if ($this->request->is('post')) {
+                $user->position_id = $_POST['position_id'];
+                $user->team_id = $_POST['team_id'];
+                if ($this->Users->save($user)) {
+                    $this->Flash->Success('Đã cập nhật thành công cho ' . $user['name']);
+                }
             }
+            $this->set(compact(['teams', 'user', 'positions']));
+        } else {
+            return($this->redirect('/error/error404/'));
         }
-        $this->set(compact(['teams', 'user', 'positions']));
     }
 }
