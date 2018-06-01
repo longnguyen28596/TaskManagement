@@ -16,7 +16,7 @@ class UserProjectsController extends AppController
     {
         $project = $this->Projects->get($project_id);
         $teams = $this->Teams->find()->innerJoinWith('ProjectTeams', function($q) use($project_id){
-            return $q->where(['ProjectTeams.project_id' => $project_id]);
+            return $q->where(['ProjectTeams.project_id' => $project_id, 'ProjectTeams.deleted' => '0']);
         })->toArray();
         $team_id = $teams[0]->id;
         $userProjects = $this->UserProjects->getUserProjectByProjectId($project_id);
@@ -27,7 +27,8 @@ class UserProjectsController extends AppController
             ])
             ->group('Ratings.user_id');
         }]);
-        $this->set(compact('teams', 'userProjects', 'userTeams', 'project'));
+        $current_team_of_user = $this->current_user['team_id'];
+        $this->set(compact('teams', 'userProjects', 'userTeams', 'project', 'current_team_of_user'));
     }
 
     public function ajaxGetUserProjectByTeam($project_id) {
@@ -40,7 +41,6 @@ class UserProjectsController extends AppController
             $this->set(compact('userProjects', 'teams', 'userTeams', 'project_id'));
         }
         $this->set(compact('teams'));
-
     }
 
     public function add($project_id) {
@@ -54,7 +54,15 @@ class UserProjectsController extends AppController
                     $this->UserProjects->addNew($_POST['user_id'], $project_id);
                 } if ($userProject != array() && $_POST['status'] == 'false') {
                     $a = $this->UserProjects->get($userProject['id']);
-                    $this->UserProjects->delete($a);die();
+                    $a->deleted = '1';
+                    $a->out_at = Time::now();
+                    $this->UserProjects->save($a);die();
+                }
+                if ($userProject != array() && $_POST['status'] == 'true') {
+                    $a = $this->UserProjects->get($userProject['id']);
+                    $a->deleted = '0';
+                    $a->out_at = NULL;
+                    $this->UserProjects->save($a);die();
                 }
                 return($this->redirect('/UserProjects/index/'.$project_id));
             }
@@ -65,16 +73,11 @@ class UserProjectsController extends AppController
 
     // lấy danh sách dự án đang tham gia của user hiện tại
     public function getListProjectsJoin() {
-        $projects = $this->UserProjects->find()->where(['user_id' => $this->current_user['id']])->contain(['Projects' => function($q){
+        $projects = $this->UserProjects->find()->where(['user_id' => $this->current_user['id'], 'deleted' => '0'])->contain(['Projects' => function($q){
             return $q->contain(['companies']);
         }]);
         $position_current_user = $this->current_user['position_id'];
         $this->set(compact('projects', 'position_current_user'));
-        // return $this->find()->where(['ProjectTeams.team_id' => $team_id])->contain(['projects' => function($q){
-        //     return $q->contain('Companies');
-        // }])->innerJoinWith('Teams', function($q) use($user_id) {
-        //     return $q->where(['Teams.leader' => $user_id]);
-        // });
     }
 }
 ?>

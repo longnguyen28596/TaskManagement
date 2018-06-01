@@ -21,7 +21,7 @@
                             <option <?php if($task->status == "Chưa bắt đầu") echo 'selected'; ?>  value="Chưa bắt đầu">Chưa bắt đầu</option>
                             <option <?php if($task->status == "Đã bắt đầu") echo 'selected'; ?> value="Đã bắt đầu">Đã bắt đầu</option>
                             <option <?php if($task->status == "Yêu cầu kiểm tra") echo 'selected'; ?>  value="Yêu cầu kiểm tra">Yêu cầu kiểm tra</option>
-                            <option disabled <?php if($task->status == "Yêu cầu làm lại") echo 'selected'; ?>  value="Yêu cầu làm lại">Yêu cầu làm lại</option>                            
+                            <option disabled <?php if($task->status == "Yêu cầu làm lại") echo 'selected'; ?>  value="Yêu cầu làm lại">Yêu cầu làm lại</option>
                         </select>
                     </div>
                 </div>

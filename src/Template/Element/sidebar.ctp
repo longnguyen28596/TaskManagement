@@ -10,7 +10,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">
                     <i class="material-icons">dashboard</i>
-                    <p>Dashboard</p>
+                    <p>Trang Home</p>
                 </a>
             </li>
                 <li>
@@ -58,7 +58,7 @@
 </div>
 <?php } ?>
 
-<?php if( isset($isLeader) && $isLeader == 1) { ?>
+<?php if( isset($isLeader) && $isLeader == 1 && $position_id==5) { ?>
 <div class="sidebar" data-color="purple" data-image="/img/admin/sidebar-1.jpg">
     <div class="logo">
         <a href="/" class="simple-text">
@@ -70,7 +70,7 @@
         <li class="nav-item">
                 <a class="nav-link" href="/">
                     <i class="material-icons">dashboard</i>
-                    <p>Dashboard</p>
+                    <p>Trang Home</p>
                 </a>
             </li>
                 <li>
@@ -118,7 +118,7 @@
         <li class="nav-item">
                 <a class="nav-link" href="/">
                     <i class="material-icons">dashboard</i>
-                    <p>Dashboard</p>
+                    <p>Trang Home</p>
                 </a>
             </li>
             <li>

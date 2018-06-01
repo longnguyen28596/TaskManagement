@@ -50,8 +50,10 @@ $status = $project->sex == 1 ? 'Dự án kết thúc' : 'Chưa hoàn thành';
                     <div class="card-header text-center" data-background-color="purple">
                         <h4 class="title">Mô tả về dự án</h3>
                     </div>
-                    <div class="tim-typo">
-                        <p><?= $project->description?></p>
+                    <div class="row">
+                        <div style="left: 15px" class="col-md-11">
+                            <span class="tim-typo"><?= $project->description?></span>
+                        </div>         
                     </div>
                 </div>
             </div>
@@ -86,7 +88,7 @@ $status = $project->sex == 1 ? 'Dự án kết thúc' : 'Chưa hoàn thành';
                                         <td><?= $user->name ?></td>
                                         <td><?= $user->username?></td>
                                         <td><?=$this->Application->fullDateTime($user->create_at)?></td>
-                                        <td><?= $user->out_at?></td>
+                                        <td><?php if($userProject->out_at != "")  echo $this->Application->fullDateTime($userProject->out_at); ?></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
