@@ -35,7 +35,7 @@
                                                         <i class="fa fa-exchange"></i>
                                                     </button>
                                                 </a>
-                                                <a href="/Users/edit/<?= $user->id ?>" title="Sửa thông tin nhân viên" > 
+                                                <a href="/Users/editByAdmin/<?= $user->id ?>" title="Sửa thông tin nhân viên" > 
                                                     <button type="button" rel="tooltip" title="Sửa thông tin nhân viên" class="btn btn-primary btn-simple btn-xs">
                                                         <i class="material-icons">edit</i>
                                                     </button>

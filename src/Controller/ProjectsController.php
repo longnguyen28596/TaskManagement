@@ -27,14 +27,15 @@ class ProjectsController extends AppController
         $this->set(compact('userProjects', 'project'));
     }
 
+    // xoá dự án nên k cần phải set deleted = 0  vì xoá hết
     public function delete($id) {
         if ($this->current_user['position_id'] == 1 || $this->current_user['position_id'] == 2) {
             $project = $this->Projects->get($id);
             $userProjects = $this->UserProjects->getAllUserProjectByProjectId($id);
             $projectTeams = $this->ProjectTeams->find('all')->where(['project_id' => $id]);
-            if($project) {
+            if ($project) {
                 $this->Projects->delete($project);
-                if($userProjects){
+                if ($userProjects){
                     foreach ($userProjects as $userProject) {
                         $this->UserProjects->delete($userProject);
                     }
@@ -79,9 +80,14 @@ class ProjectsController extends AppController
         if ($this->current_user['position_id'] == 1 || $this->current_user['position_id'] == 2 || $this->current_user['position_id'] == 5) {
             $teams = $this->Teams->find('all')->where(['status' => '1'])->select(['id', 'name']);
             $companies = $this->Companies->getAll();
-            $project = $this->Projects->find()->where(['id' => $id, 'status' => '0'])->first();
-            $projectTeams = ($this->ProjectTeams->find()->where(['ProjectTeams.project_id' => $project->id]));
+            $project = $this->Projects->find()->where(['id' => $id])->first();
+            $projectTeams = $this->ProjectTeams->find()->where(['ProjectTeams.project_id' => $id, 'ProjectTeams.deleted' => '0']);
             if ($this->request->is('post')) {
+                if (isset($_POST['status'])) {
+                    $status = '1';
+                } else {
+                    $status = '0';
+                }
                 $data = [
                     'name' => $_POST['name'],
                     'company_id' => $_POST['company_id'],
@@ -89,18 +95,36 @@ class ProjectsController extends AppController
                     'priority' => $_POST['priority'],
                     'time_release' => $_POST['release'],
                     'id_name' => $_POST['id_name'],
+                    'status' => $status,
                 ];
                 $project = $this->Projects->patchEntity($project, $data);
                 foreach ($projectTeams as $projectTeam) {
-                    $this->ProjectTeams->delete($projectTeam);
+                    $projectTeam->deleted = true;
+                    $this->ProjectTeams->save($projectTeam);
+                }
+                $userProjects = $this->UserProjects->getAllUserProjectByProjectId($id);
+                foreach ($userProjects as $userProject) {
+                    $userProject->deleted = '1';
+                    $this->UserProjects->save($userProject);
                 }
                 if (isset($_POST['teams']) && $_POST['teams'] != []) {
                     foreach ($_POST['teams'] as $team_project) {
                         $this->ProjectTeams->addNew($project->id, $team_project);
                         $team = $this->Teams->get($team_project);
-                        $this->UserProjects->addNew($team->leader, $project->id);
+                        $user_leader = $this->UserProjects->find()->where(['user_id' => $team->leader, 'project_id' => $project->id])->first();
+                        if ($user_leader != []) {
+                            $user_leader->deleted = '0';
+                            $this->UserProjects->save($user_leader);
+                        } else {
+                            $this->UserProjects->addNew($team->leader, $project->id);
+                        }
                     }
                 }
+                // $userProjects = $this->UserProjects->getAllUserProjectByProjectId($id);
+                // $projectTeams = $this->ProjectTeams->find()->where(['ProjectTeams.project_id' => $project->id, 'ProjectTeams.deleted' => '0']);
+                // foreach($userProjects as $userProject) {
+
+                // }
                 if ($this->Projects->save($project)) {
                     $this->Flash->success("Cập nhập thành công.");
                     $this->redirect('/Projects/index');

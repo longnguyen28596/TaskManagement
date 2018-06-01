@@ -18,21 +18,17 @@ class UserProjectsTable extends Table
     // lấy tất cả user tham gia dự án(đã từng( có thể cả nghỉ việc rồi), hoặc đang tham gia cũng hiển thị)
     public function getAllUserProjectByProjectId($project_id) {
         return $this->find('all')->where(['project_id' => $project_id])->contain(['Users', 'Projects']);
-        // return $this->find('all')->where(['project_id' => $project_id])->contain(['Users', 
-        // 'Projects' => function($q) use ($project_id){
-        //     return $q->where(['Projects.id' => $project_id]);
-        // }]);
     }
 
     public function getUserProjectByProjectId($project_id) {
-        return $this->find('all')->where(['project_id' => $project_id])->contain(['Users',
+        return $this->find('all')->where(['project_id' => $project_id, 'deleted' => '0'])->contain(['Users',
         'Projects' => function($q) use ($project_id){
             return $q->where(['Projects.id' => $project_id]);
         }]);
     }
     
     public function getUserProjectByProjectId2($project_id, $team_id) {
-        return $this->find('all')->where(['project_id' => $project_id])->contain([
+        return $this->find('all')->where(['UserProjects.project_id' => $project_id, 'UserProjects.deleted' => '0'])->contain([
         'Users' => function($q) use($team_id){
             return $q->where(['Users.team_id' => $team_id]);
         },
@@ -51,7 +47,7 @@ class UserProjectsTable extends Table
     }
 
     public function getProjectByUser($user_id) {
-        return $this->find('all')->select('UserProjects.id')->where(['UserProjects.user_id' => $user_id])->contain(['Projects' => function($q){
+        return $this->find('all')->select('UserProjects.id')->where(['UserProjects.user_id' => $user_id, 'UserProjects.deleted' => '0'])->contain(['Projects' => function($q){
             return $q->select(['id', 'name'])
                     ->where(['Projects.status' => '0']);
         }]);
