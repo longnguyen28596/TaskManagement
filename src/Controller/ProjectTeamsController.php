@@ -15,10 +15,5 @@ class ProjectTeamsController extends AppController
     public function index() {
 
     }
-
-    public function listProjectManager() {
-        $projects = $this->ProjectTeams->getListProjectsManager($this->current_user['id'], $this->current_user['team_id'])->toArray();
-        $this->set(compact(['projects']));
-    }
 }
 ?>

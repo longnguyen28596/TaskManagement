@@ -59,7 +59,7 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label class="control-label">Chọn team làm dự án</label>
+                                        <label class="control-label">Chọn phòng ban đảm nhiệm</label>
                                         <select name="teams[]" class="form-control teams" multiple="multiple" >
                                             <?php foreach($teams as $team) {
                                                 $selected = "";
