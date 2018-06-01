@@ -88,14 +88,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Dự án hoàn thành</label>
-                                    <input type="checkbox" name="status" <?php if($project->status == 1)  {echo "checked";}  ?>>
-                                </div>
-                                </div>
-                            </div>
                             <button type="submit" class="btn btn-primary pull-right">Cập nhập</button>
                             <div class="clearfix"></div>
                         </form>

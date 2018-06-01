@@ -12,6 +12,8 @@ class ProjectTeamsTable extends Table
     public function initialize(array $config)
     {
         parent::initialize($config);
+        // $this->belongsTo('Companies');
+        // $this->hasMany('UserProjects');
         $this->belongsTo('Teams');
         $this->belongsTo('Projects');
     }
@@ -24,8 +26,28 @@ class ProjectTeamsTable extends Table
         $projectTeam = $this->newEntity($projectTeam);
         return $this->save($projectTeam);
     }
+    
+    public function getListProjectsManager($user_id, $team_id) {
+        return $this->find()->where(['ProjectTeams.team_id' => $team_id])->contain(['projects' => function($q){
+            return $q->contain('Companies');
+        }])->innerJoinWith('Teams', function($q) use($user_id) {
+            return $q->where(['Teams.leader' => $user_id]);
+        });
+    }
 
     public function getCountProjectsManager($user_id, $team_id) {
         return $this->find()->where(['ProjectTeams.team_id' => $team_id])->count();
     }
+    
+    // public function getView($id) {
+    //     return $this->find('all')->where(['Projects.id' => $id])->contain(['Companies' => function($q){
+    //         return $q -> where();
+    //     }])->first();
+    // }
+
+    // public function getListProjectsManager($user_id) {
+    //     return $this->find()->where(['Projects.status' => '0'])->innerJoinWith('Teams', function($q) use($user_id){
+    //         return $q->where(['Teams.leader' => $user_id]);
+    //     });
+    // }
 }

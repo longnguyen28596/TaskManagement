@@ -80,10 +80,6 @@
                                                     <td style="border-top: 1px solid #ddd;"><?= $task->priority ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Ngày phải bắt đầu</td>
-                                                    <td><?= $this->Application->fullDateTime($task->daystart) ?></td>
-                                                </tr>
-                                                <tr>
                                                     <td>Deadline</td>
                                                     <td><?= $this->Application->fullDateTime($task->deadline) ?></td>
                                                 </tr>
@@ -104,7 +100,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="border-top: 1px solid #ddd;">Nhân viên thực hiện</td>
-                                                    <td style="border-top: 1px solid #ddd;"><?= $user_action->username ?></td>
+                                                    <td style="border-top: 1px solid #ddd;"><?= $user_action->name ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Trạng thái công việc</td>

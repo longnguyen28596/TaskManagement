@@ -19,10 +19,9 @@
                                 <div class="form-group">
                                     <select name="team_id" class="form-control team_id">
                                         <?php foreach($teams as $team) { 
-                                            $selected = $current_team_of_user == $team->id ? "selected" : "";
-                                            $disable = $current_team_of_user == $team->id ? "" : "disabled";
+                                            $selected = $teams[0]->id == $team->id ? "selected" : "";
                                         ?>
-                                            <option <?= $selected ?> <?= $disable ?> value=<?= $team->id ?>><?= $team->name?></option>
+                                            <option <?= $selected ?> value=<?= $team->id ?>><?= $team->name?></option>
                                         <?php } ?>
                                     </select>
                                 </div>

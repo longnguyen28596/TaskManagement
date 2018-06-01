@@ -77,18 +77,19 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         if ($this->request->session()->check('current_user')) {
+            $countProjectManager = $this->ProjectTeams->getCountProjectsManager($this->current_user['id'], $this->current_user['team_id']);
             $myProjects = $this->UserProjects->getProjectByUser($this->current_user['id']);
             $count_messages = $this->Messages->getCountMessagesDoNotCheck($this->current_user['id']);
             $mesages = $this->Messages->getListMessagesLimit($this->current_user['id']);
             $position_id = $this->session->read('current_user')->position['id'];
-            if ($this->current_user->team['leader'] == $this->current_user['id'] && $position_id == '5' || $position_id == '1' || $position_id == 2  ) {
+            if ($this->session->read('current_user')->team['leader'] == $this->current_user['id'] && $position_id == 5 ) {
                 $isLeader = 1;
                 $this->isLeader = 1;
             } else {
                 $isLeader = 0;
                 $this->isLeader = 0;
             }
-            $this->set(compact(['isLeader', 'myProjects', 'count_messages', 'mesages', 'position_id']));
+            $this->set(compact(['isLeader', 'countProjectManager', 'myProjects', 'count_messages', 'mesages', 'position_id']));
         }
     }
 }

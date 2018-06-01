@@ -68,7 +68,7 @@ class PagesController extends AppController
             ])
             ->group('Ratings.user_id');
         }])->where(['Users.id' => $this->current_user['id']])->first();
-        $project_of_users = $this->UserProjects->find()->where(['user_id' => $this->current_user['id'], 'UserProjects.deleted' => '0'])->contain(['Projects']);
+        $project_of_users = $this->UserProjects->find()->where(['user_id' => $this->current_user['id']])->contain(['Projects']);
         $this->set(compact('page', 'subpage', 'myTasks', 'listTasksRequest', 'user', 'project_of_users'));
         try {
             $this->render(implode('/', $path));

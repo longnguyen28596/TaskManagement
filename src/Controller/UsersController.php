@@ -106,42 +106,12 @@ class UsersController extends AppController
         }
     }
 
-    public function editByAdmin($id) {
-        if ($this->current_user['position_id'] == 1 || $this->current_user['position_id'] == 2) {
-            $user = $this->Users->get($id);
-            if ($this->request->is('post')) {
-                $this->Users->patchEntity($user, $this->request->getData());
-                $user = $this->Users->save($user);
-                if ($user) {
-                    if (isset($_FILES['avatar'])){
-                        $type = pathinfo($_FILES['avatar']['tmp_name'], PATHINFO_EXTENSION);
-                        $data = file_get_contents($_FILES['avatar']['tmp_name']);
-                        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-                        $user->avatar = $base64;
-                        $this->Users->save($user);
-                    }
-                    return($this->redirect('/Users/index/'));
-                }
-            }
-            $this->set(compact(['user']));
-        } else {
-            return($this->redirect('/error/error404/'));
-        }
-    }
-
     public function view($id) {
         $user = $this->Users->get($id);
-        $project_of_users = $this->UserProjects->find()->where(['user_id' => $id, 'deleted' => '0'])->contain(['Projects']);
-        $all_project_of_users = $this->UserProjects->find()->where(['user_id' => $id])->contain(['Projects']);
-        $all_tasks_of_users = $this->Tasks->find('all')->where(['user_action' => $id]);
-        $all_rating_of_users = $this->Ratings->find('all')->where(['user_id' => $id]); 
+        $project_of_users = $this->UserProjects->find()->where(['user_id' => $id])->contain(['Projects']);
+        // die (json_encode($user));
         $this->set('user', $user);
         $this->set('project_of_users', $project_of_users);
-        $this->set('all_project_of_users', $all_project_of_users);
-        $this->set('all_tasks_of_users', $all_tasks_of_users);
-        $this->set('all_rating_of_users', $all_rating_of_users);
-
-
     }
 
     public function delete($id) {
@@ -216,11 +186,6 @@ class UsersController extends AppController
             $user = $this->Users->get($user_id);
             $positions = $this->Positions->getAll();
             if ($this->request->is('post')) {
-                if ($_POST['position_id'] == 5) {
-                    $team_new = $this->Teams->get($_POST['team_id']);
-                    $team_new->leader = $user_id;
-                    $this->Teams->save($team_new);
-                }
                 $user->position_id = $_POST['position_id'];
                 $user->team_id = $_POST['team_id'];
                 if ($this->Users->save($user)) {

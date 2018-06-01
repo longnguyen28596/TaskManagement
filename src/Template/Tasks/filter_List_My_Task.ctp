@@ -25,7 +25,6 @@
             </td>
             <td><?= $task->id?></td>
             <td><?= $task->title?></td>
-            <td><?=$this->Application->fullDateTime($task->daystart)?></td>
             <td><?=$this->Application->fullDateTime($task->deadline)?></td>
             <td><?= $task->status?></td>
             <td><?= $task->priority ?></td>
@@ -44,6 +43,8 @@
             </td>
         </tr>
     <?php } ?>
+<?php } else {?>
+    <tr><td colspan="7"><p style="color:silver" align="center">Hiện tại chưa có nhiệm vụ nào</p></td></tr>
 <?php }?>
 <?= $this->Html->script('custom/js_list_task_of_projects.js') ?>
 
