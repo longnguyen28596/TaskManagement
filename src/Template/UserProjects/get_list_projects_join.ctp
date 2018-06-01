@@ -52,7 +52,7 @@
                                                 </button>    
                                             </a>
                                             <?php if ($hide == 0) { ?>
-                                                <a style="<?= $hide ?>" class="modal-edit_project" data-project_id=<?= $project->project['id'] ?> href="#" title="click vào để thay đổi dự án">
+                                                <a style="<?= $hide ?>" href="/Projects/edit/<?= $project->project['id'] ?>" title="click vào để thay đổi dự án">
                                                     <button type="button" rel="tooltip" title="Cập nhật thông tin dự án" class="btn btn-primary btn-simple btn-xs">
                                                         <i class="material-icons">edit</i>
                                                     </button>
@@ -106,16 +106,6 @@
             $.ajax({
                 url: '/Projects/view/'+project_id,
                 type: 'POST',
-            }).done(function(data) {
-                $('#modalInListProjectManager').find('#conten-modal').html(data)
-            })
-            $("#modalInListProjectManager").modal("show")
-        })
-
-        $('.modal-edit_project').click(function() {
-            project_id = $(this).data('project_id')
-            $.ajax({
-                url: '/Projects/edit/'+project_id,
             }).done(function(data) {
                 $('#modalInListProjectManager').find('#conten-modal').html(data)
             })

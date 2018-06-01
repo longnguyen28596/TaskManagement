@@ -90,6 +90,7 @@ class TasksController extends AppController
                     'user_action' => $_POST['user_action'],
                     'user_request' => $this->current_user['id'],
                     'project_id' => $id,
+                    'daystart' => $_POST['daystart'],
                 ];
                 $data = $this->Tasks->newEntity($data);
                 if ($this->Tasks->save($data)) {
@@ -233,7 +234,7 @@ class TasksController extends AppController
         }
     }
 
-    public function report(){
+    public function report() {
         if ($this->current_user['position_id'] == 1 || $this->current_user['position_id'] == 2 || $this->isLeader == 1) {
             $teams = $this->Teams->getAll();
             $users = $this->Users->getAll();
