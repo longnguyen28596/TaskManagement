@@ -1,13 +1,8 @@
 <?php $sex = $user->sex == 1 ? 'Nam' : 'Nữ'; ?>
-<div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Thông tin nhân viên</h4>
-                        <p class="category"></p>
-                    </div>
                     <div class="card-content">
                         <div class="table-responsive table-upgrade">
                             <br>
@@ -74,70 +69,3 @@
             </div>
         </div>
     </div>
-</div>
-
-
-<div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header" data-background-color="purple">
-                        <h4 class="title">Danh sách dự án đã tham gia</h4>
-                        <p class="category"></p>
-                    </div>
-                    <div class="card-content">
-                    <table class="table table-striped table-bordered table-responsive table-hover data-table-list text-center">
-    <thead class="text-primary">
-        <th class="text-center">Mã dự án</th>    
-        <th class="text-center">Tên dự án</th>
-        <th class="text-center">Ngày vào</th>
-        <th class="text-center">Ngày dừng dự án</th>
-        <th class="text-center">Đánh giá</th>
-    </thead>
-    <tbody>
-        <?php foreach($all_project_of_users as $all_project_of_user) {
-            $project_id = $all_project_of_user->project['id'];
-            $sum_point_tasks = 0;
-            $count =0;
-            foreach ($all_tasks_of_users as $all_tasks_of_user) {
-                if ($all_tasks_of_user['project_id'] == $project_id) {
-                    foreach($all_rating_of_users as $all_rating_of_user ) {
-                        if ($all_tasks_of_user->id == $all_rating_of_user->task_id) {
-                            $sum_point_tasks += $all_rating_of_user->point;
-                            $count++;
-                        }
-                    }
-                }
-            }
-            // $result = round($sum_point_tasks/$count);
-            ?>
-            <tr title='Click vào để xem thông tin chi tiết của nhân viên'>
-                <td><?= $all_project_of_user->project['id_name'] ?> </td>
-                <td><?= $all_project_of_user->project['name'] ?> </td>
-                <td><?= $this->Application->fullDate($all_project_of_user->create_at)  ?></td>
-                <td>
-                    <?php 
-                        if($all_project_of_user->out_at != NULL) {
-                            echo $this->Application->fullDate($all_project_of_user->out_at);
-                        } else {
-                            echo "Đang tham gia";
-                        }
-                    ?>
-                </td>
-                <td>
-                    <?php
-
-                    if($count != 0) echo $this->Application->ratingStar($project_id, $sum_point_tasks, $count) ?>
-                </td>
-            </tr>
-        <?php } ?>
-    </tbody>
-</table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-

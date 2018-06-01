@@ -21,7 +21,7 @@ class ProjectsTable extends Table
         return $this->find('all')->contain(['Companies' => function($q){
             return $q -> where(['Companies.status' => '1']);
         }, 'ProjectTeams' => function($q) {
-            return $q->contain(['Teams'])->where(['ProjectTeams.deleted' => '0']);
+            return $q->contain(['Teams']);
         }]);
     }
     

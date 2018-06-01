@@ -50,12 +50,6 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label">Ngày bắt đầu</label>
-                                        <input type="text" placeholder="Hạn bắt đầu nhận việc" id="datetimepicker1" name="daystart" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
                                         <label class="control-label">Deadline</label>
                                         <input type="text" placeholder="Hạn xong task" id="datetimepicker" name="deadline" class="form-control">
                                     </div>
@@ -75,7 +69,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Người thực hiện</label>
-                                        <select name="user_action" id="user_action" class="user_action form-control">
+                                        <select name="user_action" class="user_action form-control">
                                             <option value="">Lựa chọn người thực hiện</option>
                                             <?php foreach($user_projects as $user_project) { 
                                                 if (!is_null($user_project->user->name)) {
@@ -127,18 +121,15 @@
         var valcaator = $("#formTaskAdd").validate({
             rules: {
                 title: "required",
-                user_action: "required",
-                deadline: "required",
-                daystart: "required",
-
+                email: {
+                    required: true,
+                },
             },
             messages: {
-                title: "Hãy điền tên nhiệm vụ này.",
-                user_action: {
+                title: "Hãy điền đầy tên nhiệm vụ này.",
+                email: {
                     required: "Hãy lựa chọn người thực hiện.",
                 },
-                deadline: "Hãy chọn hạn xong nhiệm vụ",
-                daystart: "Hãy chọn ngày bắt đầu nhiệm vụ",
             }
         });
         $('.user_action').select2({
@@ -146,9 +137,6 @@
         });
     })
     jQuery('#datetimepicker').datetimepicker({
-        format:'Y/m/d H:i'
-    });
-    jQuery('#datetimepicker1').datetimepicker({
         format:'Y/m/d H:i'
     });
 </script>
