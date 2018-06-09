@@ -1,0 +1,1 @@
+*/1 * * * * /usr/local/Cellar/php/7.2.4/bin/php /Users/long/myProjects/TaskManagement/bin/cake.php Email /Users/long/myProjects/TaskManagement/bin/cake.php Email
